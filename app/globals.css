@@ -21,26 +21,59 @@ body {
   min-height: 100vh;
 }
 
-.prose h2 {
+.prose h2,
+.strategy-output h2 {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--amber);
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
   margin-bottom: 0.5rem;
-  padding-bottom: 0.25rem;
+  padding-bottom: 0.35rem;
   border-bottom: 1px solid var(--border);
 }
-.prose h3 {
+.prose h2:first-child,
+.strategy-output h2:first-child { margin-top: 0; }
+
+.prose h3,
+.strategy-output h3 {
   font-size: 1rem;
   font-weight: 600;
   color: var(--green-accent);
   margin-top: 1rem;
   margin-bottom: 0.25rem;
 }
-.prose p { margin-bottom: 0.75rem; line-height: 1.7; }
-.prose ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
-.prose li { margin-bottom: 0.25rem; line-height: 1.6; }
-.prose strong { color: #fff; font-weight: 600; }
+.prose h4,
+.strategy-output h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #c8d8c8;
+  margin-top: 0.75rem;
+  margin-bottom: 0.2rem;
+}
+.prose p,
+.strategy-output p { margin-bottom: 0.75rem; line-height: 1.75; font-size: 0.95rem; }
+.prose ul,
+.strategy-output ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.prose li,
+.strategy-output li { margin-bottom: 0.3rem; line-height: 1.65; font-size: 0.95rem; }
+.prose strong,
+.strategy-output strong { color: #fff; font-weight: 600; }
+.prose em,
+.strategy-output em { color: #c8d8c8; font-style: italic; }
+.strategy-output code {
+  background: #1a2a1a;
+  border: 1px solid #2a3a2a;
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+  font-size: 0.85em;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: var(--amber);
+}
+.strategy-output hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
 
 @media print {
   body { background: white; color: black; }

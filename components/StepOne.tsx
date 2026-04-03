@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { HunterProfile, SpeciesKey, HuntType, Goal, PlanningYears } from "@/lib/types";
 import { SPECIES_LABELS, SPECIES_EMOJI, ALL_STATES, STATE_NAMES } from "@/lib/huntingData";
 
@@ -20,6 +21,8 @@ interface Props {
 }
 
 export default function StepOne({ profile, onChange, onNext }: Props) {
+  const [attempted, setAttempted] = useState(false);
+
   const toggleSpecies = (s: SpeciesKey) => {
     const cur = profile.species ?? [];
     onChange({
@@ -27,19 +30,42 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
     });
   };
 
-  const valid =
-    (profile.species?.length ?? 0) > 0 &&
-    profile.huntType &&
-    profile.residency &&
-    profile.goal;
+  const errors = {
+    species: (profile.species?.length ?? 0) === 0,
+    huntType: !profile.huntType,
+    residency: !profile.residency,
+    goal: !profile.goal,
+  };
+
+  const valid = !Object.values(errors).some(Boolean);
+
+  const handleNext = () => {
+    if (!valid) {
+      setAttempted(true);
+      // Scroll to first error
+      const firstError = document.querySelector("[data-error]");
+      firstError?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    onNext();
+  };
+
+  const fieldError = (key: keyof typeof errors) =>
+    attempted && errors[key];
 
   return (
     <div className="space-y-8">
       {/* Species */}
-      <div>
-        <label className="block text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#8a9e8a" }}>
-          Target Species (select all that apply)
+      <div data-error={fieldError("species") ? "true" : undefined}>
+        <label className="block text-sm font-semibold uppercase tracking-wider mb-1" style={{ color: "#8a9e8a" }}>
+          Target Species <span style={{ color: "#f87171" }}>*</span>
         </label>
+        {fieldError("species") && (
+          <p className="text-xs mb-3" style={{ color: "#f87171" }}>Select at least one species to continue.</p>
+        )}
+        {!fieldError("species") && (
+          <p className="text-xs mb-3" style={{ color: "#6a7e6a" }}>Select all that apply</p>
+        )}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {ALL_SPECIES.map(s => {
             const selected = profile.species?.includes(s);
@@ -50,7 +76,11 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
                 className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-left"
                 style={{
                   backgroundColor: selected ? "#f59e0b22" : "#162016",
-                  border: selected ? "1px solid #f59e0b" : "1px solid #2a3a2a",
+                  border: selected
+                    ? "1px solid #f59e0b"
+                    : fieldError("species")
+                    ? "1px solid #5a2020"
+                    : "1px solid #2a3a2a",
                   color: selected ? "#f59e0b" : "#c8d8c8",
                 }}
               >
@@ -63,11 +93,14 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
       </div>
 
       {/* Hunt Type */}
-      <div>
-        <label className="block text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#8a9e8a" }}>
-          Preferred Method
+      <div data-error={fieldError("huntType") ? "true" : undefined}>
+        <label className="block text-sm font-semibold uppercase tracking-wider mb-1" style={{ color: "#8a9e8a" }}>
+          Preferred Method <span style={{ color: "#f87171" }}>*</span>
         </label>
-        <div className="flex flex-wrap gap-2">
+        {fieldError("huntType") && (
+          <p className="text-xs mb-3" style={{ color: "#f87171" }}>Select a hunt method.</p>
+        )}
+        <div className="flex flex-wrap gap-2 mt-2">
           {(["archery", "rifle", "muzzleloader", "any"] as HuntType[]).map(ht => (
             <button
               key={ht}
@@ -75,7 +108,11 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
               className="px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all"
               style={{
                 backgroundColor: profile.huntType === ht ? "#f59e0b" : "#162016",
-                border: profile.huntType === ht ? "1px solid #f59e0b" : "1px solid #2a3a2a",
+                border: profile.huntType === ht
+                  ? "1px solid #f59e0b"
+                  : fieldError("huntType")
+                  ? "1px solid #5a2020"
+                  : "1px solid #2a3a2a",
                 color: profile.huntType === ht ? "#0f1a0f" : "#c8d8c8",
               }}
             >
@@ -86,17 +123,20 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
       </div>
 
       {/* Residency */}
-      <div>
-        <label className="block text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#8a9e8a" }}>
-          Your State of Residency
+      <div data-error={fieldError("residency") ? "true" : undefined}>
+        <label className="block text-sm font-semibold uppercase tracking-wider mb-1" style={{ color: "#8a9e8a" }}>
+          Your State of Residency <span style={{ color: "#f87171" }}>*</span>
         </label>
+        {fieldError("residency") && (
+          <p className="text-xs mb-2" style={{ color: "#f87171" }}>Select your home state.</p>
+        )}
         <select
           value={profile.residency ?? ""}
           onChange={e => onChange({ residency: e.target.value })}
-          className="w-full sm:w-64 px-3 py-2.5 rounded-lg text-sm"
+          className="w-full sm:w-64 px-3 py-2.5 rounded-lg text-sm mt-1"
           style={{
             backgroundColor: "#1a2a1a",
-            border: "1px solid #2a3a2a",
+            border: fieldError("residency") ? "1px solid #5a2020" : "1px solid #2a3a2a",
             color: "#e8f0e8",
           }}
         >
@@ -109,10 +149,13 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
 
       {/* Budget */}
       <div>
-        <label className="block text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#8a9e8a" }}>
+        <label className="block text-sm font-semibold uppercase tracking-wider mb-1" style={{ color: "#8a9e8a" }}>
           Annual Application Budget:{" "}
           <span style={{ color: "#f59e0b" }}>${(profile.budget ?? 500).toLocaleString()}</span>
         </label>
+        <p className="text-xs mb-3" style={{ color: "#6a7e6a" }}>
+          Total fees across all applications per year
+        </p>
         <input
           type="range"
           min={100}
@@ -129,11 +172,14 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
       </div>
 
       {/* Goal */}
-      <div>
-        <label className="block text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#8a9e8a" }}>
-          My Hunting Goal
+      <div data-error={fieldError("goal") ? "true" : undefined}>
+        <label className="block text-sm font-semibold uppercase tracking-wider mb-1" style={{ color: "#8a9e8a" }}>
+          My Hunting Goal <span style={{ color: "#f87171" }}>*</span>
         </label>
-        <div className="space-y-2">
+        {fieldError("goal") && (
+          <p className="text-xs mb-2" style={{ color: "#f87171" }}>Choose a goal to continue.</p>
+        )}
+        <div className="space-y-2 mt-2">
           {GOALS.map(g => (
             <button
               key={g.value}
@@ -141,7 +187,11 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
               className="w-full text-left px-4 py-3 rounded-lg transition-all"
               style={{
                 backgroundColor: profile.goal === g.value ? "#f59e0b22" : "#162016",
-                border: profile.goal === g.value ? "1px solid #f59e0b" : "1px solid #2a3a2a",
+                border: profile.goal === g.value
+                  ? "1px solid #f59e0b"
+                  : fieldError("goal")
+                  ? "1px solid #5a2020"
+                  : "1px solid #2a3a2a",
               }}
             >
               <div className="font-semibold text-sm" style={{ color: profile.goal === g.value ? "#f59e0b" : "#e8f0e8" }}>
@@ -176,14 +226,22 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
         </div>
       </div>
 
+      {attempted && !valid && (
+        <div
+          className="px-4 py-3 rounded-lg text-sm"
+          style={{ backgroundColor: "#2a1010", border: "1px solid #5a1010", color: "#f87171" }}
+        >
+          Please fill in the required fields above before continuing.
+        </div>
+      )}
+
       <button
-        onClick={onNext}
-        disabled={!valid}
+        onClick={handleNext}
         className="w-full py-3 rounded-lg font-bold text-base transition-all"
         style={{
-          backgroundColor: valid ? "#f59e0b" : "#2a3a2a",
+          backgroundColor: valid ? "#f59e0b" : attempted ? "#5a2020" : "#2a3a2a",
           color: valid ? "#0f1a0f" : "#8a9e8a",
-          cursor: valid ? "pointer" : "not-allowed",
+          cursor: "pointer",
         }}
       >
         Next: Enter Your Points →

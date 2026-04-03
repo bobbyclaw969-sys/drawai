@@ -59,11 +59,14 @@ function StrategyPageInner() {
     }
   };
 
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const [copied, setCopied] = useState(false);
 
   const handleCopyShare = () => {
-    navigator.clipboard.writeText(shareUrl);
-    alert("Link copied! Share it with your hunting buddies.");
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
   };
 
   const handlePrint = () => window.print();
@@ -112,6 +115,22 @@ function StrategyPageInner() {
           </div>
         )}
 
+        {/* Status bar while streaming */}
+        {loading && (
+          <div
+            className="rounded-lg px-4 py-2.5 mb-4 flex items-center gap-2 text-sm"
+            style={{ backgroundColor: "#1a2a1a", border: "1px solid #2a3a2a" }}
+          >
+            <div
+              className="w-3 h-3 rounded-full border border-t-transparent animate-spin flex-shrink-0"
+              style={{ borderColor: "#f59e0b", borderTopColor: "transparent" }}
+            />
+            <span style={{ color: "#8a9e8a" }}>
+              {strategy ? "Streaming your strategy..." : "Contacting the AI advisor..."}
+            </span>
+          </div>
+        )}
+
         {/* Strategy output */}
         <StrategyOutput text={strategy} loading={loading} />
 
@@ -137,10 +156,14 @@ function StrategyPageInner() {
           <div className="mt-6 flex flex-wrap gap-3 no-print">
             <button
               onClick={handleCopyShare}
-              className="flex-1 py-3 rounded-lg text-sm font-medium"
-              style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#e8f0e8" }}
+              className="flex-1 py-3 rounded-lg text-sm font-medium transition-all"
+              style={{
+                backgroundColor: copied ? "#1a3a1a" : "#162016",
+                border: copied ? "1px solid #4ade80" : "1px solid #2a3a2a",
+                color: copied ? "#4ade80" : "#e8f0e8",
+              }}
             >
-              📋 Copy Share Link
+              {copied ? "✓ Copied!" : "📋 Copy Share Link"}
             </button>
             <button
               onClick={handlePrint}
