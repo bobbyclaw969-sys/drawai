@@ -37,10 +37,7 @@ function StrategyPageInner() {
     generateStrategy(profile);
   }, [profile]);
 
-  const generateStrategy = async (p: HunterProfile) => {
-    setLoading(true);
-    setStrategy("");
-    setError("");
+  const streamStrategy = async (p: HunterProfile): Promise<{ receivedBytes: number; error?: unknown }> => {
     let receivedBytes = 0;
     try {
       const res = await fetch("/api/strategy", {
@@ -59,17 +56,31 @@ function StrategyPageInner() {
         receivedBytes += value?.length ?? 0;
         setStrategy(prev => prev + decoder.decode(value, { stream: true }));
       }
+      return { receivedBytes };
     } catch (e) {
-      // If we already received partial content, show a softer "interrupted" notice
-      // rather than replacing everything with a hard error.
-      if (receivedBytes > 0) {
-        setError("__interrupted__");
-      } else {
-        setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
-      }
-    } finally {
-      setLoading(false);
+      return { receivedBytes, error: e };
     }
+  };
+
+  const generateStrategy = async (p: HunterProfile) => {
+    setLoading(true);
+    setStrategy("");
+    setError("");
+
+    let { receivedBytes, error } = await streamStrategy(p);
+
+    // Silent auto-retry if very little content arrived (network blip)
+    if (error && receivedBytes < 500) {
+      setStrategy("");
+      await new Promise(r => setTimeout(r, 1500));
+      ({ receivedBytes, error } = await streamStrategy(p));
+    }
+
+    if (error) {
+      setError(receivedBytes > 0 ? "__interrupted__" : (error instanceof Error ? error.message : "Something went wrong. Please try again."));
+    }
+
+    setLoading(false);
   };
 
   const [copied, setCopied] = useState(false);

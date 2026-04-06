@@ -65,13 +65,10 @@ export default function FindPage() {
   const canNext0 = (profile.species?.length ?? 0) > 0;
   const canNext1 = !!profile.residency;
 
-  const submit = async () => {
-    setLoading(true);
-    setResult("");
-    setError("");
-
-    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
-
+  // AUTO-RETRY: silently retry once if the network drops before significant
+  // content arrives (< 500 bytes). If substantial content was received, show
+  // the interruption banner instead of discarding what the user already has.
+  const streamFind = async (): Promise<{ receivedBytes: number; error?: unknown }> => {
     let receivedBytes = 0;
     try {
       const res = await fetch("/api/find", {
@@ -90,15 +87,33 @@ export default function FindPage() {
         receivedBytes += value?.length ?? 0;
         setResult(prev => prev + decoder.decode(value, { stream: true }));
       }
+      return { receivedBytes };
     } catch (e) {
-      if (receivedBytes > 0) {
-        setError("__interrupted__");
-      } else {
-        setError(e instanceof Error ? e.message : "Something went wrong.");
-      }
-    } finally {
-      setLoading(false);
+      return { receivedBytes, error: e };
     }
+  };
+
+  const submit = async () => {
+    setLoading(true);
+    setResult("");
+    setError("");
+
+    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+
+    let { receivedBytes, error } = await streamFind();
+
+    // Silent auto-retry if very little content arrived (network blip)
+    if (error && receivedBytes < 500) {
+      setResult("");
+      await new Promise(r => setTimeout(r, 1500)); // brief pause for network to stabilise
+      ({ receivedBytes, error } = await streamFind());
+    }
+
+    if (error) {
+      setError(receivedBytes > 0 ? "__interrupted__" : (error instanceof Error ? error.message : "Something went wrong."));
+    }
+
+    setLoading(false);
   };
 
   const WESTERN_STATES = ALL_STATES.filter(s =>
