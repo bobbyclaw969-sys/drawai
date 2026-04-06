@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import AppNav from "@/components/AppNav";
 import Link from "next/link";
+import { useAuth } from "@/lib/useAuth";
+import { createClient } from "@/lib/supabase/client";
 
 export interface HunterProfile {
   firstName: string;
@@ -73,7 +75,11 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<HunterProfile>(BLANK);
   const [saved, setSaved] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const { user } = useAuth();
+  const supabase = createClient();
 
+  // Load from localStorage on mount
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -81,6 +87,35 @@ export default function ProfilePage() {
     } catch {}
     setLoaded(true);
   }, []);
+
+  // If logged in, pull cloud profile and merge (cloud wins if exists)
+  useEffect(() => {
+    if (!user || !loaded) return;
+    supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          const cloud: Partial<HunterProfile> = {
+            firstName: data.first_name ?? "",
+            lastName: data.last_name ?? "",
+            email: data.email ?? "",
+            dob: data.dob ?? "",
+            address: data.address ?? "",
+            city: data.city ?? "",
+            residencyState: data.residency_state ?? "",
+            zip: data.zip ?? "",
+            phone: data.phone ?? "",
+            hunterEdNumber: data.hunter_ed_number ?? "",
+            hunterEdState: data.hunter_ed_state ?? "",
+            licenses: data.licenses ?? {},
+          };
+          setProfile(p => ({ ...p, ...cloud }));
+        }
+      });
+  }, [user, loaded]);
 
   const set = (key: keyof HunterProfile, value: string) => {
     setSaved(false);
@@ -92,8 +127,32 @@ export default function ProfilePage() {
     setProfile(p => ({ ...p, licenses: { ...p.licenses, [stateId]: value } }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    // Always save to localStorage (ssn4 stays local only)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+
+    // If logged in, also sync to Supabase (without ssn4)
+    if (user) {
+      setSyncing(true);
+      await supabase.from("profiles").upsert({
+        id: user.id,
+        first_name: profile.firstName,
+        last_name: profile.lastName,
+        email: profile.email || user.email,
+        dob: profile.dob,
+        address: profile.address,
+        city: profile.city,
+        residency_state: profile.residencyState,
+        zip: profile.zip,
+        phone: profile.phone,
+        hunter_ed_number: profile.hunterEdNumber,
+        hunter_ed_state: profile.hunterEdState,
+        licenses: profile.licenses,
+        // ssn4 deliberately excluded
+      });
+      setSyncing(false);
+    }
+
     setSaved(true);
   };
 
@@ -135,12 +194,26 @@ export default function ProfilePage() {
         }}>
           <span style={{ fontSize: "1rem", flexShrink: 0 }}>🔒</span>
           <div>
-            <p style={{ fontSize: 12, fontWeight: 700, color: "var(--success)", marginBottom: 2 }}>
-              100% local. Never uploaded.
-            </p>
-            <p style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 }}>
-              Your profile is stored only in your browser (localStorage). No server ever sees your name, address, or license numbers. Tag Hunter does not collect personal data.
-            </p>
+            {user ? (
+              <>
+                <p style={{ fontSize: 12, fontWeight: 700, color: "var(--success)", marginBottom: 2 }}>
+                  Synced to your account ({user.email})
+                </p>
+                <p style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 }}>
+                  Profile syncs across your devices. SSN last-4 stays local only — never uploaded. Sign in on any device to access your profile.
+                </p>
+              </>
+            ) : (
+              <>
+                <p style={{ fontSize: 12, fontWeight: 700, color: "var(--success)", marginBottom: 2 }}>
+                  100% local. Never uploaded.
+                </p>
+                <p style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 }}>
+                  Stored only in this browser.{" "}
+                  <a href="/auth" style={{ color: "var(--amber)" }}>Sign in</a> to sync across devices and enable deadline reminders.
+                </p>
+              </>
+            )}
           </div>
         </div>
 
@@ -260,7 +333,7 @@ export default function ProfilePage() {
               className="btn-primary"
               style={{ padding: "12px 28px" }}
             >
-              {saved ? "✓ Saved" : "Save Profile"}
+              {syncing ? "Syncing..." : saved ? (user ? "✓ Saved & Synced" : "✓ Saved") : "Save Profile"}
             </button>
             {isComplete && (
               <Link href="/apply" className="btn-ghost" style={{ padding: "12px 24px" }}>
