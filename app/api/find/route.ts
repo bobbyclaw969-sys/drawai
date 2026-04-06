@@ -111,10 +111,10 @@ export async function POST(req: NextRequest) {
     const profile = body.profile;
 
     if (!profile || !Array.isArray(profile.species) || profile.species.length === 0) {
-      return new Response("Invalid request", { status: 400 });
+      return new Response("Bad Request", { status: 400 });
     }
     if (typeof profile.budget !== "number" || profile.budget < 0 || profile.budget > 100_000) {
-      return new Response("Invalid budget", { status: 400 });
+      return new Response("Bad Request", { status: 400 });
     }
 
     void logEvent("find", ip, { species: profile.species, states: profile.states });

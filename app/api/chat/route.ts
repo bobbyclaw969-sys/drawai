@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     };
 
     if (!body.messages || !Array.isArray(body.messages) || body.messages.length === 0) {
-      return new Response("Invalid request", { status: 400 });
+      return new Response("Bad Request", { status: 400 });
     }
 
     // Limit history depth to prevent huge prompts
@@ -54,10 +54,10 @@ export async function POST(req: NextRequest) {
     // Validate message structure
     for (const m of messages) {
       if (!["user", "assistant"].includes(m.role)) {
-        return new Response("Invalid message role", { status: 400 });
+        return new Response("Bad Request", { status: 400 });
       }
       if (typeof m.content !== "string" || m.content.length > 4000) {
-        return new Response("Message too long", { status: 400 });
+        return new Response("Bad Request", { status: 400 });
       }
     }
 

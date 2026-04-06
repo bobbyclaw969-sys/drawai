@@ -124,15 +124,15 @@ export async function POST(req: NextRequest) {
     const profile = body.profile;
 
     if (!profile || !Array.isArray(profile.species) || profile.species.length === 0) {
-      return new Response("Invalid profile", { status: 400 });
+      return new Response("Bad Request", { status: 400 });
     }
 
     // Input sanitisation — prevent prompt injection
     if (profile.species.length > 10) {
-      return new Response("Too many species selected", { status: 400 });
+      return new Response("Bad Request", { status: 400 });
     }
     if (typeof profile.budget !== "number" || profile.budget < 0 || profile.budget > 100_000) {
-      return new Response("Invalid budget", { status: 400 });
+      return new Response("Bad Request", { status: 400 });
     }
 
     void logEvent("strategy", ip, { species: profile.species, states: Object.keys(profile.pointsByState ?? {}) });
