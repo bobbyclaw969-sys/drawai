@@ -2,9 +2,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HunterProfile } from "@/lib/types";
-import ProgressBar from "@/components/ProgressBar";
+import AppNav from "@/components/AppNav";
 import StepOne from "@/components/StepOne";
 import StepTwo from "@/components/StepTwo";
+
+const STEPS = ["Your goals", "Your points", "Strategy"];
 
 const DEFAULT_PROFILE: Partial<HunterProfile> = {
   species: [],
@@ -30,49 +32,60 @@ export default function PlanPage() {
   };
 
   return (
-    <main className="min-h-screen px-4 py-10">
-      <div className="max-w-xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="text-3xl mb-2">🎯</div>
-          <h1 className="text-2xl font-bold" style={{ color: "#f59e0b" }}>DrawAI</h1>
-          <p className="text-sm mt-1" style={{ color: "#8a9e8a" }}>
-            Free AI hunting tag strategy
-          </p>
+    <div className="page">
+      <AppNav />
+      <div style={{ maxWidth: 560, margin: "0 auto", padding: "40px 20px 80px" }}>
+
+        {/* Progress stepper */}
+        <div style={{ display: "flex", alignItems: "center", marginBottom: 40 }}>
+          {STEPS.map((label, i) => (
+            <div key={label} style={{ display: "flex", alignItems: "center", flex: i < STEPS.length - 1 ? 1 : undefined }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                <div className={`step-dot ${i < step ? "done" : i === step ? "active" : "todo"}`}>
+                  {i < step ? "✓" : i + 1}
+                </div>
+                <span style={{
+                  fontSize: 11,
+                  fontWeight: i === step ? 700 : 500,
+                  color: i === step ? "var(--amber)" : i < step ? "var(--text-2)" : "var(--text-3)",
+                  whiteSpace: "nowrap",
+                }}>
+                  {label}
+                </span>
+              </div>
+              {i < STEPS.length - 1 && (
+                <div style={{
+                  flex: 1,
+                  height: 2,
+                  margin: "0 8px",
+                  marginBottom: 22,
+                  background: i < step ? "var(--amber)" : "var(--border)",
+                  borderRadius: 1,
+                  transition: "background 0.3s",
+                }} />
+              )}
+            </div>
+          ))}
         </div>
 
-        <ProgressBar step={step} total={2} />
-
-        <div
-          className="rounded-xl p-6 sm:p-8"
-          style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}
-        >
-          <h2 className="text-lg font-semibold mb-6" style={{ color: "#e8f0e8" }}>
+        {/* Card */}
+        <div className="card" style={{ padding: "32px 28px" }}>
+          <h2 style={{ fontSize: "1.15rem", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 24 }}>
             {step === 0 ? "Tell us about your hunt" : "Your preference points by state"}
           </h2>
 
           {step === 0 && (
-            <StepOne
-              profile={profile}
-              onChange={update}
-              onNext={() => setStep(1)}
-            />
+            <StepOne profile={profile} onChange={update} onNext={() => setStep(1)} />
           )}
-
           {step === 1 && (
-            <StepTwo
-              profile={profile}
-              onChange={update}
-              onNext={handleFinish}
-              onBack={() => setStep(0)}
-            />
+            <StepTwo profile={profile} onChange={update} onNext={handleFinish} onBack={() => setStep(0)} />
           )}
         </div>
 
-        <p className="text-center text-xs mt-6" style={{ color: "#8a9e8a" }}>
-          DrawAI is free. Built by Factor21. Not affiliated with any state agency.
+        <p style={{ textAlign: "center", fontSize: 11, color: "var(--text-3)", marginTop: 20 }}>
+          Free. No signup. Data never leaves your browser.
         </p>
       </div>
-    </main>
+    </div>
   );
 }

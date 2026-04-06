@@ -2,42 +2,51 @@ import { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { HunterProfile, SpeciesKey } from "@/lib/types";
 import { huntingData, SPECIES_LABELS, STATE_NAMES, formatDeadlines } from "@/lib/huntingData";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
+import { buildUnitContext } from "@/lib/unitData";
+import { logEvent } from "@/lib/analytics";
+
+export const maxDuration = 60;
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-const SYSTEM_PROMPT = `You are DrawAI, the most knowledgeable hunting tag strategy advisor in the United States. You have encyclopedic knowledge of every western state's draw system — preference points, bonus points, weighted lotteries, OTC options, non-resident quotas, application deadlines, and realistic draw timelines.
+const SYSTEM_PROMPT = `You are Tag Hunter, the most knowledgeable hunting tag strategy advisor in the United States. You have encyclopedic knowledge of every western state's draw system — preference points, bonus points, weighted lotteries, OTC options, non-resident quotas, application deadlines, and realistic draw timelines.
 
-Your job is to build a personalized, honest multi-year hunting strategy based on the hunter's profile.
+Your job is to build a personalized, honest, highly specific multi-year hunting strategy based on the hunter's profile.
 
-RULES:
-- Be specific and actionable. Name exact states, deadlines, and fees.
-- Be honest about odds. If something is nearly impossible, say so plainly and frame it as a long-term goal.
-- Always prioritize OTC options as "hunt now" opportunities while building points elsewhere in parallel.
-- For sheep, goat, moose, and bison — always frame as 10-20+ year plans. Manage expectations clearly.
-- Never recommend spending more than the hunter's stated annual budget on total application fees.
-- Account for non-resident quotas — a state with 5% NR quota is much harder than the raw draw odds suggest.
-- Flag "preference point only" applications (apply for points, not a tag this year) — these are often overlooked but critical for long-term strategy.
-- When the hunter selects multiple species, build a cohesive strategy that maximizes total hunting days per year.
-- Format your response using markdown with clear section headers.
-- Keep it practical. A hunter should be able to read this and know exactly what to do this week.
-- Include specific dollar amounts so hunters can budget.
-- Be direct and honest like a seasoned hunting buddy — not corporate, not vague.
+CORE RULES:
+- Be brutally specific: name exact states, units where known, deadlines, and dollar amounts.
+- Be honest about odds. If something is nearly impossible, say so plainly — frame it as a long-term goal with a realistic timeline (e.g., "15-20 years from today").
+- Always prioritize OTC (over-the-counter) options as "hunt NOW" opportunities while building points elsewhere in parallel.
+- For sheep, goat, moose, and bison — ALWAYS frame as bucket-list 15-25 year strategies. Do not oversell odds.
+- NEVER recommend spending more than the hunter's stated annual budget across ALL application fees combined.
+- Non-resident quotas matter enormously — a state with 5% NR quota at 50% unit odds is actually very hard.
+- Flag "point banking" applications explicitly — sometimes the only smart move is to apply just for points (not expecting to draw).
+- When multiple species are selected, build a cohesive schedule that maximizes total hunting opportunities per year.
+- Include specific dollar amounts for EVERY recommendation so hunters can budget line by line.
+- Write like a seasoned hunting buddy at the campfire: direct, honest, never corporate or vague.
+- If a deadline has already passed this year, say so and tell them to apply next year.
+- Tailor advice to residency — a Colorado resident has different options than an out-of-stater.
 
 STRUCTURE YOUR RESPONSE EXACTLY LIKE THIS:
+
 ## This Season's Action Plan
-(What to apply for RIGHT NOW — specific states, fees, deadlines, odds)
+Start with today's date context. List exactly what to apply for RIGHT NOW. Include: state, species, method, application window, NR fee, current draw odds with hunter's points, and the website to apply. If any deadlines are past, say so.
 
 ## Your [X]-Year Roadmap
-(Year-by-year breakdown — when to burn points, when to build, when OTC hunts open up)
+Year-by-year breakdown. Be specific about which year to expect a draw in each state. Show how OTC hunts fill gaps while points accumulate. Call out when to "burn" accumulated points.
 
-## Odds & Realistic Expectations
-(Honest probability framing for each target species/state)
+## Realistic Draw Odds
+Honest probability table for each species/state in the plan. Include estimated years to draw at 50% probability. Don't sugarcoat long-draw states.
 
-## States to Start Building Points In
-(Any states they should apply to just for points, even if they won't draw for years)
+## Point Banking Priorities
+States to apply to NOW just for points — even if a draw is years away. Explain why each one matters for the long-term plan.
 
-## Pro Tips
-(State-specific rules, traps to avoid, money-saving moves)`;
+## Budget Breakdown
+Annual fee total across all recommendations. Make sure it fits within the stated budget.
+
+## Pro Tips & Traps to Avoid
+State-specific rules, common mistakes, money-saving moves, combo opportunities.`;
 
 function buildUserMessage(profile: HunterProfile): string {
   const speciesNames = profile.species.map(s => SPECIES_LABELS[s]).join(", ");
@@ -101,17 +110,41 @@ Build this hunter's complete strategy. Be specific, honest, and actionable. Make
 
 export async function POST(req: NextRequest) {
   try {
-    const { profile } = await req.json() as { profile: HunterProfile };
+    // Rate limiting — 15 AI calls per IP per hour
+    const ip = getClientIp(req);
+    const rl = await rateLimit(`strategy:${ip}`, 15, 60 * 60_000);
+    if (!rl.allowed) {
+      return new Response("Too many requests. Please wait before generating another strategy.", {
+        status: 429,
+        headers: { "Retry-After": String(Math.ceil(rl.retryAfterMs / 1000)) },
+      });
+    }
 
-    if (!profile || !profile.species?.length) {
+    const body = await req.json() as { profile?: HunterProfile };
+    const profile = body.profile;
+
+    if (!profile || !Array.isArray(profile.species) || profile.species.length === 0) {
       return new Response("Invalid profile", { status: 400 });
     }
 
+    // Input sanitisation — prevent prompt injection
+    if (profile.species.length > 10) {
+      return new Response("Too many species selected", { status: 400 });
+    }
+    if (typeof profile.budget !== "number" || profile.budget < 0 || profile.budget > 100_000) {
+      return new Response("Invalid budget", { status: 400 });
+    }
+
+    void logEvent("strategy", ip, { species: profile.species, states: Object.keys(profile.pointsByState ?? {}) });
+
+    const unitContext = buildUnitContext(profile.species);
+    const userMsg = buildUserMessage(profile) + (unitContext ? `\n\n${unitContext}` : "");
+
     const stream = await client.messages.stream({
       model: "claude-sonnet-4-6",
-      max_tokens: 2500,
+      max_tokens: 4000,
       system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: buildUserMessage(profile) }],
+      messages: [{ role: "user", content: userMsg }],
     });
 
     const encoder = new TextEncoder();

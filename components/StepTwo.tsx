@@ -10,7 +10,7 @@ interface Props {
 }
 
 const POINT_SYSTEM_LABELS: Record<string, string> = {
-  preference: "Pref",
+  preference: "Preference",
   bonus: "Bonus",
   weighted: "Weighted",
   lottery: "Lottery",
@@ -27,57 +27,99 @@ export default function StepTwo({ profile, onChange, onNext, onBack }: Props) {
     onChange({ pointsByState: { ...points, [stateId]: Math.max(0, Math.min(30, val)) } });
   };
 
-  // Get the point system type for display
   const getPointSystem = (stateId: string): string => {
     const entry = huntingData.find(
       d => d.stateId === stateId && species.includes(d.species as SpeciesKey)
     );
-    return entry ? POINT_SYSTEM_LABELS[entry.pointSystem] ?? "?" : "?";
+    return entry ? (POINT_SYSTEM_LABELS[entry.pointSystem] ?? "?") : "?";
   };
 
-  return (
-    <div className="space-y-6">
+  if (stateIds.length === 0) {
+    return (
       <div>
-        <p className="text-base font-medium mb-1">How many preference / bonus points do you have in each state?</p>
-        <p className="text-sm" style={{ color: "#8a9e8a" }}>
-          Not sure? Enter 0 — we&apos;ll include point-building in your plan.
+        <p style={{ color: "var(--text-3)", textAlign: "center", padding: "32px 0" }}>
+          Go back and select at least one species.
+        </p>
+        <button onClick={onBack} className="btn-ghost" style={{ width: "100%", justifyContent: "center" }}>
+          ← Back
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div>
+        <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text)", marginBottom: 6 }}>
+          How many preference / bonus points do you have in each state?
+        </p>
+        <p style={{ fontSize: 13, color: "var(--text-3)" }}>
+          Not sure? Enter 0 — the plan will include point-building years.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
         {stateIds.map(stateId => {
           const sys = getPointSystem(stateId);
           const pts = points[stateId] ?? 0;
+          const hasPoints = pts > 0;
           return (
             <div
               key={stateId}
-              className="flex items-center justify-between px-4 py-3 rounded-lg"
-              style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}
+              className="card"
+              style={{
+                padding: "12px 14px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 12,
+                borderColor: hasPoints ? "var(--amber-dim)" : undefined,
+                background: hasPoints ? "var(--amber-glow)" : undefined,
+              }}
             >
-              <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm truncate">
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontWeight: 700, fontSize: 14, color: hasPoints ? "var(--amber)" : "var(--text)" }}>
                   {STATE_NAMES[stateId.toUpperCase()] ?? stateId.toUpperCase()}
                 </div>
-                <div className="text-xs mt-0.5" style={{ color: "#8a9e8a" }}>
-                  {sys} points
-                </div>
+                <div style={{ fontSize: 11, color: "var(--text-3)", marginTop: 2 }}>{sys} pts</div>
               </div>
-              <div className="flex items-center gap-2 ml-3">
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <button
                   onClick={() => setPoints(stateId, pts - 1)}
-                  className="w-7 h-7 rounded flex items-center justify-center text-lg font-bold"
-                  style={{ backgroundColor: "#2a3a2a", color: "#e8f0e8" }}
+                  style={{
+                    width: 28, height: 28,
+                    borderRadius: 6,
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border)",
+                    color: "var(--text)",
+                    fontSize: 16,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}
                 >−</button>
-                <span
-                  className="w-8 text-center font-bold text-base"
-                  style={{ color: pts > 0 ? "#f59e0b" : "#8a9e8a" }}
-                >
+                <span style={{
+                  minWidth: 28,
+                  textAlign: "center",
+                  fontWeight: 800,
+                  fontSize: 16,
+                  color: hasPoints ? "var(--amber)" : "var(--text-3)",
+                }}>
                   {pts}
                 </span>
                 <button
                   onClick={() => setPoints(stateId, pts + 1)}
-                  className="w-7 h-7 rounded flex items-center justify-center text-lg font-bold"
-                  style={{ backgroundColor: "#2a3a2a", color: "#e8f0e8" }}
+                  style={{
+                    width: 28, height: 28,
+                    borderRadius: 6,
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border)",
+                    color: "var(--text)",
+                    fontSize: 16,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}
                 >+</button>
               </div>
             </div>
@@ -85,29 +127,14 @@ export default function StepTwo({ profile, onChange, onNext, onBack }: Props) {
         })}
       </div>
 
-      {stateIds.length === 0 && (
-        <p className="text-center py-8" style={{ color: "#8a9e8a" }}>
-          Go back and select at least one species.
-        </p>
-      )}
-
-      <div className="flex gap-3 pt-2">
-        <button
-          onClick={onBack}
-          className="flex-1 py-3 rounded-lg font-medium text-sm"
-          style={{ backgroundColor: "#1a2a1a", border: "1px solid #2a3a2a", color: "#c8d8c8" }}
-        >
+      <div style={{ display: "flex", gap: 10, paddingTop: 8 }}>
+        <button onClick={onBack} className="btn-ghost" style={{ flex: 1, justifyContent: "center" }}>
           ← Back
         </button>
         <button
           onClick={onNext}
-          disabled={stateIds.length === 0}
-          className="flex-[2] py-3 rounded-lg font-bold text-base"
-          style={{
-            backgroundColor: stateIds.length > 0 ? "#f59e0b" : "#2a3a2a",
-            color: stateIds.length > 0 ? "#0f1a0f" : "#8a9e8a",
-            cursor: stateIds.length > 0 ? "pointer" : "not-allowed",
-          }}
+          className="btn-primary"
+          style={{ flex: 2, justifyContent: "center", padding: "14px", fontSize: 15 }}
         >
           Build My Strategy →
         </button>
