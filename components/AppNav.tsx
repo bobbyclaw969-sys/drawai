@@ -7,9 +7,7 @@ import { useAuth } from "@/lib/useAuth";
 const NAV_LINKS = [
   { href: "/find",      label: "Find My Hunt" },
   { href: "/chat",      label: "AI Advisor" },
-  { href: "/apply",     label: "Apply" },
-  { href: "/deadlines", label: "Deadlines" },
-  { href: "/tracker",   label: "My Apps" },
+  { href: "/dashboard", label: "Dashboard" },
 ];
 
 export default function AppNav() {

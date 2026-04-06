@@ -160,10 +160,23 @@ export default function ChatPage() {
             <div style={{ textAlign: "center", marginBottom: 32 }}>
               <div style={{ fontSize: "3rem", marginBottom: 12 }}>🎯</div>
               <h2 style={{ fontSize: "1.2rem", fontWeight: 800, marginBottom: 8 }}>Your AI Hunting Advisor</h2>
-              <p style={{ fontSize: 13, color: "var(--text-2)", maxWidth: 420, margin: "0 auto", lineHeight: 1.65 }}>
+              <p style={{ fontSize: 13, color: "var(--text-2)", maxWidth: 420, margin: "0 auto 16px", lineHeight: 1.65 }}>
                 Ask anything — draw odds, unit recommendations, point strategy, season dates,
                 gear questions. This advisor knows the West cold.
               </p>
+              <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
+                {[
+                  { icon: "📚", label: "State regulations" },
+                  { icon: "🗺️", label: "Unit-level intel" },
+                  { icon: "📊", label: "Real draw odds" },
+                  { icon: "🔒", label: "No data stored" },
+                ].map(b => (
+                  <div key={b.label} style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 11px", borderRadius: 999, background: "var(--card)", border: "1px solid var(--border)", fontSize: 12, color: "var(--text-3)" }}>
+                    <span>{b.icon}</span>
+                    <span>{b.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 8 }}>

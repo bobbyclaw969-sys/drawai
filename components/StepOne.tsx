@@ -80,8 +80,8 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
                 style={{ borderColor: fieldErr("species") && !sel ? "var(--danger-border)" : undefined }}
               >
                 <div className="check">{sel ? "✓" : ""}</div>
-                <span style={{ fontSize: "1.1rem" }}>{SPECIES_EMOJI[s]}</span>
-                <span style={{ fontSize: 13, flex: 1 }}>{SPECIES_LABELS[s]}</span>
+                <span style={{ fontSize: "0.9rem", flexShrink: 0 }}>{SPECIES_EMOJI[s]}</span>
+                <span style={{ fontSize: 15, fontWeight: 700, flex: 1 }}>{SPECIES_LABELS[s]}</span>
               </button>
             );
           })}
@@ -156,9 +156,19 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
           value={profile.budget ?? 500}
           onChange={e => onChange({ budget: Number(e.target.value) })}
         />
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text-3)", marginTop: 6 }}>
-          <span>$100</span>
-          <span>$5,000</span>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text-3)", marginTop: 8 }}>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontWeight: 600 }}>$100 – $600</div>
+            <div style={{ marginTop: 2, color: "var(--text-3)" }}>Single state</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontWeight: 600 }}>$800 – $1,500</div>
+            <div style={{ marginTop: 2, color: "var(--text-3)" }}>2–3 states</div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontWeight: 600 }}>$2,500+</div>
+            <div style={{ marginTop: 2, color: "var(--text-3)" }}>All-in portfolio</div>
+          </div>
         </div>
       </div>
 

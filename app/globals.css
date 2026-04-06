@@ -2,24 +2,24 @@
 
 /* ─── Design Tokens ──────────────────────────────────────────────────────── */
 :root {
-  /* Base surfaces */
-  --bg:           #070f06;
-  --bg-elevated:  #0c1a0a;
-  --card:         #0f1e0d;
-  --card-hover:   #152814;
-  --card-2:       #0a1508;
+  /* Base surfaces — warm earth tones */
+  --bg:           #060d05;
+  --bg-elevated:  #0b1709;
+  --card:         #0e1c0c;
+  --card-hover:   #142610;
+  --card-2:       #091408;
 
   /* Borders */
-  --border:       #1e3a1a;
-  --border-2:     #27481f;
-  --border-3:     #334d28;
+  --border:       #1c3818;
+  --border-2:     #254520;
+  --border-3:     #30491f;
 
-  /* Amber — primary accent */
-  --amber:        #e8960f;
-  --amber-light:  #f5b840;
-  --amber-dim:    #7a4d08;
-  --amber-glow:   rgba(232, 150, 15, 0.12);
-  --amber-glow-strong: rgba(232, 150, 15, 0.25);
+  /* Amber — primary accent, slightly warmer */
+  --amber:        #e08c0a;
+  --amber-light:  #f5ad28;
+  --amber-dim:    #78490a;
+  --amber-glow:   rgba(220, 140, 10, 0.13);
+  --amber-glow-strong: rgba(220, 140, 10, 0.27);
 
   /* Text */
   --text:         #ede8dc;
@@ -597,4 +597,62 @@ input[type="range"]::-moz-range-thumb {
 /* Tablet tweaks */
 @media (max-width: 900px) {
   .page-inner-wide { padding: 24px 20px 56px; }
+}
+
+/* ─── Species / Tools carousels ─────────────────────────────────────────── */
+.species-carousel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+.species-card {
+  padding: 18px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.tools-carousel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.tool-card {
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .species-carousel {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 10px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .species-carousel::-webkit-scrollbar { display: none; }
+  .species-card {
+    min-width: 100px;
+    flex-shrink: 0;
+    padding: 16px 10px;
+  }
+
+  .tools-carousel {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 10px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .tools-carousel::-webkit-scrollbar { display: none; }
+  .tool-card {
+    min-width: 220px;
+    flex-shrink: 0;
+  }
 }
