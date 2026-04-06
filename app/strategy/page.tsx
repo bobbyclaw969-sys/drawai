@@ -2,9 +2,14 @@
 import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import AppNav from "@/components/AppNav";
 import { HunterProfile, SpeciesKey } from "@/lib/types";
 import { SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
 import StrategyOutput from "@/components/StrategyOutput";
+import SavePlanButton from "@/components/SavePlanButton";
+import ForumShare from "@/components/ForumShare";
+import AiDisclaimer from "@/components/AiDisclaimer";
+import DataDisclaimer from "@/components/DataDisclaimer";
 
 function StrategyPageInner() {
   const searchParams = useSearchParams();
@@ -36,6 +41,7 @@ function StrategyPageInner() {
     setLoading(true);
     setStrategy("");
     setError("");
+    let receivedBytes = 0;
     try {
       const res = await fetch("/api/strategy", {
         method: "POST",
@@ -50,10 +56,17 @@ function StrategyPageInner() {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+        receivedBytes += value?.length ?? 0;
         setStrategy(prev => prev + decoder.decode(value, { stream: true }));
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
+      // If we already received partial content, show a softer "interrupted" notice
+      // rather than replacing everything with a hard error.
+      if (receivedBytes > 0) {
+        setError("__interrupted__");
+      } else {
+        setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -72,46 +85,34 @@ function StrategyPageInner() {
   const handlePrint = () => window.print();
 
   return (
-    <main className="min-h-screen px-4 py-10">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <Link href="/" className="text-xl font-bold" style={{ color: "#f59e0b" }}>
-            🎯 DrawAI
-          </Link>
-          <Link href="/plan" className="text-sm" style={{ color: "#8a9e8a" }}>
-            ← Start over
+    <div className="page">
+      <AppNav />
+      <div className="page-inner" style={{ maxWidth: 760 }}>
+        {/* Back link */}
+        <div style={{ marginBottom: 24 }}>
+          <Link href="/plan" style={{ fontSize: 13, color: "var(--text-3)" }}>
+            ← Back to plan builder
           </Link>
         </div>
 
+        <AiDisclaimer />
+        <DataDisclaimer />
+
         {/* Profile summary */}
         {profile && (
-          <div
-            className="rounded-xl p-4 mb-6 flex flex-wrap gap-3"
-            style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}
-          >
-            <div className="text-sm">
-              <span style={{ color: "#8a9e8a" }}>Species: </span>
-              <span className="font-medium">
-                {profile.species.map(s => SPECIES_LABELS[s as SpeciesKey]).join(", ")}
-              </span>
-            </div>
-            <div className="text-sm">
-              <span style={{ color: "#8a9e8a" }}>Method: </span>
-              <span className="font-medium capitalize">{profile.huntType}</span>
-            </div>
-            <div className="text-sm">
-              <span style={{ color: "#8a9e8a" }}>Residency: </span>
-              <span className="font-medium">{STATE_NAMES[profile.residency] ?? profile.residency}</span>
-            </div>
-            <div className="text-sm">
-              <span style={{ color: "#8a9e8a" }}>Budget: </span>
-              <span className="font-medium">${profile.budget.toLocaleString()}/yr</span>
-            </div>
-            <div className="text-sm">
-              <span style={{ color: "#8a9e8a" }}>Horizon: </span>
-              <span className="font-medium">{profile.planningYears} years</span>
-            </div>
+          <div className="card" style={{ padding: 16, marginBottom: 20, display: "flex", flexWrap: "wrap", gap: 12 }}>
+            {[
+              { label: "Species", value: profile.species.map(s => SPECIES_LABELS[s as SpeciesKey]).join(", ") },
+              { label: "Method", value: profile.huntType },
+              { label: "Residency", value: STATE_NAMES[profile.residency] ?? profile.residency },
+              { label: "Budget", value: `$${profile.budget.toLocaleString()}/yr` },
+              { label: "Horizon", value: `${profile.planningYears} years` },
+            ].map(item => (
+              <div key={item.label} style={{ fontSize: 13 }}>
+                <span style={{ color: "var(--text-3)" }}>{item.label}: </span>
+                <span style={{ fontWeight: 600, textTransform: item.label === "Method" ? "capitalize" : undefined }}>{item.value}</span>
+              </div>
+            ))}
           </div>
         )}
 
@@ -135,7 +136,7 @@ function StrategyPageInner() {
         <StrategyOutput text={strategy} loading={loading} />
 
         {/* Error */}
-        {error && (
+        {error && error !== "__interrupted__" && (
           <div
             className="rounded-xl p-6 text-center"
             style={{ backgroundColor: "#2a1010", border: "1px solid #5a1010" }}
@@ -150,46 +151,73 @@ function StrategyPageInner() {
             </button>
           </div>
         )}
-
-        {/* Actions — show when done */}
-        {!loading && strategy && (
-          <div className="mt-6 flex flex-wrap gap-3 no-print">
+        {error === "__interrupted__" && (
+          <div
+            className="rounded-xl p-4 flex items-start gap-3"
+            style={{ backgroundColor: "#1a1a0a", border: "1px solid #4a3a00", marginTop: 8 }}
+          >
+            <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>⚠️</span>
+            <div>
+              <p className="text-sm font-medium" style={{ color: "#f59e0b", marginBottom: 4 }}>
+                Plan may be incomplete — connection was interrupted
+              </p>
+              <p className="text-xs" style={{ color: "#8a7a50" }}>
+                Scroll up to review what was generated. You can save it or regenerate for the full plan.
+              </p>
+            </div>
             <button
-              onClick={handleCopyShare}
-              className="flex-1 py-3 rounded-lg text-sm font-medium transition-all"
-              style={{
-                backgroundColor: copied ? "#1a3a1a" : "#162016",
-                border: copied ? "1px solid #4ade80" : "1px solid #2a3a2a",
-                color: copied ? "#4ade80" : "#e8f0e8",
-              }}
+              onClick={() => { fetchedRef.current = false; if (profile) generateStrategy(profile); }}
+              className="ml-auto px-4 py-1.5 rounded-lg text-xs font-medium flex-shrink-0"
+              style={{ backgroundColor: "#2a2000", border: "1px solid #4a3a00", color: "#f59e0b" }}
             >
-              {copied ? "✓ Copied!" : "📋 Copy Share Link"}
+              Regenerate
             </button>
-            <button
-              onClick={handlePrint}
-              className="flex-1 py-3 rounded-lg text-sm font-medium"
-              style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#e8f0e8" }}
-            >
-              🖨️ Print / Save PDF
-            </button>
-            <Link
-              href="/plan"
-              className="flex-1 py-3 rounded-lg text-sm font-medium text-center"
-              style={{ backgroundColor: "#f59e0b", color: "#0f1a0f" }}
-            >
-              Build Another Plan
-            </Link>
           </div>
         )}
 
-        <footer className="text-center text-xs mt-10 pb-6" style={{ color: "#8a9e8a" }}>
-          DrawAI is free. Built by{" "}
-          <a href="https://f21.ai" style={{ color: "#f59e0b" }}>Factor21</a>.
+        {/* Actions — show when done */}
+        {!loading && strategy && profile && (
+          <div className="mt-6 space-y-3 no-print">
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleCopyShare}
+                className="flex-1 py-3 rounded-lg text-sm font-medium transition-all"
+                style={{
+                  backgroundColor: copied ? "#1a3a1a" : "#162016",
+                  border: copied ? "1px solid #4ade80" : "1px solid #2a3a2a",
+                  color: copied ? "#4ade80" : "#e8f0e8",
+                }}
+              >
+                {copied ? "✓ Copied!" : "📋 Copy Link"}
+              </button>
+              <SavePlanButton profile={profile} strategy={strategy} />
+              <button
+                onClick={handlePrint}
+                className="flex-1 py-3 rounded-lg text-sm font-medium"
+                style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#e8f0e8" }}
+              >
+                🖨️ Print
+              </button>
+              <Link
+                href="/plan"
+                className="flex-1 py-3 rounded-lg text-sm font-medium text-center"
+                style={{ backgroundColor: "#f59e0b", color: "#0f1a0f" }}
+              >
+                New Plan
+              </Link>
+            </div>
+            <ForumShare profile={profile} strategy={strategy} />
+          </div>
+        )}
+
+        <p style={{ textAlign: "center", fontSize: 11, color: "var(--text-3)", marginTop: 32 }}>
+          Tag Hunter is free. Built by{" "}
+          <a href="https://f21.ai" style={{ color: "var(--amber)" }}>Factor21</a>.
           Not affiliated with any state agency.
           Always verify deadlines at your state&apos;s official wildlife agency website.
-        </footer>
+        </p>
       </div>
-    </main>
+    </div>
   );
 }
 
