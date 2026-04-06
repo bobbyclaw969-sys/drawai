@@ -19,6 +19,7 @@ export const metadata: Metadata = {
       "Stop guessing. Get a personalized 10-year hunt plan based on your points, budget, and goals. Free, no signup.",
   },
   other: {
+    "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
     "apple-mobile-web-app-title": "Tag Hunter",
