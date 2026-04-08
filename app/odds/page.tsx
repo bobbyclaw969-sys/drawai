@@ -61,11 +61,11 @@ function yearToDrawEstimate(timeline: number[], threshold = 0.5): number | null 
 }
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: '#4ade80',
-  moderate: '#86efac',
-  hard: '#f59e0b',
-  very_hard: '#f97316',
-  nearly_impossible: '#f87171',
+  easy: 'var(--success)',
+  moderate: 'var(--success)',
+  hard: 'var(--amber)',
+  very_hard: 'var(--warning)',
+  nearly_impossible: 'var(--danger)',
 };
 
 const POINT_SYSTEM_LABELS: Record<string, string> = {
@@ -179,7 +179,7 @@ export default function OddsPage() {
               fontWeight: sortBy === opt.key ? 700 : 500,
               background: sortBy === opt.key ? "var(--amber-glow)" : "transparent",
               color: sortBy === opt.key ? "var(--amber)" : "var(--text-3)",
-              border: sortBy === opt.key ? "1px solid rgba(232,150,15,0.3)" : "1px solid transparent",
+              border: sortBy === opt.key ? "1px solid var(--amber-glow-strong)" : "1px solid transparent",
               cursor: "pointer",
             }}
           >
@@ -272,8 +272,8 @@ export default function OddsPage() {
                             height: 5,
                             borderRadius: 2,
                             background: prob >= 0.5
-                              ? `rgba(61,168,106,${0.35 + intensity * 0.65})`
-                              : `rgba(232,150,15,${0.2 + intensity * 0.8})`,
+                              ? `var(--success-border)`
+                              : `var(--amber-glow-strong)`,
                           }}
                         />
                       );

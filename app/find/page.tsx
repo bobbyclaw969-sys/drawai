@@ -130,7 +130,7 @@ export default function FindPage() {
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             padding: "4px 12px", borderRadius: 999,
-            background: "var(--amber-glow)", border: "1px solid rgba(232,150,15,0.3)",
+            background: "var(--amber-glow)", border: "1px solid var(--amber-glow-strong)",
             fontSize: 11, fontWeight: 700, color: "var(--amber)",
             letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 14,
           }}>
@@ -386,13 +386,13 @@ export default function FindPage() {
             </div>
           )}
           {error === "__interrupted__" && (
-            <div className="card" style={{ padding: 16, background: "#1a1a0a", borderColor: "#4a3a00", display: "flex", alignItems: "flex-start", gap: 12 }}>
+            <div className="card" style={{ padding: 16, background: "var(--warning-bg)", borderColor: "var(--warning-border)", display: "flex", alignItems: "flex-start", gap: 12 }}>
               <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>⚠️</span>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color: "#f59e0b", marginBottom: 4 }}>Results may be incomplete — connection was interrupted</p>
-                <p style={{ fontSize: 12, color: "#8a7a50" }}>Scroll up to see what was generated. Regenerate for the full results.</p>
+                <p style={{ fontSize: 13, fontWeight: 600, color: "var(--amber)", marginBottom: 4 }}>Results may be incomplete — connection was interrupted</p>
+                <p style={{ fontSize: 12, color: "var(--text-3)" }}>Scroll up to see what was generated. Regenerate for the full results.</p>
               </div>
-              <button onClick={submit} style={{ flexShrink: 0, padding: "6px 14px", borderRadius: 6, fontSize: 12, fontWeight: 600, background: "#2a2000", border: "1px solid #4a3a00", color: "#f59e0b", cursor: "pointer" }}>Regenerate</button>
+              <button onClick={submit} className="btn-ghost" style={{ flexShrink: 0, padding: "6px 14px", fontSize: 12, fontWeight: 600, color: "var(--amber)", cursor: "pointer" }}>Regenerate</button>
             </div>
           )}
         </div>

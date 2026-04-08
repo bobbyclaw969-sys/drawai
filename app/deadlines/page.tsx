@@ -88,9 +88,9 @@ function getDeadlines(speciesFilter: SpeciesKey | "all"): Deadline[] {
 }
 
 function urgencyStyle(days: number): { color: string; label: string } {
-  if (days <= 14) return { color: "#f87171", label: "Closing soon" };
-  if (days <= 45) return { color: "#f59e0b", label: "Coming up" };
-  return { color: "#4ade80", label: "Upcoming" };
+  if (days <= 14) return { color: "var(--danger)", label: "Closing soon" };
+  if (days <= 45) return { color: "var(--amber)", label: "Coming up" };
+  return { color: "var(--success)", label: "Upcoming" };
 }
 
 const POINT_SYSTEM_LABELS: Record<string, string> = {

@@ -189,8 +189,8 @@ export default function ProfilePage() {
           display: "flex",
           alignItems: "flex-start",
           gap: 10,
-          background: "rgba(74,222,128,0.06)",
-          borderColor: "rgba(74,222,128,0.2)",
+          background: "var(--success-bg)",
+          borderColor: "var(--success-border)",
         }}>
           <span style={{ fontSize: "1rem", flexShrink: 0 }}>🔒</span>
           <div>

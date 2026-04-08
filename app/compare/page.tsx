@@ -22,11 +22,11 @@ const POINT_SYSTEM_LABELS: Record<string, string> = {
 };
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: "#4ade80",
-  moderate: "#86efac",
-  hard: "#f59e0b",
-  very_hard: "#f97316",
-  nearly_impossible: "#f87171",
+  easy: "var(--success)",
+  moderate: "var(--success)",
+  hard: "var(--amber)",
+  very_hard: "var(--warning)",
+  nearly_impossible: "var(--danger)",
 };
 
 const DIFFICULTY_LABELS: Record<string, string> = {
@@ -69,31 +69,31 @@ export default function ComparePage() {
   const rows: { label: string; values: (e: NonNullable<typeof entryA>) => React.ReactNode }[] = [
     {
       label: "NR Tag Fee",
-      values: e => <span className="font-bold" style={{ color: "#f59e0b" }}>${e.feeNonresident.toLocaleString()}</span>,
+      values: e => <span className="font-bold" style={{ color: "var(--amber)" }}>${e.feeNonresident.toLocaleString()}</span>,
     },
     {
       label: "Resident Fee",
-      values: e => <span style={{ color: "#c8d8c8" }}>${e.feeResident.toLocaleString()}</span>,
+      values: e => <span style={{ color: "var(--text-2)" }}>${e.feeResident.toLocaleString()}</span>,
     },
     {
       label: "Point System",
-      values: e => <span style={{ color: "#c8d8c8" }}>{POINT_SYSTEM_LABELS[e.pointSystem] ?? e.pointSystem}</span>,
+      values: e => <span style={{ color: "var(--text-2)" }}>{POINT_SYSTEM_LABELS[e.pointSystem] ?? e.pointSystem}</span>,
     },
     {
       label: "OTC Available",
-      values: e => <span style={{ color: e.hasOTC ? "#4ade80" : "#f87171" }}>{e.hasOTC ? "Yes ✓" : "Draw only"}</span>,
+      values: e => <span style={{ color: e.hasOTC ? "var(--success)" : "var(--danger)" }}>{e.hasOTC ? "Yes ✓" : "Draw only"}</span>,
     },
     {
       label: "Difficulty",
-      values: e => <span style={{ color: DIFFICULTY_COLORS[e.difficulty] ?? "#e8f0e8" }}>{DIFFICULTY_LABELS[e.difficulty] ?? e.difficulty}</span>,
+      values: e => <span style={{ color: DIFFICULTY_COLORS[e.difficulty] ?? "var(--text)" }}>{DIFFICULTY_LABELS[e.difficulty] ?? e.difficulty}</span>,
     },
     {
       label: "NR Quota",
-      values: e => <span style={{ color: "#c8d8c8" }}>{e.nrQuotaPct}%</span>,
+      values: e => <span style={{ color: "var(--text-2)" }}>{e.nrQuotaPct}%</span>,
     },
     {
       label: "App Window",
-      values: e => <span style={{ color: "#c8d8c8" }}>{MONTH_NAMES[e.appOpenMonth - 1]} – {MONTH_NAMES[e.appCloseMonth - 1]} {e.appCloseDay}</span>,
+      values: e => <span style={{ color: "var(--text-2)" }}>{MONTH_NAMES[e.appOpenMonth - 1]} – {MONTH_NAMES[e.appCloseMonth - 1]} {e.appCloseDay}</span>,
     },
     {
       label: "Odds @ 0 pts",
@@ -117,7 +117,7 @@ export default function ComparePage() {
     },
     {
       label: "Max Pts Est.",
-      values: e => <span style={{ color: "#c8d8c8" }}>{e.maxPointsEst > 0 ? `~${e.maxPointsEst}` : "N/A"}</span>,
+      values: e => <span style={{ color: "var(--text-2)" }}>{e.maxPointsEst > 0 ? `~${e.maxPointsEst}` : "N/A"}</span>,
     },
   ];
 
@@ -135,12 +135,7 @@ export default function ComparePage() {
       <div className="flex flex-wrap gap-2 mb-6">
         {ALL_SPECIES.filter(s => huntingData.some(d => d.species === s)).map(s => (
           <button key={s} onClick={() => handleSpeciesChange(s)}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium"
-            style={{
-              backgroundColor: species === s ? "#f59e0b" : "#162016",
-              border: species === s ? "none" : "1px solid #2a3a2a",
-              color: species === s ? "#0f1a0f" : "#c8d8c8",
-            }}>
+            className={`pill-btn${species === s ? " selected" : ""}`}>
             {SPECIES_LABELS[s]}
           </button>
         ))}
@@ -154,12 +149,11 @@ export default function ComparePage() {
           { label: "State C (optional)", value: stateC, set: setStateC },
         ].map(col => (
           <div key={col.label}>
-            <label className="text-xs block mb-1" style={{ color: "#8a9e8a" }}>{col.label}</label>
+            <label className="text-xs block mb-1" style={{ color: "var(--text-2)" }}>{col.label}</label>
             <select
               value={col.value}
               onChange={e => col.set(e.target.value)}
-              className="px-3 py-2 rounded-lg text-sm"
-              style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#e8f0e8" }}
+              className="input"
             >
               {col.label.includes("optional") && <option value="">None</option>}
               {availableStates.map(id => (
@@ -173,20 +167,20 @@ export default function ComparePage() {
       {/* Comparison table */}
       {columns.length >= 2 && (
         <div className="compare-scroll mb-6">
-        <div className="rounded-xl overflow-hidden" style={{ border: "1px solid #2a3a2a" }}>
+        <div className="rounded-xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
           {/* Column headers */}
           <div className="grid gap-0" style={{
             gridTemplateColumns: `200px repeat(${columns.length}, 1fr)`,
-            backgroundColor: "#162016",
-            borderBottom: "1px solid #2a3a2a",
+            backgroundColor: "var(--card)",
+            borderBottom: "1px solid var(--border)",
           }}>
-            <div className="p-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "#6a7e6a" }}>
+            <div className="p-4 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-3)" }}>
               Metric
             </div>
             {columns.map((e, i) => (
-              <div key={i} className="p-4 text-center border-l" style={{ borderColor: "#2a3a2a" }}>
-                <div className="font-bold text-sm" style={{ color: "#f59e0b" }}>{e!.stateName}</div>
-                <div className="text-xs mt-0.5" style={{ color: "#6a7e6a" }}>
+              <div key={i} className="p-4 text-center border-l" style={{ borderColor: "var(--border)" }}>
+                <div className="font-bold text-sm" style={{ color: "var(--amber)" }}>{e!.stateName}</div>
+                <div className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
                   {SPECIES_LABELS[e!.species as SpeciesKey]}
                 </div>
               </div>
@@ -197,15 +191,15 @@ export default function ComparePage() {
           {rows.map((row, ri) => (
             <div key={ri} className="grid" style={{
               gridTemplateColumns: `200px repeat(${columns.length}, 1fr)`,
-              backgroundColor: ri % 2 === 0 ? "#0f1a0f" : "#162016",
-              borderBottom: ri < rows.length - 1 ? "1px solid #1a2a1a" : "none",
+              backgroundColor: ri % 2 === 0 ? "var(--text-inv)" : "var(--card)",
+              borderBottom: ri < rows.length - 1 ? "1px solid var(--bg-elevated)" : "none",
             }}>
-              <div className="p-3 text-xs font-medium" style={{ color: "#8a9e8a" }}>
+              <div className="p-3 text-xs font-medium" style={{ color: "var(--text-2)" }}>
                 {row.label}
               </div>
               {columns.map((e, ci) => (
                 <div key={ci} className="p-3 text-center text-xs border-l flex items-center justify-center"
-                  style={{ borderColor: "#1a2a1a" }}>
+                  style={{ borderColor: "var(--bg-elevated)" }}>
                   {row.values(e!)}
                 </div>
               ))}
@@ -219,11 +213,11 @@ export default function ComparePage() {
       {columns.length >= 2 && (
         <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${columns.length}, 1fr)` }}>
           {columns.map((e, i) => (
-            <div key={i} className="rounded-xl p-4" style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}>
-              <h3 className="font-semibold text-sm mb-2" style={{ color: "#f59e0b" }}>{e!.stateName} Notes</h3>
-              <p className="text-xs leading-relaxed" style={{ color: "#8a9e8a" }}>{e!.notes}</p>
+            <div key={i} className="rounded-xl p-4" style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}>
+              <h3 className="font-semibold text-sm mb-2" style={{ color: "var(--amber)" }}>{e!.stateName} Notes</h3>
+              <p className="text-xs leading-relaxed" style={{ color: "var(--text-2)" }}>{e!.notes}</p>
               <Link href={`/states/${e!.stateId}`}
-                className="text-xs mt-3 block" style={{ color: "#f59e0b" }}>
+                className="text-xs mt-3 block" style={{ color: "var(--amber)" }}>
                 Full state profile →
               </Link>
             </div>
@@ -232,7 +226,7 @@ export default function ComparePage() {
       )}
 
       {columns.length < 2 && (
-        <div className="text-center py-12" style={{ color: "#8a9e8a" }}>
+        <div className="text-center py-12" style={{ color: "var(--text-2)" }}>
           <p className="text-sm">Select at least two states above to compare.</p>
         </div>
       )}
@@ -247,10 +241,10 @@ export default function ComparePage() {
 
 function OddsBar({ value }: { value: number }) {
   const pct = Math.round(value * 100);
-  const color = value >= 0.7 ? "#4ade80" : value >= 0.4 ? "#f59e0b" : value >= 0.15 ? "#f97316" : "#f87171";
+  const color = value >= 0.7 ? "var(--success)" : value >= 0.4 ? "var(--amber)" : value >= 0.15 ? "var(--warning)" : "var(--danger)";
   return (
     <div className="flex items-center gap-2 w-full">
-      <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ backgroundColor: "#2a3a2a" }}>
+      <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ backgroundColor: "var(--border)" }}>
         <div className="h-full rounded-full" style={{ width: `${Math.max(pct, 2)}%`, backgroundColor: color }} />
       </div>
       <span className="font-mono text-xs w-8 text-right" style={{ color }}>{pct}%</span>

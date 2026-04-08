@@ -207,7 +207,7 @@ export default function ChatPage() {
             {msg.role === "assistant" && (
               <div style={{
                 width: 30, height: 30, borderRadius: "50%",
-                background: "var(--amber-glow)", border: "1px solid rgba(232,150,15,0.3)",
+                background: "var(--amber-glow)", border: "1px solid var(--amber-glow-strong)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: 14, flexShrink: 0, marginTop: 4,
               }}>

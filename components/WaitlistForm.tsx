@@ -33,7 +33,7 @@ export default function WaitlistForm({ source = "homepage" }: { source?: string 
       <div style={{
         display: "inline-flex", alignItems: "center", gap: 10,
         padding: "12px 20px", borderRadius: 10,
-        background: "rgba(61,168,106,0.12)", border: "1px solid rgba(61,168,106,0.3)",
+        background: "var(--success-bg)", border: "1px solid var(--success-border)",
       }}>
         <span style={{ fontSize: "1.2rem" }}>✓</span>
         <div>
@@ -51,7 +51,7 @@ export default function WaitlistForm({ source = "homepage" }: { source?: string 
       <div style={{
         display: "inline-flex", alignItems: "center", gap: 10,
         padding: "12px 20px", borderRadius: 10,
-        background: "rgba(61,168,106,0.08)", border: "1px solid rgba(61,168,106,0.2)",
+        background: "var(--success-bg)", border: "1px solid var(--success-border)",
       }}>
         <span style={{ fontSize: "1.2rem" }}>✓</span>
         <p style={{ fontSize: 14, color: "var(--success)" }}>You&apos;re already on the list.</p>

@@ -70,15 +70,14 @@ export default function PointsTracker({ apps }: Props) {
 
   if (allTrackedKeys.length === 0 && manualPoints.length === 0) {
     return (
-      <div className="rounded-xl p-6 mb-5 text-center" style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a' }}>
-        <h3 className="text-sm font-semibold uppercase tracking-wider mb-2" style={{ color: '#8a9e8a' }}>Points Tracker</h3>
-        <p className="text-sm mb-4" style={{ color: '#6a7e6a' }}>
+      <div className="rounded-xl p-6 mb-5 text-center" style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)' }}>
+        <h3 className="text-sm font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-2)' }}>Points Tracker</h3>
+        <p className="text-sm mb-4" style={{ color: 'var(--text-3)' }}>
           Track preference and bonus points by state — even if you haven&apos;t logged applications yet.
         </p>
         <button
           onClick={() => setShowAdd(true)}
-          className="px-4 py-2 rounded-lg text-sm font-bold"
-          style={{ backgroundColor: '#f59e0b', color: '#0f1a0f' }}
+          className="btn-primary px-4 py-2 rounded-lg text-sm font-bold"
         >
           + Add Points
         </button>
@@ -89,16 +88,16 @@ export default function PointsTracker({ apps }: Props) {
 
   function AddForm() {
     return (
-      <div className="mt-4 p-4 rounded-xl text-left" style={{ backgroundColor: '#1a2a1a', border: '1px solid #2a3a2a' }}>
-        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#8a9e8a' }}>Add / Update Points</h4>
+      <div className="mt-4 p-4 rounded-xl text-left" style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
+        <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-2)' }}>Add / Update Points</h4>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
           <div>
-            <label className="text-xs block mb-1" style={{ color: '#8a9e8a' }}>State</label>
+            <label className="field-label text-xs block mb-1">State</label>
             <select
               value={addState}
               onChange={e => { setAddState(e.target.value); setAddSpecies('elk'); }}
               className="w-full px-2 py-1.5 rounded text-xs"
-              style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a', color: '#e8f0e8' }}
+              style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', color: 'var(--text)' }}
             >
               <option value="">Select...</option>
               {availableStates.map(s => (
@@ -107,12 +106,12 @@ export default function PointsTracker({ apps }: Props) {
             </select>
           </div>
           <div>
-            <label className="text-xs block mb-1" style={{ color: '#8a9e8a' }}>Species</label>
+            <label className="field-label text-xs block mb-1">Species</label>
             <select
               value={addSpecies}
               onChange={e => setAddSpecies(e.target.value as SpeciesKey)}
               className="w-full px-2 py-1.5 rounded text-xs"
-              style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a', color: '#e8f0e8' }}
+              style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', color: 'var(--text)' }}
               disabled={!addState}
             >
               {speciesForState.map(s => (
@@ -121,7 +120,7 @@ export default function PointsTracker({ apps }: Props) {
             </select>
           </div>
           <div>
-            <label className="text-xs block mb-1" style={{ color: '#8a9e8a' }}>Points</label>
+            <label className="field-label text-xs block mb-1">Points</label>
             <input
               type="number"
               min={0}
@@ -129,11 +128,11 @@ export default function PointsTracker({ apps }: Props) {
               value={addPoints}
               onChange={e => setAddPoints(Number(e.target.value))}
               className="w-full px-2 py-1.5 rounded text-xs"
-              style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a', color: '#e8f0e8' }}
+              style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', color: 'var(--text)' }}
             />
           </div>
           <div>
-            <label className="text-xs block mb-1" style={{ color: '#8a9e8a' }}>As of Year</label>
+            <label className="field-label text-xs block mb-1">As of Year</label>
             <input
               type="number"
               min={2000}
@@ -141,34 +140,32 @@ export default function PointsTracker({ apps }: Props) {
               value={addYear}
               onChange={e => setAddYear(Number(e.target.value))}
               className="w-full px-2 py-1.5 rounded text-xs"
-              style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a', color: '#e8f0e8' }}
+              style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', color: 'var(--text)' }}
             />
           </div>
         </div>
         <div className="mb-3">
-          <label className="text-xs block mb-1" style={{ color: '#8a9e8a' }}>Notes (optional)</label>
+          <label className="field-label text-xs block mb-1">Notes (optional)</label>
           <input
             type="text"
             value={addNotes}
             onChange={e => setAddNotes(e.target.value)}
             placeholder="e.g., verified on WGFD website"
             className="w-full px-2 py-1.5 rounded text-xs"
-            style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a', color: '#e8f0e8' }}
+            style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', color: 'var(--text)' }}
           />
         </div>
         <div className="flex gap-2">
           <button
             onClick={handleSave}
             disabled={!addState}
-            className="px-4 py-1.5 rounded text-xs font-bold"
-            style={{ backgroundColor: addState ? '#f59e0b' : '#2a3a2a', color: addState ? '#0f1a0f' : '#8a9e8a' }}
+            className="btn-primary px-4 py-1.5 rounded text-xs font-bold"
           >
             Save
           </button>
           <button
             onClick={() => setShowAdd(false)}
-            className="px-3 py-1.5 rounded text-xs"
-            style={{ color: '#8a9e8a' }}
+            className="btn-ghost px-3 py-1.5 rounded text-xs"
           >
             Cancel
           </button>
@@ -178,15 +175,14 @@ export default function PointsTracker({ apps }: Props) {
   }
 
   return (
-    <div className="rounded-xl p-5 mb-5" style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a' }}>
+    <div className="rounded-xl p-5 mb-5" style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)' }}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#8a9e8a' }}>
+        <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'var(--text-2)' }}>
           Points Tracker
         </h3>
         <button
           onClick={() => setShowAdd(v => !v)}
-          className="px-3 py-1 rounded text-xs font-medium"
-          style={{ backgroundColor: '#1a2a1a', border: '1px solid #2a3a2a', color: '#c8d8c8' }}
+          className="btn-ghost px-3 py-1 rounded text-xs font-medium"
         >
           + Add / Update
         </button>
@@ -207,24 +203,24 @@ export default function PointsTracker({ apps }: Props) {
               <div
                 key={`${stateId}-${species}`}
                 className="px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2"
-                style={{ backgroundColor: '#1a2a1a', border: '1px solid #2a3a2a' }}
+                style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
               >
                 <div>
-                  <span style={{ color: '#e8f0e8' }}>{STATE_NAMES[stateId.toUpperCase()] ?? stateId}</span>
-                  <span style={{ color: '#6a7e6a' }}> · {SPECIES_LABELS[species as SpeciesKey]}</span>
-                  <span className="ml-2 font-bold" style={{ color: '#f59e0b' }}>{pts} pts</span>
+                  <span style={{ color: 'var(--text)' }}>{STATE_NAMES[stateId.toUpperCase()] ?? stateId}</span>
+                  <span style={{ color: 'var(--text-3)' }}> · {SPECIES_LABELS[species as SpeciesKey]}</span>
+                  <span className="ml-2 font-bold" style={{ color: 'var(--amber)' }}>{pts} pts</span>
                   {isManual && !isDerived && (
-                    <span className="ml-1 text-xs" style={{ color: '#4a5a4a' }}>(manual)</span>
+                    <span className="ml-1 text-xs" style={{ color: 'var(--text-3)' }}>(manual)</span>
                   )}
                   {isDerived && isManual && (
-                    <span className="ml-1 text-xs" style={{ color: '#4a5a4a' }}>(merged)</span>
+                    <span className="ml-1 text-xs" style={{ color: 'var(--text-3)' }}>(merged)</span>
                   )}
                 </div>
                 {isManual && manualEntry && (
                   <button
                     onClick={() => handleDelete(manualEntry.id)}
                     className="text-xs"
-                    style={{ color: '#4a5a4a' }}
+                    style={{ color: 'var(--text-3)' }}
                     title="Remove manual entry"
                   >
                     ×
@@ -235,9 +231,9 @@ export default function PointsTracker({ apps }: Props) {
           })}
       </div>
 
-      <p className="text-xs mt-3" style={{ color: '#4a5a4a' }}>
+      <p className="text-xs mt-3" style={{ color: 'var(--text-3)' }}>
         Points derived from your application log. Add manual entries for states where you haven&apos;t logged apps yet.
-        Use these on the <a href="/odds" style={{ color: '#f59e0b' }}>Draw Odds Calculator</a> to see your estimated draw timeline.
+        Use these on the <a href="/odds" style={{ color: 'var(--amber)' }}>Draw Odds Calculator</a> to see your estimated draw timeline.
       </p>
     </div>
   );

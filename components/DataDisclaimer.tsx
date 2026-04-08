@@ -15,8 +15,8 @@ export default function DataDisclaimer({ compact = false }: { compact?: boolean 
       gap: 12,
       padding: "12px 16px",
       borderRadius: 10,
-      background: "rgba(212,124,21,0.07)",
-      border: "1px solid rgba(212,124,21,0.22)",
+      background: "var(--warning-bg)",
+      border: "1px solid var(--warning-border)",
       marginBottom: 20,
     }}>
       <span style={{ fontSize: "1rem", flexShrink: 0, marginTop: 1 }}>⚠️</span>

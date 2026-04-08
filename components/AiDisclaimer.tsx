@@ -7,8 +7,8 @@ export default function AiDisclaimer() {
       gap: 12,
       padding: "12px 16px",
       borderRadius: 10,
-      background: "rgba(74,143,196,0.07)",
-      border: "1px solid rgba(74,143,196,0.22)",
+      background: "var(--info-bg)",
+      border: "1px solid var(--info-border)",
       marginBottom: 20,
     }}>
       <span style={{ fontSize: "1rem", flexShrink: 0, marginTop: 1 }}>🤖</span>

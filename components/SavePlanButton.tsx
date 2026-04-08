@@ -29,7 +29,7 @@ export default function SavePlanButton({ profile, strategy }: Props) {
     return (
       <div
         className="flex-1 py-3 rounded-lg text-sm font-medium text-center"
-        style={{ backgroundColor: "#1a3a1a", border: "1px solid #4ade80", color: "#4ade80" }}
+        style={{ backgroundColor: "var(--success-bg)", border: "1px solid var(--success-border)", color: "var(--success)" }}
       >
         ✓ Plan saved to My Applications
       </div>
@@ -46,19 +46,19 @@ export default function SavePlanButton({ profile, strategy }: Props) {
           onKeyDown={e => { if (e.key === "Enter") handleSave(); if (e.key === "Escape") setShowName(false); }}
           placeholder="Name this plan (optional)"
           className="flex-1 px-3 py-2 rounded-lg text-sm"
-          style={{ backgroundColor: "#1a2a1a", border: "1px solid #f59e0b", color: "#e8f0e8" }}
+          style={{ backgroundColor: "var(--bg-elevated)", border: "1px solid var(--amber)", color: "var(--text)" }}
         />
         <button
           onClick={handleSave}
           className="px-4 py-2 rounded-lg text-sm font-bold"
-          style={{ backgroundColor: "#f59e0b", color: "#0f1a0f" }}
+          style={{ backgroundColor: "var(--amber)", color: "var(--text-inv)" }}
         >
           Save
         </button>
         <button
           onClick={() => setShowName(false)}
           className="px-3 py-2 rounded-lg text-sm"
-          style={{ color: "#8a9e8a" }}
+          style={{ color: "var(--text-2)" }}
         >
           ✕
         </button>
@@ -70,7 +70,7 @@ export default function SavePlanButton({ profile, strategy }: Props) {
     <button
       onClick={() => setShowName(true)}
       className="flex-1 py-3 rounded-lg text-sm font-medium transition-all"
-      style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#e8f0e8" }}
+      style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", color: "var(--text)" }}
     >
       💾 Save Plan
     </button>

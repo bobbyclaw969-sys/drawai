@@ -102,7 +102,7 @@ export default function StrategyOutput({ text, loading }: Props) {
   return (
     <div
       className="rounded-xl overflow-hidden"
-      style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}
+      style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}
     >
       {/* Loading state — no text yet */}
       {loading && !text && (
@@ -110,23 +110,23 @@ export default function StrategyOutput({ text, loading }: Props) {
           <div className="relative w-12 h-12">
             <div
               className="absolute inset-0 rounded-full border-2 border-t-transparent animate-spin"
-              style={{ borderColor: "#f59e0b", borderTopColor: "transparent" }}
+              style={{ borderColor: "var(--amber)", borderTopColor: "transparent" }}
             />
             <div className="absolute inset-2 flex items-center justify-center text-lg">🎯</div>
           </div>
           <div className="text-center">
-            <p className="font-semibold mb-1" style={{ color: "#e8f0e8" }}>Building your hunt plan</p>
+            <p className="font-semibold mb-1" style={{ color: "var(--text)" }}>Building your hunt plan</p>
             <p
               className="text-sm transition-all duration-500"
-              style={{ color: "#8a9e8a", minHeight: "1.25rem" }}
+              style={{ color: "var(--text-2)", minHeight: "1.25rem" }}
             >
               {LOADING_MESSAGES[msgIndex]}
             </p>
           </div>
-          <div className="w-48 h-1 rounded-full overflow-hidden" style={{ backgroundColor: "#2a3a2a" }}>
+          <div className="w-48 h-1 rounded-full overflow-hidden" style={{ backgroundColor: "var(--border)" }}>
             <div
               className="h-full rounded-full animate-pulse"
-              style={{ backgroundColor: "#f59e0b", width: "60%" }}
+              style={{ backgroundColor: "var(--amber)", width: "60%" }}
             />
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function StrategyOutput({ text, loading }: Props) {
           {loading && (
             <span
               className="inline-block w-2 h-4 ml-1 align-middle animate-pulse"
-              style={{ backgroundColor: "#f59e0b" }}
+              style={{ backgroundColor: "var(--amber)" }}
             />
           )}
         </div>

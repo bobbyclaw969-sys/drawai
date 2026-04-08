@@ -56,18 +56,18 @@ export default function ForumShare({ profile, strategy }: Props) {
   return (
     <div
       className="rounded-xl p-5 mt-5"
-      style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}
+      style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}
     >
-      <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#8a9e8a" }}>
+      <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-2)" }}>
         Share on Forums
       </h3>
-      <p className="text-xs mb-4" style={{ color: "#6a7e6a" }}>
+      <p className="text-xs mb-4" style={{ color: "var(--text-3)" }}>
         Drop this on Rokslide, r/elk, r/bowhunting, or ArcheryTalk to get feedback from hunters who know these units.
       </p>
 
       <div
         className="rounded-lg p-4 mb-4 text-xs font-mono whitespace-pre-wrap leading-relaxed"
-        style={{ backgroundColor: "#0f1a0f", border: "1px solid #2a3a2a", color: "#c8d8c8", maxHeight: "200px", overflowY: "auto" }}
+        style={{ backgroundColor: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text-2)", maxHeight: "200px", overflowY: "auto" }}
       >
         {post}
       </div>
@@ -77,9 +77,9 @@ export default function ForumShare({ profile, strategy }: Props) {
           onClick={() => copy("post")}
           className="flex-1 py-2.5 rounded-lg text-sm font-bold transition-all"
           style={{
-            backgroundColor: copied === "post" ? "#1a3a1a" : "#f59e0b",
-            border: copied === "post" ? "1px solid #4ade80" : "none",
-            color: copied === "post" ? "#4ade80" : "#0f1a0f",
+            backgroundColor: copied === "post" ? "var(--success-bg)" : "var(--amber)",
+            border: copied === "post" ? "1px solid var(--success-border)" : "none",
+            color: copied === "post" ? "var(--success)" : "var(--text-inv)",
           }}
         >
           {copied === "post" ? "✓ Copied!" : "Copy Forum Post"}
@@ -88,16 +88,16 @@ export default function ForumShare({ profile, strategy }: Props) {
           onClick={() => copy("link")}
           className="px-4 py-2.5 rounded-lg text-sm font-medium transition-all"
           style={{
-            backgroundColor: copied === "link" ? "#1a3a1a" : "#162016",
-            border: copied === "link" ? "1px solid #4ade80" : "1px solid #2a3a2a",
-            color: copied === "link" ? "#4ade80" : "#c8d8c8",
+            backgroundColor: copied === "link" ? "var(--success-bg)" : "var(--card)",
+            border: copied === "link" ? "1px solid var(--success-border)" : "1px solid var(--border)",
+            color: copied === "link" ? "var(--success)" : "var(--text-2)",
           }}
         >
           {copied === "link" ? "✓ Copied!" : "Copy Link Only"}
         </button>
       </div>
 
-      <p className="text-xs mt-3" style={{ color: "#4a5a4a" }}>
+      <p className="text-xs mt-3" style={{ color: "var(--text-3)" }}>
         Suggested communities: r/elk · r/bowhunting · r/hunting · Rokslide · ArcheryTalk · r/muledeerhunting
       </p>
     </div>

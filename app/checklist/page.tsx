@@ -132,12 +132,12 @@ export default function ChecklistPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Link href="/" className="text-xl font-bold" style={{ color: "#f59e0b" }}>🎯 Tag Hunter</Link>
-          <span style={{ color: "#2a3a2a" }}>|</span>
-          <span className="text-base font-semibold" style={{ color: "#e8f0e8" }}>{CURRENT_YEAR} Checklist</span>
+          <Link href="/" className="text-xl font-bold" style={{ color: "var(--amber)" }}>🎯 Tag Hunter</Link>
+          <span style={{ color: "var(--border)" }}>|</span>
+          <span className="text-base font-semibold" style={{ color: "var(--text)" }}>{CURRENT_YEAR} Checklist</span>
         </div>
         <Link href="/tracker" className="px-3 py-1.5 rounded-lg text-xs font-medium"
-          style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#c8d8c8" }}>
+          style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", color: "var(--text-2)" }}>
           My Tracker →
         </Link>
       </div>
@@ -145,33 +145,33 @@ export default function ChecklistPage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 mb-6">
         {[
-          { label: "Still Pending", value: pending.length, color: urgentCount > 0 ? "#f87171" : "#f59e0b" },
-          { label: "Urgent (<30d)", value: urgentCount, color: urgentCount > 0 ? "#f87171" : "#4a5a4a" },
-          { label: "Pending Fees", value: `$${totalPending.toLocaleString()}`, color: "#f59e0b" },
+          { label: "Still Pending", value: pending.length, color: urgentCount > 0 ? "var(--danger)" : "var(--amber)" },
+          { label: "Urgent (<30d)", value: urgentCount, color: urgentCount > 0 ? "var(--danger)" : "var(--text-3)" },
+          { label: "Pending Fees", value: `$${totalPending.toLocaleString()}`, color: "var(--amber)" },
         ].map(s => (
           <div key={s.label} className="rounded-xl p-3 text-center"
-            style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}>
+            style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}>
             <div className="text-xl font-bold" style={{ color: s.color }}>{s.value}</div>
-            <div className="text-xs mt-0.5" style={{ color: "#8a9e8a" }}>{s.label}</div>
+            <div className="text-xs mt-0.5" style={{ color: "var(--text-2)" }}>{s.label}</div>
           </div>
         ))}
       </div>
 
       {urgentCount > 0 && (
         <div className="rounded-xl p-4 mb-5 flex items-center gap-3"
-          style={{ backgroundColor: "#2a1010", border: "1px solid #5a1010" }}>
+          style={{ backgroundColor: "var(--danger-bg)", border: "1px solid var(--danger-border)" }}>
           <span className="text-xl">⚠️</span>
-          <p className="text-sm font-semibold" style={{ color: "#f87171" }}>
+          <p className="text-sm font-semibold" style={{ color: "var(--danger)" }}>
             {urgentCount} application{urgentCount > 1 ? "s" : ""} closing within 30 days
           </p>
         </div>
       )}
 
       {/* Note about checklist */}
-      <div className="rounded-xl p-4 mb-5" style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}>
-        <p className="text-xs" style={{ color: "#6a7e6a" }}>
+      <div className="rounded-xl p-4 mb-5" style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}>
+        <p className="text-xs" style={{ color: "var(--text-3)" }}>
           This checklist shows every upcoming {CURRENT_YEAR} application window.
-          Check off what you&apos;ve applied for — or log it in the <Link href="/tracker" style={{ color: "#f59e0b" }}>Application Tracker</Link> for full record keeping.
+          Check off what you&apos;ve applied for — or log it in the <Link href="/tracker" style={{ color: "var(--amber)" }}>Application Tracker</Link> for full record keeping.
           Your points from the tracker are shown next to each entry.
         </p>
       </div>
@@ -179,7 +179,7 @@ export default function ChecklistPage() {
       {/* Pending items */}
       {pending.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "#f59e0b" }}>
+          <h2 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--amber)" }}>
             Still To Do ({pending.length})
           </h2>
           <div className="space-y-2">
@@ -196,7 +196,7 @@ export default function ChecklistPage() {
           <button
             onClick={() => setShowAll(v => !v)}
             className="text-xs font-semibold uppercase tracking-wider mb-3 flex items-center gap-2"
-            style={{ color: "#4ade80" }}
+            style={{ color: "var(--success)" }}
           >
             ✅ Applied ({done.length}) {showAll ? "▲" : "▼"}
           </button>
@@ -211,16 +211,16 @@ export default function ChecklistPage() {
       )}
 
       {items.length === 0 && (
-        <div className="text-center py-16" style={{ color: "#8a9e8a" }}>
+        <div className="text-center py-16" style={{ color: "var(--text-2)" }}>
           <div className="text-4xl mb-3">📋</div>
           <p className="text-sm">No applications to show for {CURRENT_YEAR}.</p>
-          <p className="text-xs mt-2" style={{ color: "#4a5a4a" }}>
+          <p className="text-xs mt-2" style={{ color: "var(--text-3)" }}>
             All current-year windows may have passed.
           </p>
         </div>
       )}
 
-      <footer className="text-center text-xs mt-8 pb-6" style={{ color: "#4a5a4a" }}>
+      <footer className="text-center text-xs mt-8 pb-6" style={{ color: "var(--text-3)" }}>
         Always verify deadlines at your state&apos;s official wildlife agency website before applying.
       </footer>
     </main>
@@ -235,8 +235,8 @@ function ChecklistCard({ item, onToggle }: { item: ChecklistItem; onToggle: () =
     <div
       className="rounded-xl p-4 flex items-center gap-3 transition-all"
       style={{
-        backgroundColor: item.checked ? "#121e12" : "#162016",
-        border: `1px solid ${item.checked ? "#1a2a1a" : urgent ? "#5a2020" : "#2a3a2a"}`,
+        backgroundColor: item.checked ? "var(--text-inv)" : "var(--card)",
+        border: `1px solid ${item.checked ? "var(--bg-elevated)" : urgent ? "var(--danger-border)" : "var(--border)"}`,
         opacity: item.checked ? 0.6 : 1,
       }}
     >
@@ -244,9 +244,9 @@ function ChecklistCard({ item, onToggle }: { item: ChecklistItem; onToggle: () =
         onClick={onToggle}
         className="w-6 h-6 rounded-md flex-shrink-0 flex items-center justify-center text-sm transition-all"
         style={{
-          backgroundColor: item.checked ? "#1a3a1a" : "#1a2a1a",
-          border: item.checked ? "2px solid #4ade80" : "2px solid #2a3a2a",
-          color: item.checked ? "#4ade80" : "transparent",
+          backgroundColor: item.checked ? "var(--success-bg)" : "var(--bg-elevated)",
+          border: item.checked ? "2px solid var(--success)" : "2px solid var(--border)",
+          color: item.checked ? "var(--success)" : "transparent",
         }}
       >
         {item.checked ? "✓" : ""}
@@ -255,37 +255,36 @@ function ChecklistCard({ item, onToggle }: { item: ChecklistItem; onToggle: () =
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-2 mb-0.5">
           <span className="text-lg">{SPECIES_EMOJI[item.species]}</span>
-          <span className="font-bold text-sm" style={{ color: item.checked ? "#4a5a4a" : "#e8f0e8" }}>
+          <span className="font-bold text-sm" style={{ color: item.checked ? "var(--text-3)" : "var(--text)" }}>
             {item.stateName}
           </span>
-          <span className="text-sm" style={{ color: item.checked ? "#4a5a4a" : "#f59e0b" }}>
+          <span className="text-sm" style={{ color: item.checked ? "var(--text-3)" : "var(--amber)" }}>
             {SPECIES_LABELS[item.species]}
           </span>
           {item.hasOTC && (
-            <span className="text-xs px-1.5 py-0.5 rounded"
-              style={{ backgroundColor: "#1a3a1a", color: "#4ade80", border: "1px solid #2a5a2a" }}>
+            <span className="badge badge-green">
               OTC
             </span>
           )}
         </div>
-        <div className="flex flex-wrap gap-3 text-xs" style={{ color: "#6a7e6a" }}>
+        <div className="flex flex-wrap gap-3 text-xs" style={{ color: "var(--text-3)" }}>
           <span>Closes {MONTH_NAMES[item.closeMonth - 1]} {item.closeDay}</span>
           <span>NR ${item.feeNonresident.toLocaleString()}</span>
           {item.myPoints > 0 && (
-            <span style={{ color: "#f59e0b" }}>{item.myPoints} pts</span>
+            <span style={{ color: "var(--amber)" }}>{item.myPoints} pts</span>
           )}
-          {item.notes && <span style={{ color: "#4ade80" }}>{item.notes}</span>}
+          {item.notes && <span style={{ color: "var(--success)" }}>{item.notes}</span>}
         </div>
       </div>
 
       <div className="text-right flex-shrink-0">
         <div className="font-bold text-sm" style={{
-          color: item.checked ? "#4a5a4a" : urgent ? "#f87171" : soonish ? "#f59e0b" : "#4ade80"
+          color: item.checked ? "var(--text-3)" : urgent ? "var(--danger)" : soonish ? "var(--amber)" : "var(--success)"
         }}>
           {item.daysUntil}d
         </div>
         <Link href={`/states/${item.stateId}`}
-          className="text-xs" style={{ color: "#4a5a4a" }}>
+          className="text-xs" style={{ color: "var(--text-3)" }}>
           details →
         </Link>
       </div>

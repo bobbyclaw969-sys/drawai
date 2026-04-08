@@ -35,7 +35,6 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
   const set = (k: string, v: string | number) =>
     setForm(prev => ({ ...prev, [k]: v }));
 
-  // Get unique state IDs from huntingData
   const stateIds = [...new Set(huntingData.map(d => d.stateId))].sort();
   const stateName = form.stateId
     ? STATE_NAMES[form.stateId.toUpperCase()] ?? form.stateId
@@ -65,29 +64,25 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
-      style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
+      className="modal-overlay"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div
-        className="w-full max-w-lg rounded-xl p-6 space-y-5 max-h-[90vh] overflow-y-auto"
-        style={{ backgroundColor: '#162016', border: '1px solid #2a3a2a' }}
-      >
+      <div className="modal-panel p-6 space-y-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold" style={{ color: '#f59e0b' }}>Log Application</h2>
-          <button onClick={onClose} style={{ color: '#8a9e8a' }} className="text-xl">✕</button>
+          <h2 className="text-lg font-bold" style={{ color: 'var(--amber)' }}>Log Application</h2>
+          <button onClick={onClose} style={{ color: 'var(--text-3)' }} className="text-xl">✕</button>
         </div>
 
         {/* Year + State + Species row */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="label">Year</label>
+            <label className="field-label">Year</label>
             <select value={form.year} onChange={e => set('year', Number(e.target.value))} className="input w-full">
               {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
             </select>
           </div>
           <div>
-            <label className="label">State</label>
+            <label className="field-label">State</label>
             <select value={form.stateId} onChange={e => set('stateId', e.target.value)} className="input w-full">
               <option value="">Select...</option>
               {stateIds.map(s => (
@@ -99,7 +94,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="label">Species</label>
+            <label className="field-label">Species</label>
             <select value={form.species} onChange={e => set('species', e.target.value)} className="input w-full">
               <option value="">Select...</option>
               {ALL_SPECIES.map(s => (
@@ -108,7 +103,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
             </select>
           </div>
           <div>
-            <label className="label">Method</label>
+            <label className="field-label">Method</label>
             <select value={form.seasonType} onChange={e => set('seasonType', e.target.value)} className="input w-full">
               <option value="archery">Archery</option>
               <option value="rifle">Rifle</option>
@@ -120,7 +115,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
 
         {/* Status */}
         <div>
-          <label className="label">Status</label>
+          <label className="field-label">Status</label>
           <div className="flex flex-wrap gap-2 mt-1">
             {(Object.keys(STATUS_LABELS) as AppStatus[]).map(s => (
               <button
@@ -128,9 +123,9 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
                 onClick={() => set('status', s)}
                 className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
                 style={{
-                  backgroundColor: form.status === s ? '#f59e0b22' : '#1a2a1a',
-                  border: form.status === s ? '1px solid #f59e0b' : '1px solid #2a3a2a',
-                  color: form.status === s ? '#f59e0b' : '#c8d8c8',
+                  backgroundColor: form.status === s ? 'var(--amber-glow)' : 'var(--bg-elevated)',
+                  border: form.status === s ? '1px solid var(--amber)' : '1px solid var(--border)',
+                  color: form.status === s ? 'var(--amber)' : 'var(--text-2)',
                 }}
               >
                 {STATUS_LABELS[s]}
@@ -142,7 +137,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
         {/* Points */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="label">Points Before Applying</label>
+            <label className="field-label">Points Before Applying</label>
             <input
               type="number" min={0} max={30}
               value={form.pointsBefore}
@@ -151,7 +146,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
             />
           </div>
           <div>
-            <label className="label">Points After Result</label>
+            <label className="field-label">Points After Result</label>
             <input
               type="number" min={0} max={30}
               value={form.pointsAfter}
@@ -159,7 +154,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
               className="input w-full"
               placeholder={form.status === 'drawn' ? '0 (reset)' : `${Number(form.pointsBefore) + 1}`}
             />
-            <p className="text-xs mt-1" style={{ color: '#6a7e6a' }}>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-3)' }}>
               {form.status === 'drawn' ? 'Usually resets to 0 when drawn' : 'Usually +1 if not drawn'}
             </p>
           </div>
@@ -168,7 +163,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
         {/* Fee + Dates */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="label">App Fee Spent ($)</label>
+            <label className="field-label">App Fee Spent ($)</label>
             <input
               type="number" min={0}
               value={form.feeSpent}
@@ -177,7 +172,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
             />
           </div>
           <div>
-            <label className="label">Applied Date</label>
+            <label className="field-label">Applied Date</label>
             <input
               type="date"
               value={form.appliedDate}
@@ -189,7 +184,7 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
 
         {/* Notes */}
         <div>
-          <label className="label">Notes (optional)</label>
+          <label className="field-label">Notes (optional)</label>
           <textarea
             value={form.notes}
             onChange={e => set('notes', e.target.value)}
@@ -200,34 +195,18 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
         </div>
 
         <div className="flex gap-3 pt-1">
-          <button
-            onClick={onClose}
-            className="flex-1 py-2.5 rounded-lg text-sm font-medium"
-            style={{ backgroundColor: '#1a2a1a', border: '1px solid #2a3a2a', color: '#c8d8c8' }}
-          >
+          <button onClick={onClose} className="btn-ghost flex-1 py-2.5">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={!valid}
-            className="flex-[2] py-2.5 rounded-lg text-sm font-bold"
-            style={{
-              backgroundColor: valid ? '#f59e0b' : '#2a3a2a',
-              color: valid ? '#0f1a0f' : '#8a9e8a',
-              cursor: valid ? 'pointer' : 'not-allowed',
-            }}
+            className="btn-primary flex-[2] py-2.5"
           >
             Save Application
           </button>
         </div>
       </div>
-
-      <style>{`
-        .label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8a9e8a; margin-bottom: 0.35rem; }
-        .input { background-color: #1a2a1a; border: 1px solid #2a3a2a; color: #e8f0e8; border-radius: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.875rem; }
-        .input:focus { outline: none; border-color: #f59e0b; }
-        select.input option { background-color: #1a2a1a; }
-      `}</style>
     </div>
   );
 }

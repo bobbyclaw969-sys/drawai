@@ -68,6 +68,31 @@ export default function PrivacyPage() {
           </section>
 
           <section>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>Your Privacy Rights (GDPR / EEA)</h2>
+            <p>If you are located in the European Economic Area, you have the right to:</p>
+            <ul style={{ marginTop: 10, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>
+              <li><strong style={{ color: "var(--text)" }}>Access</strong> — request a copy of any personal data we hold about you</li>
+              <li><strong style={{ color: "var(--text)" }}>Rectification</strong> — ask us to correct inaccurate data</li>
+              <li><strong style={{ color: "var(--text)" }}>Erasure</strong> — ask us to delete your personal data</li>
+              <li><strong style={{ color: "var(--text)" }}>Portability</strong> — request your data in a machine-readable format</li>
+              <li><strong style={{ color: "var(--text)" }}>Objection</strong> — object to processing of your data</li>
+            </ul>
+            <p style={{ marginTop: 12 }}>Our lawful basis for processing waitlist email addresses is consent (you opted in). For anonymous analytics, our basis is legitimate interest in understanding aggregate usage patterns. To exercise any of these rights, email <a href="mailto:team@f21.ai" style={{ color: "var(--amber)" }}>team@f21.ai</a>. We will respond within 30 days.</p>
+          </section>
+
+          <section>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>California Privacy Rights (CCPA)</h2>
+            <p>If you are a California resident, you have the right to:</p>
+            <ul style={{ marginTop: 10, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>
+              <li><strong style={{ color: "var(--text)" }}>Know</strong> — request what personal information we collect and why</li>
+              <li><strong style={{ color: "var(--text)" }}>Delete</strong> — request deletion of your personal information</li>
+              <li><strong style={{ color: "var(--text)" }}>Opt-out of sale</strong> — we do <strong>not</strong> sell personal information to third parties</li>
+              <li><strong style={{ color: "var(--text)" }}>Non-discrimination</strong> — we will not discriminate against you for exercising your rights</li>
+            </ul>
+            <p style={{ marginTop: 12 }}>The only personal information we collect is your email address if you join the waitlist. We do not sell, share, or disclose personal information for cross-context behavioral advertising. To make a request, email <a href="mailto:team@f21.ai" style={{ color: "var(--amber)" }}>team@f21.ai</a>.</p>
+          </section>
+
+          <section>
             <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>Contact</h2>
             <p>Questions about your data: <a href="mailto:team@f21.ai" style={{ color: "var(--amber)" }}>team@f21.ai</a></p>
           </section>

@@ -1,11 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const ALLOWED_ORIGINS = [
+const ALLOWED_ORIGINS = new Set([
   "https://drawai-six.vercel.app",
   "http://localhost:3000",
   "http://localhost:3001",
-];
+]);
+
+/** Check allowed origins including Vercel preview deploys */
+function isAllowedOrigin(origin: string | null): boolean {
+  if (!origin) return false;
+  if (ALLOWED_ORIGINS.has(origin)) return true;
+  try {
+    const url = new URL(origin);
+    return url.hostname.endsWith(".vercel.app");
+  } catch {
+    return false;
+  }
+}
 
 export function proxy(request: NextRequest) {
   const { pathname, origin: requestOrigin } = request.nextUrl;
@@ -17,12 +29,12 @@ export function proxy(request: NextRequest) {
 
     // Handle CORS preflight
     if (request.method === "OPTIONS") {
-      const allowed = !incomingOrigin || ALLOWED_ORIGINS.includes(incomingOrigin);
+      const allowed = !incomingOrigin || isAllowedOrigin(incomingOrigin);
       if (!allowed) return new Response(null, { status: 403 });
       return new Response(null, {
         status: 204,
         headers: {
-          "Access-Control-Allow-Origin": incomingOrigin ?? ALLOWED_ORIGINS[0],
+          "Access-Control-Allow-Origin": incomingOrigin ?? "https://drawai-six.vercel.app",
           "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Max-Age": "86400",
@@ -31,7 +43,7 @@ export function proxy(request: NextRequest) {
     }
 
     // Reject cross-origin POST requests from unknown origins
-    if (request.method === "POST" && incomingOrigin && !ALLOWED_ORIGINS.includes(incomingOrigin)) {
+    if (request.method === "POST" && incomingOrigin && !isAllowedOrigin(incomingOrigin)) {
       return new Response("Forbidden", { status: 403 });
     }
 
@@ -58,7 +70,7 @@ export function proxy(request: NextRequest) {
   response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
 
   // ── CORS: restrict API responses to allowed origins ───────────────────────
-  if (pathname.startsWith("/api/") && incomingOrigin && ALLOWED_ORIGINS.includes(incomingOrigin)) {
+  if (pathname.startsWith("/api/") && incomingOrigin && isAllowedOrigin(incomingOrigin)) {
     response.headers.set("Access-Control-Allow-Origin", incomingOrigin);
     response.headers.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
     response.headers.set("Access-Control-Allow-Headers", "Content-Type");

@@ -50,19 +50,18 @@ export default function StatesIndexPage() {
 function StateGroup({ title, states }: { title: string; states: ReturnType<typeof Array.prototype.map> }) {
   return (
     <div className="mb-8">
-      <h2 className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#8a9e8a" }}>
+      <h2 className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "var(--text-2)" }}>
         {title}
       </h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {(states as { id: string; stateName: string; species: SpeciesKey[]; hasOTC: boolean; minFee: number }[]).map(s => (
           <Link key={s.id} href={`/states/${s.id}`}
             className="rounded-xl p-4 transition-all hover:border-amber-500"
-            style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", textDecoration: "none" }}>
+            style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", textDecoration: "none" }}>
             <div className="flex items-start justify-between mb-2">
-              <span className="font-bold text-sm" style={{ color: "#e8f0e8" }}>{s.stateName}</span>
+              <span className="font-bold text-sm" style={{ color: "var(--text)" }}>{s.stateName}</span>
               {s.hasOTC && (
-                <span className="text-xs px-1.5 py-0.5 rounded font-medium"
-                  style={{ backgroundColor: "#1a3a1a", color: "#4ade80", border: "1px solid #2a5a2a" }}>
+                <span className="badge badge-green">
                   OTC
                 </span>
               )}
@@ -72,12 +71,12 @@ function StateGroup({ title, states }: { title: string; states: ReturnType<typeo
                 <span key={sp} title={SPECIES_LABELS[sp]} className="text-base">{SPECIES_EMOJI[sp]}</span>
               ))}
               {s.species.length > 5 && (
-                <span className="text-xs" style={{ color: "#4a5a4a" }}>+{s.species.length - 5}</span>
+                <span className="text-xs" style={{ color: "var(--text-3)" }}>+{s.species.length - 5}</span>
               )}
             </div>
-            <div className="flex items-center justify-between text-xs" style={{ color: "#6a7e6a" }}>
+            <div className="flex items-center justify-between text-xs" style={{ color: "var(--text-3)" }}>
               <span>{s.species.length} species</span>
-              <span style={{ color: "#f59e0b" }}>NR from ${s.minFee.toLocaleString()}</span>
+              <span style={{ color: "var(--amber)" }}>NR from ${s.minFee.toLocaleString()}</span>
             </div>
           </Link>
         ))}

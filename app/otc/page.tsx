@@ -120,21 +120,11 @@ export default function OTCPage() {
         <div className="flex flex-wrap gap-1.5">
           <button
             onClick={() => setSpeciesFilter("all")}
-            className="px-2.5 py-1.5 rounded-lg text-xs font-medium"
-            style={{
-              backgroundColor: speciesFilter === "all" ? "#f59e0b" : "#162016",
-              border: speciesFilter === "all" ? "none" : "1px solid #2a3a2a",
-              color: speciesFilter === "all" ? "#0f1a0f" : "#c8d8c8",
-            }}
+            className={`pill-btn${speciesFilter === "all" ? " selected" : ""}`}
           >All Species</button>
           {ALL_SPECIES.filter(s => huntingData.some(d => d.species === s && d.hasOTC)).map(s => (
             <button key={s} onClick={() => setSpeciesFilter(s)}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-medium"
-              style={{
-                backgroundColor: speciesFilter === s ? "#f59e0b" : "#162016",
-                border: speciesFilter === s ? "none" : "1px solid #2a3a2a",
-                color: speciesFilter === s ? "#0f1a0f" : "#c8d8c8",
-              }}
+              className={`pill-btn${speciesFilter === s ? " selected" : ""}`}
             >
               {SPECIES_EMOJI[s]} {SPECIES_LABELS[s]}
             </button>
@@ -143,7 +133,7 @@ export default function OTCPage() {
       </div>
 
       {/* Secondary controls */}
-      <div className="flex flex-wrap items-center gap-4 mb-6 text-xs" style={{ color: "#8a9e8a" }}>
+      <div className="flex flex-wrap items-center gap-4 mb-6 text-xs" style={{ color: "var(--text-2)" }}>
         <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
@@ -159,9 +149,9 @@ export default function OTCPage() {
             <button key={k} onClick={() => setSortBy(k)}
               className="px-2 py-1 rounded capitalize"
               style={{
-                backgroundColor: sortBy === k ? "#f59e0b22" : "transparent",
-                color: sortBy === k ? "#f59e0b" : "#8a9e8a",
-                border: sortBy === k ? "1px solid #f59e0b44" : "1px solid transparent",
+                backgroundColor: sortBy === k ? "var(--amber-glow)" : "transparent",
+                color: sortBy === k ? "var(--amber)" : "var(--text-2)",
+                border: sortBy === k ? "1px solid var(--amber-glow-strong)" : "1px solid transparent",
               }}
             >
               {k === "closing" ? "Availability" : k === "fee" ? "NR Fee" : "State"}
@@ -178,9 +168,9 @@ export default function OTCPage() {
           { label: "Lowest NR Fee", value: entries.length ? `$${Math.min(...entries.map(e => e.feeNonresident)).toLocaleString()}` : "—" },
         ].map(s => (
           <div key={s.label} className="rounded-xl p-3 text-center"
-            style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}>
-            <div className="text-xl font-bold" style={{ color: "#f59e0b" }}>{s.value}</div>
-            <div className="text-xs mt-0.5" style={{ color: "#8a9e8a" }}>{s.label}</div>
+            style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}>
+            <div className="text-xl font-bold" style={{ color: "var(--amber)" }}>{s.value}</div>
+            <div className="text-xs mt-0.5" style={{ color: "var(--text-2)" }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -188,7 +178,7 @@ export default function OTCPage() {
       {/* Open Now */}
       {openNow.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "#4ade80" }}>
+          <h2 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--success)" }}>
             ✅ Buy a Tag Right Now ({openNow.length})
           </h2>
           <div className="space-y-3">
@@ -200,7 +190,7 @@ export default function OTCPage() {
       {/* Upcoming */}
       {upcoming.length > 0 && !showOpenOnly && (
         <div>
-          <h2 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "#8a9e8a" }}>
+          <h2 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-2)" }}>
             Coming Up This Season ({upcoming.length})
           </h2>
           <div className="space-y-3">
@@ -210,7 +200,7 @@ export default function OTCPage() {
       )}
 
       {entries.length === 0 && (
-        <div className="text-center py-12" style={{ color: "#8a9e8a" }}>
+        <div className="text-center py-12" style={{ color: "var(--text-2)" }}>
           <div className="text-4xl mb-3">🔍</div>
           <p className="text-sm">No OTC tags match your filters.</p>
         </div>
@@ -227,50 +217,49 @@ export default function OTCPage() {
 function OTCCard({ entry, open }: { entry: OTCEntry; open: boolean }) {
   return (
     <div className="rounded-xl p-4" style={{
-      backgroundColor: open ? "#162a16" : "#162016",
-      border: open ? "1px solid #2a5a2a" : "1px solid #2a3a2a",
+      backgroundColor: open ? "var(--success-bg)" : "var(--card)",
+      border: open ? "1px solid var(--success-border)" : "1px solid var(--border)",
     }}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2 mb-2">
             <span className="text-xl">{SPECIES_EMOJI[entry.species]}</span>
-            <span className="font-bold text-sm" style={{ color: "#e8f0e8" }}>{entry.stateName}</span>
-            <span className="text-sm" style={{ color: "#f59e0b" }}>{SPECIES_LABELS[entry.species]}</span>
+            <span className="font-bold text-sm" style={{ color: "var(--text)" }}>{entry.stateName}</span>
+            <span className="text-sm" style={{ color: "var(--amber)" }}>{SPECIES_LABELS[entry.species]}</span>
             {entry.seasonType !== "any" && (
               <span className="text-xs px-2 py-0.5 rounded capitalize"
-                style={{ backgroundColor: "#1a2a1a", color: "#8a9e8a", border: "1px solid #2a3a2a" }}>
+                style={{ backgroundColor: "var(--bg-elevated)", color: "var(--text-2)", border: "1px solid var(--border)" }}>
                 {entry.seasonType}
               </span>
             )}
             {open && (
-              <span className="text-xs px-2 py-0.5 rounded font-semibold"
-                style={{ backgroundColor: "#1a3a1a", color: "#4ade80", border: "1px solid #2a5a2a" }}>
+              <span className="badge badge-green">
                 OPEN
               </span>
             )}
           </div>
 
           <div className="flex flex-wrap gap-4 text-xs mb-2">
-            <span style={{ color: "#8a9e8a" }}>
-              NR: <span className="font-bold" style={{ color: "#f59e0b" }}>${entry.feeNonresident.toLocaleString()}</span>
+            <span style={{ color: "var(--text-2)" }}>
+              NR: <span className="font-bold" style={{ color: "var(--amber)" }}>${entry.feeNonresident.toLocaleString()}</span>
             </span>
-            <span style={{ color: "#8a9e8a" }}>
-              Resident: <span style={{ color: "#c8d8c8" }}>${entry.feeResident.toLocaleString()}</span>
+            <span style={{ color: "var(--text-2)" }}>
+              Resident: <span style={{ color: "var(--text-2)" }}>${entry.feeResident.toLocaleString()}</span>
             </span>
-            <span style={{ color: "#8a9e8a" }}>
+            <span style={{ color: "var(--text-2)" }}>
               Window:{" "}
-              <span style={{ color: "#c8d8c8" }}>
+              <span style={{ color: "var(--text-2)" }}>
                 {MONTH_NAMES[entry.appOpenMonth - 1]}–{MONTH_NAMES[entry.appCloseMonth - 1]} {entry.appCloseDay}
               </span>
             </span>
             {open && (
-              <span style={{ color: "#f87171" }}>
+              <span style={{ color: "var(--danger)" }}>
                 Closes in <span className="font-bold">{entry.daysToClose}d</span>
               </span>
             )}
           </div>
 
-          <p className="text-xs leading-relaxed" style={{ color: "#6a7e6a" }}>
+          <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>
             {entry.notes.length > 200 ? entry.notes.slice(0, 200) + "…" : entry.notes}
           </p>
         </div>
@@ -279,14 +268,14 @@ function OTCCard({ entry, open }: { entry: OTCEntry; open: boolean }) {
           <Link
             href={`/plan`}
             className="px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap"
-            style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#c8d8c8" }}
+            style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", color: "var(--text-2)" }}
           >
             Add to Plan
           </Link>
           <Link
             href={`/states/${entry.stateId}`}
             className="px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap"
-            style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a", color: "#c8d8c8" }}
+            style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", color: "var(--text-2)" }}
           >
             State Profile →
           </Link>

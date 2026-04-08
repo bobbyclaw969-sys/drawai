@@ -38,12 +38,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, alreadyRegistered: true });
     }
 
-    // Get current count for position
+    // Get current count for position + enforce 5K cap
     const { count } = await supabase
       .from("waitlist")
       .select("id", { count: "exact", head: true });
 
     const position = (count ?? 0) + 1;
+    const USER_CAP = 5000;
+
+    if (position > USER_CAP) {
+      return NextResponse.json({
+        ok: false,
+        error: "Tag Hunter has reached its initial 5,000-user cap. Join the overflow waitlist and we'll notify you when spots open.",
+        capped: true,
+        position,
+      }, { status: 200 });
+    }
 
     // Insert
     const { error: insertError } = await supabase

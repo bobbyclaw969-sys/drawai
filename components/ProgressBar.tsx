@@ -7,9 +7,9 @@ export default function ProgressBar({ step, total }: { step: number; total: numb
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
               style={{
-                backgroundColor: i < step ? "#f59e0b" : i === step ? "#f59e0b" : "#2a3a2a",
-                color: i <= step ? "#0f1a0f" : "#8a9e8a",
-                border: i === step ? "2px solid #d97706" : "none",
+                backgroundColor: i <= step ? "var(--amber)" : "var(--border)",
+                color: i <= step ? "var(--text-inv)" : "var(--text-2)",
+                border: i === step ? "2px solid var(--amber-dim)" : "none",
               }}
             >
               {i < step ? "✓" : i + 1}
@@ -17,13 +17,13 @@ export default function ProgressBar({ step, total }: { step: number; total: numb
             {i < total - 1 && (
               <div
                 className="flex-1 h-0.5 mx-1"
-                style={{ backgroundColor: i < step ? "#f59e0b" : "#2a3a2a" }}
+                style={{ backgroundColor: i < step ? "var(--amber)" : "var(--border)" }}
               />
             )}
           </div>
         ))}
       </div>
-      <div className="flex justify-between text-xs" style={{ color: "#8a9e8a" }}>
+      <div className="flex justify-between text-xs" style={{ color: "var(--text-2)" }}>
         <span>Your goals</span>
         <span>Your points</span>
         <span>Your strategy</span>

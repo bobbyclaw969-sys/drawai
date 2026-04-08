@@ -39,33 +39,33 @@ export default function BudgetDashboard({ apps }: Props) {
   const maxSpeciesTotal = speciesSorted[0]?.[1] ?? 1;
 
   return (
-    <div className="rounded-xl p-5 mb-5" style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}>
-      <h3 className="text-sm font-semibold uppercase tracking-wider mb-4" style={{ color: "#8a9e8a" }}>
+    <div className="rounded-xl p-5 mb-5" style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}>
+      <h3 className="text-sm font-semibold uppercase tracking-wider mb-4" style={{ color: "var(--text-2)" }}>
         Budget Dashboard
       </h3>
 
       {/* Summary row */}
       <div className="grid grid-cols-3 gap-3 mb-5">
         <div className="text-center">
-          <div className="text-xl font-bold" style={{ color: "#f59e0b" }}>${totalSpent.toLocaleString()}</div>
-          <div className="text-xs mt-0.5" style={{ color: "#8a9e8a" }}>Total spent</div>
+          <div className="text-xl font-bold" style={{ color: "var(--amber)" }}>${totalSpent.toLocaleString()}</div>
+          <div className="text-xs mt-0.5" style={{ color: "var(--text-2)" }}>Total spent</div>
         </div>
         <div className="text-center">
-          <div className="text-xl font-bold" style={{ color: "#4ade80" }}>{totalDrawn}</div>
-          <div className="text-xs mt-0.5" style={{ color: "#8a9e8a" }}>Tags drawn</div>
+          <div className="text-xl font-bold" style={{ color: "var(--success)" }}>{totalDrawn}</div>
+          <div className="text-xs mt-0.5" style={{ color: "var(--text-2)" }}>Tags drawn</div>
         </div>
         <div className="text-center">
-          <div className="text-xl font-bold" style={{ color: costPerTag ? "#e8f0e8" : "#4a5a4a" }}>
+          <div className="text-xl font-bold" style={{ color: costPerTag ? "var(--text)" : "var(--text-3)" }}>
             {costPerTag ? `$${costPerTag.toLocaleString()}` : "—"}
           </div>
-          <div className="text-xs mt-0.5" style={{ color: "#8a9e8a" }}>Cost per tag</div>
+          <div className="text-xs mt-0.5" style={{ color: "var(--text-2)" }}>Cost per tag</div>
         </div>
       </div>
 
       {/* Year chart */}
       {years.length > 1 && (
         <div className="mb-5">
-          <p className="text-xs font-medium mb-2" style={{ color: "#6a7e6a" }}>Fees by year</p>
+          <p className="text-xs font-medium mb-2" style={{ color: "var(--text-3)" }}>Fees by year</p>
           <div className="space-y-2">
             {years.map(y => {
               const v = byYear[y];
@@ -73,15 +73,15 @@ export default function BudgetDashboard({ apps }: Props) {
               return (
                 <div key={y}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span style={{ color: "#c8d8c8" }}>{y}</span>
-                    <span style={{ color: "#8a9e8a" }}>
+                    <span style={{ color: "var(--text-2)" }}>{y}</span>
+                    <span style={{ color: "var(--text-2)" }}>
                       ${v.total.toLocaleString()} · {v.count} apps · {v.drawn} drawn
                     </span>
                   </div>
-                  <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "#2a3a2a" }}>
+                  <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "var(--border)" }}>
                     <div
                       className="h-full rounded-full"
-                      style={{ width: `${pct}%`, backgroundColor: v.drawn > 0 ? "#4ade80" : "#f59e0b" }}
+                      style={{ width: `${pct}%`, backgroundColor: v.drawn > 0 ? "var(--success)" : "var(--amber)" }}
                     />
                   </div>
                 </div>
@@ -94,18 +94,18 @@ export default function BudgetDashboard({ apps }: Props) {
       {/* By species */}
       {speciesSorted.length > 1 && (
         <div>
-          <p className="text-xs font-medium mb-2" style={{ color: "#6a7e6a" }}>Fees by species</p>
+          <p className="text-xs font-medium mb-2" style={{ color: "var(--text-3)" }}>Fees by species</p>
           <div className="space-y-2">
             {speciesSorted.map(([species, total]) => {
               const pct = Math.round((total / maxSpeciesTotal) * 100);
               return (
                 <div key={species}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span style={{ color: "#c8d8c8" }}>{SPECIES_LABELS[species as SpeciesKey]}</span>
-                    <span style={{ color: "#8a9e8a" }}>${total.toLocaleString()}</span>
+                    <span style={{ color: "var(--text-2)" }}>{SPECIES_LABELS[species as SpeciesKey]}</span>
+                    <span style={{ color: "var(--text-2)" }}>${total.toLocaleString()}</span>
                   </div>
-                  <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "#2a3a2a" }}>
-                    <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: "#f59e0b" }} />
+                  <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "var(--border)" }}>
+                    <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: "var(--amber)" }} />
                   </div>
                 </div>
               );

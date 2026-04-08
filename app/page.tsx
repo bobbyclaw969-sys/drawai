@@ -46,19 +46,19 @@ const PARTNERS = [
     name: "onX Hunt",
     desc: "Chip-in mapping, land ownership overlays, and offline topo maps for every unit Tag Hunter recommends.",
     tag: "Mapping Layer",
-    color: "#f59e0b",
+    color: "var(--amber)",
   },
   {
     name: "GoHunt",
     desc: "Deep odds data and unit research to validate the strategy Tag Hunter builds for your points level.",
     tag: "Unit Research",
-    color: "#4ade80",
+    color: "var(--success)",
   },
   {
     name: "SpartanForge",
     desc: "Ballistics and trajectory data to back-country ready your rifle for the tag you're about to draw.",
     tag: "Field Prep",
-    color: "#60a5fa",
+    color: "var(--info)",
   },
 ];
 
@@ -69,8 +69,8 @@ export default function Home() {
 
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       <section className="topo-bg" style={{
-        background: "linear-gradient(180deg, #060d05 0%, #091507 60%, #0b1809 100%)",
-        padding: "80px 20px 0",
+        background: "linear-gradient(180deg, var(--bg) 0%, #091507 60%, #0b1809 100%)",
+        padding: "100px 20px 0",
         textAlign: "center",
         position: "relative",
         overflow: "hidden",
@@ -88,7 +88,7 @@ export default function Home() {
           zIndex: 1,
         }} />
 
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 700, margin: "0 auto", paddingBottom: 80 }}>
+        <div className="fade-in" style={{ position: "relative", zIndex: 2, maxWidth: 700, margin: "0 auto", paddingBottom: 96 }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
@@ -152,9 +152,9 @@ export default function Home() {
         background: "var(--card)",
         borderTop: "1px solid var(--border)",
         borderBottom: "1px solid var(--border)",
-        padding: "20px",
+        padding: "28px 20px",
       }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", justifyContent: "center", gap: "48px", flexWrap: "wrap" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", justifyContent: "center", gap: "56px", flexWrap: "wrap" }}>
           {[
             { value: "25+", label: "States Covered" },
             { value: "9",   label: "Big Game Species" },
@@ -174,11 +174,11 @@ export default function Home() {
       </section>
 
       {/* ── Social Proof ───────────────────────────────────────────────── */}
-      <section style={{ padding: "72px 20px 0", maxWidth: 900, margin: "0 auto" }}>
+      <section className="fade-in" style={{ padding: "var(--sp-section) 20px 0", maxWidth: 900, margin: "0 auto" }}>
         <p className="section-label" style={{ textAlign: "center" }}>Real Hunter Scenarios</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {SOCIAL_PROOF.map(s => (
-            <div key={s.name} className="card" style={{ padding: 24 }}>
+            <div key={s.name} className="card" style={{ padding: 28 }}>
               <div style={{ fontSize: "1.6rem", marginBottom: 14 }}>{s.emoji}</div>
               <p style={{ fontSize: 14, color: "var(--text)", lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>
                 &ldquo;{s.quote}&rdquo;
@@ -193,7 +193,7 @@ export default function Home() {
       </section>
 
       {/* ── How It Works ───────────────────────────────────────────────── */}
-      <section style={{ padding: "72px 20px 0", maxWidth: 900, margin: "0 auto" }}>
+      <section className="fade-in" style={{ padding: "var(--sp-section) 20px 0", maxWidth: 900, margin: "0 auto" }}>
         <p className="section-label" style={{ textAlign: "center" }}>How It Works</p>
 
         {/* Horizontal stepper */}
@@ -228,9 +228,9 @@ export default function Home() {
         <div className="card" style={{ padding: 0, overflow: "hidden", border: "1px solid var(--border-2)" }}>
           <div style={{ padding: "12px 20px", borderBottom: "1px solid var(--border)", background: "var(--bg-elevated)", display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ display: "flex", gap: 6 }}>
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#f87171" }} />
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#f59e0b" }} />
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#4ade80" }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "var(--danger)" }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "var(--amber)" }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "var(--success)" }} />
             </div>
             <span style={{ fontSize: 12, color: "var(--text-3)", flex: 1, textAlign: "center" }}>Sample Output — Colorado Elk, 8 Points</span>
           </div>
@@ -270,7 +270,7 @@ export default function Home() {
       </section>
 
       {/* ── Species Grid ───────────────────────────────────────────────── */}
-      <section style={{ padding: "72px 20px 0", maxWidth: 900, margin: "0 auto" }}>
+      <section className="fade-in" style={{ padding: "var(--sp-section) 20px 0", maxWidth: 900, margin: "0 auto" }}>
         <p className="section-label" style={{ textAlign: "center" }}>All Big Game Covered</p>
         <div className="species-carousel">
           {FEATURED_SPECIES.map(s => (
@@ -287,12 +287,12 @@ export default function Home() {
       </section>
 
       {/* ── Free Tools ─────────────────────────────────────────────────── */}
-      <section style={{
-        padding: "72px 20px",
+      <section className="fade-in" style={{
+        padding: "var(--sp-section) 20px",
         background: "var(--bg-elevated)",
         borderTop: "1px solid var(--border)",
         borderBottom: "1px solid var(--border)",
-        marginTop: 72,
+        marginTop: 96,
       }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <p className="section-label" style={{ textAlign: "center" }}>Free Tools</p>
@@ -315,7 +315,7 @@ export default function Home() {
       </section>
 
       {/* ── Comparison table ───────────────────────────────────────────── */}
-      <section style={{ padding: "72px 20px", maxWidth: 900, margin: "0 auto" }}>
+      <section className="fade-in" style={{ padding: "var(--sp-section) 20px", maxWidth: 900, margin: "0 auto" }}>
         <p className="section-label" style={{ textAlign: "center" }}>How Tag Hunter Compares</p>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: 0, minWidth: 420 }}>
@@ -350,14 +350,14 @@ export default function Home() {
       </section>
 
       {/* ── Ecosystem / Partners ───────────────────────────────────────── */}
-      <section style={{ padding: "0 20px 72px", maxWidth: 900, margin: "0 auto" }}>
+      <section className="fade-in" style={{ padding: "0 20px var(--sp-section)", maxWidth: 900, margin: "0 auto" }}>
         <p className="section-label" style={{ textAlign: "center" }}>Works Alongside Your Favorite Tools</p>
         <p style={{ textAlign: "center", fontSize: 14, color: "var(--text-2)", marginBottom: 36, maxWidth: 520, margin: "0 auto 36px" }}>
           Tag Hunter is your planning layer. Pair it with the tools you already trust for mapping, research, and field prep.
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 20 }}>
           {PARTNERS.map(p => (
-            <div key={p.name} className="card" style={{ padding: 24, borderTop: `2px solid ${p.color}` }}>
+            <div key={p.name} className="card" style={{ padding: 28, borderTop: `2px solid ${p.color}` }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <span style={{ fontSize: 15, fontWeight: 800, color: "var(--text)" }}>{p.name}</span>
                 <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: `${p.color}18`, border: `1px solid ${p.color}40`, color: p.color, letterSpacing: "0.05em", textTransform: "uppercase" }}>{p.tag}</span>
@@ -372,9 +372,9 @@ export default function Home() {
       </section>
 
       {/* ── Waitlist CTA ───────────────────────────────────────────────── */}
-      <section className="topo-bg" style={{
-        background: "linear-gradient(180deg, #091507 0%, #060d05 100%)",
-        padding: "80px 20px",
+      <section className="topo-bg fade-in" style={{
+        background: "linear-gradient(180deg, #091507 0%, var(--bg) 100%)",
+        padding: "var(--sp-section) 20px",
         textAlign: "center",
         borderTop: "1px solid var(--border)",
       }}>
@@ -428,6 +428,8 @@ export default function Home() {
       }}>
         <span>Tag Hunter is free. Built by <a href="https://f21.ai" style={{ color: "var(--amber)" }}>Factor21</a>.</span>
         <span>Not affiliated with any state agency.</span>
+        <Link href="/about" style={{ color: "var(--text-3)" }}>About</Link>
+        <Link href="/faq" style={{ color: "var(--text-3)" }}>FAQ</Link>
         <Link href="/terms" style={{ color: "var(--text-3)" }}>Terms</Link>
         <Link href="/privacy" style={{ color: "var(--text-3)" }}>Privacy</Link>
       </footer>
