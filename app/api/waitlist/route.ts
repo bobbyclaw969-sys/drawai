@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
             <p style="font-size: 14px; color: #8fb887; line-height: 1.7; margin-bottom: 28px;">
               We'll email you the moment your spot opens up. In the meantime, the app is already live — start planning now.
             </p>
-            <a href="https://drawai-six.vercel.app" style="display: inline-block; background: #e8960f; color: #070f06; font-weight: 700; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-size: 15px;">
+            <a href="https://taghunter.us" style="display: inline-block; background: #e8960f; color: #070f06; font-weight: 700; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-size: 15px;">
               Start Planning Free →
             </a>
             <p style="font-size: 12px; color: #4a6e45; margin-top: 32px;">

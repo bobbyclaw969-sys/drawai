@@ -110,7 +110,7 @@ export default function OGImage() {
             color: "#8fb887",
           }}
         >
-          Built by Factor21 — drawai-six.vercel.app
+          Built by Factor21 — taghunter.us
         </div>
       </div>
     ),

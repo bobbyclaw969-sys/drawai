@@ -50,7 +50,7 @@ export default function RootLayout({
       {
         "@type": "WebApplication",
         name: "Tag Hunter",
-        url: "https://drawai-six.vercel.app",
+        url: "https://taghunter.us",
         description:
           "Free AI concierge that builds your personalized multi-year hunting strategy across 25+ states and 9 big game species.",
         applicationCategory: "LifestyleApplication",

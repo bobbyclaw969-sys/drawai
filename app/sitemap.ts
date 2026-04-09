@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE = "https://drawai-six.vercel.app";
+const BASE = "https://taghunter.us";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

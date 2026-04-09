@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const ALLOWED_ORIGINS = new Set([
+  "https://taghunter.us",
+  "https://www.taghunter.us",
   "https://drawai-six.vercel.app",
   "http://localhost:3000",
   "http://localhost:3001",
@@ -34,7 +36,7 @@ export function proxy(request: NextRequest) {
       return new Response(null, {
         status: 204,
         headers: {
-          "Access-Control-Allow-Origin": incomingOrigin ?? "https://drawai-six.vercel.app",
+          "Access-Control-Allow-Origin": incomingOrigin ?? "https://taghunter.us",
           "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Max-Age": "86400",

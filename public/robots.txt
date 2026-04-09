@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /auth/callback
 
-Sitemap: https://drawai-six.vercel.app/sitemap.xml
+Sitemap: https://taghunter.us/sitemap.xml
