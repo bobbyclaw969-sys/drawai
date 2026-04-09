@@ -431,6 +431,7 @@ export default function Home() {
         <span>Not affiliated with any state agency.</span>
         <Link href="/about" style={{ color: "var(--text-3)" }}>About</Link>
         <Link href="/faq" style={{ color: "var(--text-3)" }}>FAQ</Link>
+        <Link href="/feedback" style={{ color: "var(--text-3)" }}>Feedback</Link>
         <Link href="/terms" style={{ color: "var(--text-3)" }}>Terms</Link>
         <Link href="/privacy" style={{ color: "var(--text-3)" }}>Privacy</Link>
       </footer>

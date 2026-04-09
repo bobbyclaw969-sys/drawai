@@ -10,16 +10,19 @@ interface Props {
 
 export default function SavePlanButton({ profile, strategy }: Props) {
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [showName, setShowName] = useState(false);
   const [name, setName] = useState("");
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    setSaving(true);
     const species = profile.species.map(s => s.replace(/_/g, ' ')).join(', ');
-    savePlan({
+    await savePlan({
       name: name.trim() || `${species} — ${new Date().getFullYear()}`,
       profile,
       strategy,
     });
+    setSaving(false);
     setSaved(true);
     setShowName(false);
     setTimeout(() => setSaved(false), 3000);
@@ -31,7 +34,7 @@ export default function SavePlanButton({ profile, strategy }: Props) {
         className="flex-1 py-3 rounded-lg text-sm font-medium text-center"
         style={{ backgroundColor: "var(--success-bg)", border: "1px solid var(--success-border)", color: "var(--success)" }}
       >
-        ✓ Plan saved to My Applications
+        ✓ Plan saved
       </div>
     );
   }
@@ -50,10 +53,10 @@ export default function SavePlanButton({ profile, strategy }: Props) {
         />
         <button
           onClick={handleSave}
-          className="px-4 py-2 rounded-lg text-sm font-bold"
-          style={{ backgroundColor: "var(--amber)", color: "var(--text-inv)" }}
+          disabled={saving}
+          className="btn-primary px-4 py-2 text-sm"
         >
-          Save
+          {saving ? "Saving..." : "Save"}
         </button>
         <button
           onClick={() => setShowName(false)}
