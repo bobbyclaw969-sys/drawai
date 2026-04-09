@@ -4,6 +4,7 @@ import Link from "next/link";
 import AppNav from "@/components/AppNav";
 import { huntingData, SPECIES_LABELS, SPECIES_EMOJI } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
+import DataFreshnessWarning from "@/components/DataFreshnessWarning";
 
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const CURRENT_MONTH = new Date().getMonth() + 1;
@@ -106,6 +107,7 @@ export default function OTCPage() {
     <div className="page">
       <AppNav />
       <div className="page-inner">
+      <DataFreshnessWarning />
       {/* Page title */}
       <div style={{ marginBottom: 20 }}>
         <h1 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em" }}>OTC Tag Finder</h1>

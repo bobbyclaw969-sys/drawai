@@ -4,6 +4,7 @@ import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { buildUnitContext } from "@/lib/unitData";
 import { SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
 import { logEvent } from "@/lib/analytics";
+import { logError } from "@/lib/errorLog";
 
 export const maxDuration = 60;
 
@@ -149,6 +150,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error("Find API error:", err);
+    void logError("api/find", err);
     return new Response("Failed to find hunts. Please try again.", { status: 500 });
   }
 }

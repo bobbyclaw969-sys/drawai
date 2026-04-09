@@ -6,6 +6,7 @@ import { huntingData, SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { toggleReminder, loadReminders, getUpcomingReminders, DeadlineReminder } from "@/lib/tracker";
 import DataDisclaimer from "@/components/DataDisclaimer";
+import DataFreshnessWarning from "@/components/DataFreshnessWarning";
 
 const ALL_SPECIES: SpeciesKey[] = [
   "elk", "mule_deer", "whitetail", "pronghorn",
@@ -173,6 +174,7 @@ export default function DeadlinesPage() {
     <div className="page">
       <AppNav />
       <div className="page-inner">
+      <DataFreshnessWarning />
       {/* Page title row */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
         <div>

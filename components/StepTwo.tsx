@@ -86,6 +86,7 @@ export default function StepTwo({ profile, onChange, onNext, onBack }: Props) {
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <button
                   onClick={() => setPoints(stateId, pts - 1)}
+                  aria-label={`Decrease points for ${STATE_NAMES[stateId.toUpperCase()] ?? stateId}`}
                   style={{
                     width: 28, height: 28,
                     borderRadius: 6,
@@ -109,6 +110,7 @@ export default function StepTwo({ profile, onChange, onNext, onBack }: Props) {
                 </span>
                 <button
                   onClick={() => setPoints(stateId, pts + 1)}
+                  aria-label={`Increase points for ${STATE_NAMES[stateId.toUpperCase()] ?? stateId}`}
                   style={{
                     width: 28, height: 28,
                     borderRadius: 6,

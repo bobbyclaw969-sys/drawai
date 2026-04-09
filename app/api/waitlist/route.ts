@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import { logError } from "@/lib/errorLog";
 
 export const maxDuration = 15;
 
@@ -102,6 +103,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, position });
   } catch (err) {
     console.error("Waitlist error:", err);
+    void logError("api/waitlist", err);
     return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

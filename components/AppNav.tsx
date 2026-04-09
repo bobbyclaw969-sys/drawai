@@ -19,7 +19,7 @@ export default function AppNav() {
 
   return (
     <>
-      <nav className="app-nav no-print">
+      <nav className="app-nav no-print" role="navigation" aria-label="Main">
         <Link href="/" className="nav-logo" onClick={() => setOpen(false)}>
           🎯 Tag Hunter
         </Link>
@@ -80,13 +80,14 @@ export default function AppNav() {
           className="hamburger"
           onClick={() => setOpen(v => !v)}
           aria-label="Toggle menu"
+          aria-expanded={open}
         >
           {open ? "✕" : "☰"}
         </button>
       </nav>
 
       {/* Mobile dropdown */}
-      <div className={`mobile-menu${open ? " open" : ""}`}>
+      <div className={`mobile-menu${open ? " open" : ""}`} role="menu">
         {NAV_LINKS.map(l => (
           <Link
             key={l.href}

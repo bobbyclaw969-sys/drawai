@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { buildUnitContext } from "@/lib/unitData";
 import { logEvent } from "@/lib/analytics";
+import { logError } from "@/lib/errorLog";
 
 export const maxDuration = 60;
 
@@ -110,6 +111,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error("Chat API error:", err);
+    void logError("api/chat", err);
     return new Response("Failed to respond. Please try again.", { status: 500 });
   }
 }

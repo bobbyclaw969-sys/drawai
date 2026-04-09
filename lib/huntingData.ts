@@ -1,5 +1,13 @@
 import { StateSeasonData, SpeciesKey } from './types';
 
+/** Year this data was last verified against state agency sources. */
+export const DATA_YEAR = 2026;
+
+/** Returns true if the data may be stale (current year > DATA_YEAR). */
+export function isDataStale(): boolean {
+  return new Date().getFullYear() > DATA_YEAR;
+}
+
 export const SPECIES_LABELS: Record<SpeciesKey, string> = {
   elk: 'Elk',
   mule_deer: 'Mule Deer',

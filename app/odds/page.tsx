@@ -5,6 +5,7 @@ import AppNav from "@/components/AppNav";
 import { huntingData, SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import DataDisclaimer from "@/components/DataDisclaimer";
+import DataFreshnessWarning from "@/components/DataFreshnessWarning";
 
 const ALL_SPECIES: SpeciesKey[] = [
   "elk", "mule_deer", "pronghorn", "whitetail",
@@ -137,6 +138,7 @@ export default function OddsPage() {
     <div className="page">
       <AppNav />
       <div className="page-inner-wide">
+      <DataFreshnessWarning />
       {/* Page title */}
       <DataDisclaimer />
       <div style={{ marginBottom: 24 }}>

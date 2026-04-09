@@ -66,6 +66,7 @@ export default function Home() {
   return (
     <div className="page">
       <AppNav />
+      <div id="main-content"></div>
 
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       <section className="topo-bg" style={{
@@ -175,7 +176,7 @@ export default function Home() {
 
       {/* ── Social Proof ───────────────────────────────────────────────── */}
       <section className="fade-in" style={{ padding: "var(--sp-section) 20px 0", maxWidth: 900, margin: "0 auto" }}>
-        <p className="section-label" style={{ textAlign: "center" }}>Real Hunter Scenarios</p>
+        <p className="section-label" style={{ textAlign: "center" }}>Example Scenarios</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {SOCIAL_PROOF.map(s => (
             <div key={s.name} className="card" style={{ padding: 28 }}>
@@ -279,7 +280,7 @@ export default function Home() {
               href={`/plan?species=${s}`}
               className="card card-hover species-card"
             >
-              <span style={{ fontSize: "1.5rem" }}>{SPECIES_EMOJI[s]}</span>
+              <span style={{ fontSize: "1.5rem" }} aria-hidden="true">{SPECIES_EMOJI[s]}</span>
               <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-2)", textAlign: "center" }}>{SPECIES_LABELS[s]}</span>
             </Link>
           ))}
@@ -303,7 +304,7 @@ export default function Home() {
                 href={tool.href}
                 className="card card-hover tool-card"
               >
-                <span style={{ fontSize: "1.4rem", flexShrink: 0, marginTop: 2 }}>{tool.emoji}</span>
+                <span style={{ fontSize: "1.4rem", flexShrink: 0, marginTop: 2 }} aria-hidden="true">{tool.emoji}</span>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text)", marginBottom: 4 }}>{tool.title}</div>
                   <div style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.5 }}>{tool.desc}</div>

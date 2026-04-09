@@ -65,12 +65,15 @@ export default function AddApplicationModal({ onClose, onAdded }: Props) {
   return (
     <div
       className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Log application"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="modal-panel p-6 space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold" style={{ color: 'var(--amber)' }}>Log Application</h2>
-          <button onClick={onClose} style={{ color: 'var(--text-3)' }} className="text-xl">✕</button>
+          <button onClick={onClose} aria-label="Close" style={{ color: 'var(--text-3)' }} className="text-xl">✕</button>
         </div>
 
         {/* Year + State + Species row */}

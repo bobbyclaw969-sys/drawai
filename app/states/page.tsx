@@ -2,6 +2,7 @@ import Link from "next/link";
 import AppNav from "@/components/AppNav";
 import { huntingData, SPECIES_LABELS, SPECIES_EMOJI, STATE_NAMES } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
+import DataFreshnessWarning from "@/components/DataFreshnessWarning";
 
 export const metadata = {
   title: "State Hunting Profiles — Draw Tags, OTC & Fees | Tag Hunter",
@@ -31,6 +32,7 @@ export default function StatesIndexPage() {
     <div className="page">
       <AppNav />
       <div className="page-inner-wide">
+        <DataFreshnessWarning />
         <div style={{ marginBottom: 24 }}>
           <h1 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em" }}>State Profiles</h1>
           <p style={{ fontSize: 13, color: "var(--text-2)", marginTop: 4 }}>All western states, all species</p>

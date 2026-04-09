@@ -124,6 +124,7 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
         <select
           value={profile.residency ?? ""}
           onChange={e => onChange({ residency: e.target.value })}
+          aria-label="Your state of residency"
           className="input"
           style={{
             maxWidth: 280,
@@ -155,6 +156,7 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
           step={50}
           value={profile.budget ?? 500}
           onChange={e => onChange({ budget: Number(e.target.value) })}
+          aria-label="Annual application budget"
         />
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text-3)", marginTop: 8 }}>
           <div style={{ textAlign: "left" }}>

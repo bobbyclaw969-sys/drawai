@@ -5,6 +5,7 @@ import { huntingData, SPECIES_LABELS, STATE_NAMES, formatDeadlines } from "@/lib
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { buildUnitContext } from "@/lib/unitData";
 import { logEvent } from "@/lib/analytics";
+import { logError } from "@/lib/errorLog";
 
 export const maxDuration = 60;
 
@@ -173,6 +174,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error("Strategy API error:", err);
+    void logError("api/strategy", err);
     return new Response("Failed to generate strategy. Please try again.", { status: 500 });
   }
 }
