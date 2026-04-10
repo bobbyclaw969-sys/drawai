@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import PlanTimeline from "@/components/PlanTimeline";
@@ -874,37 +875,92 @@ export default function Home() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
             >
               <Link
                 href={`/plan?species=${s.slug}`}
-                className="block group"
+                className="species-tile block group relative"
                 style={{
-                  background: BARK,
+                  aspectRatio: "4 / 3",
                   border: `1px solid ${FENCE}`,
-                  padding: 24,
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 12,
-                  transition: "all 0.2s",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = AMBER;
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = FENCE;
-                  e.currentTarget.style.transform = "translateY(0)";
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  position: "relative",
+                  display: "block",
+                  background: BARK,
+                  transition: "border-color 0.3s",
                 }}
               >
-                <div style={{ color: AMBER }}>
-                  <SpeciesSVG species={s.slug} />
+                {/* Photo */}
+                <div
+                  className="species-tile-img"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    transition: "transform 0.5s ease",
+                  }}
+                >
+                  <Image
+                    src={`/species/${s.slug}.jpg`}
+                    alt={`${s.name} — ${s.name === "Elk" ? "Bull elk in Wyoming" : s.name + " photograph"}`}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    }}
+                  />
                 </div>
-                <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontWeight: 500, color: BONE, fontSize: 14 }}>
-                  {s.name}
-                </span>
+
+                {/* Dark gradient overlay */}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(to top, rgba(15,13,10,0.92) 0%, rgba(15,13,10,0.45) 45%, rgba(15,13,10,0.15) 100%)",
+                    pointerEvents: "none",
+                  }}
+                />
+
+                {/* Text overlay */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 12,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontWeight: 500,
+                      fontSize: 14,
+                      color: BONE,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                    }}
+                  >
+                    {s.name}
+                  </span>
+                  <span
+                    className="species-tile-arrow"
+                    style={{
+                      color: AMBER,
+                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontSize: 16,
+                      opacity: 0,
+                      transition: "opacity 0.3s, transform 0.3s",
+                    }}
+                  >
+                    →
+                  </span>
+                </div>
               </Link>
             </motion.div>
           ))}

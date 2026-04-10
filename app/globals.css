@@ -871,3 +871,15 @@ body.editorial::before {
 .cta-pulse {
   animation: ctaPulse 3s ease-in-out infinite;
 }
+
+/* ─── Species Tile Hover ────────────────────────────────────────────────── */
+.species-tile:hover {
+  border-color: #D4852A !important;
+}
+.species-tile:hover .species-tile-img {
+  transform: scale(1.06);
+}
+.species-tile:hover .species-tile-arrow {
+  opacity: 1 !important;
+  transform: translateX(2px);
+}
