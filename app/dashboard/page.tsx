@@ -162,6 +162,7 @@ function ghostBtnStyle(): React.CSSProperties {
     background: "transparent",
     color: AMBER,
     border: `1px solid ${AMBER}`,
+    borderRadius: 0,
     fontFamily: MONO,
     fontSize: 13,
     padding: "0 16px",
@@ -184,7 +185,9 @@ function statusBadgeStyle(): React.CSSProperties {
     textTransform: "uppercase",
     padding: "2px 8px",
     border: `1px solid ${FENCE}`,
+    borderRadius: 0,
     color: DUST,
+    background: "transparent",
     whiteSpace: "nowrap",
     display: "inline-block",
   };
@@ -195,15 +198,17 @@ function pillStyle(active: boolean): React.CSSProperties {
     background: active ? AMBER : "transparent",
     color: active ? SOIL : DUST,
     border: `1px solid ${active ? AMBER : FENCE}`,
+    borderRadius: 0,
     fontFamily: MONO,
-    fontSize: 12,
-    padding: "6px 12px",
+    fontSize: 13,
+    padding: "0 12px",
     height: 32,
     cursor: "pointer",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
     whiteSpace: "nowrap",
+    transition: "border-color 0.15s, color 0.15s",
   };
 }
 
@@ -408,10 +413,13 @@ function getDeadlines(speciesFilter: SpeciesKey | "all"): DeadlineItem[] {
 
 function DeadlineCard({ d, watched, onToggle, highlight }: { d: DeadlineItem; watched: boolean; onToggle: () => void; highlight?: boolean }) {
   const borderColor = highlight ? PINE : FENCE;
+  const isClosingSoon = d.daysUntil <= 14;
+  const countdownLabel = isClosingSoon ? "Closing soon" : "Upcoming";
   return (
     <div style={{
       background: BARK,
       border: `1px solid ${borderColor}`,
+      borderRadius: 0,
       padding: 20,
       marginBottom: 8,
       display: "flex",
@@ -421,14 +429,42 @@ function DeadlineCard({ d, watched, onToggle, highlight }: { d: DeadlineItem; wa
     }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 8 }}>
-          <span style={{ fontFamily: DISPLAY, fontSize: 18, color: BONE }}>{d.stateName}</span>
+          <span style={{ fontFamily: DISPLAY, fontSize: 20, color: BONE, fontWeight: 700 }}>{d.stateName}</span>
           <span style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>{SPECIES_LABELS[d.species]}</span>
           {d.isOpenNow && (
-            <span style={{ ...statusBadgeStyle(), borderColor: PINE, color: PINE }}>OPEN NOW</span>
+            <span style={{
+              fontFamily: MONO,
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              padding: "2px 8px",
+              border: `1px solid ${PINE}`,
+              color: PINE,
+              background: "transparent",
+              borderRadius: 0,
+              whiteSpace: "nowrap",
+              display: "inline-block",
+            }}>OPEN NOW</span>
           )}
-          {d.hasOTC && <span style={statusBadgeStyle()}>OTC</span>}
+          {d.hasOTC && (
+            <span style={{
+              fontFamily: MONO,
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              padding: "2px 8px",
+              border: `1px solid ${FENCE}`,
+              color: DUST,
+              background: "transparent",
+              borderRadius: 0,
+              whiteSpace: "nowrap",
+              display: "inline-block",
+            }}>OTC</span>
+          )}
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.12em" }}>
           <span>Closes {DL_MONTH_NAMES[d.closeMonth - 1]} {d.closeDay}, {d.closeYear}</span>
           <span>·</span><span>NR ${d.feeNonresident.toLocaleString()}</span>
           <span>·</span><span>{POINT_SYSTEM_LABELS[d.pointSystem] ?? d.pointSystem}</span>
@@ -440,23 +476,35 @@ function DeadlineCard({ d, watched, onToggle, highlight }: { d: DeadlineItem; wa
           title={watched ? "Remove reminder" : "Set reminder"}
           style={{
             fontFamily: MONO,
-            fontSize: 10,
+            fontSize: 13,
             fontWeight: 500,
-            letterSpacing: "0.1em",
+            letterSpacing: "0.05em",
             textTransform: "uppercase",
-            padding: "4px 10px",
+            padding: "0 16px",
+            height: 36,
             background: "transparent",
             color: watched ? AMBER : DUST,
             border: `1px solid ${watched ? AMBER : FENCE}`,
+            borderRadius: 0,
             cursor: "pointer",
+            transition: "border-color 0.15s, color 0.15s",
           }}
+          onMouseEnter={e => { if (!watched) { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.color = AMBER; } }}
+          onMouseLeave={e => { if (!watched) { e.currentTarget.style.borderColor = FENCE; e.currentTarget.style.color = DUST; } }}
         >
           {watched ? "WATCHING" : "REMIND"}
         </button>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontFamily: DISPLAY, fontSize: 24, color: BONE, lineHeight: 1 }}>{d.daysUntil}d</div>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: DUST, marginTop: 4, textTransform: "uppercase", letterSpacing: "0.1em" }}>
-            {d.daysUntil <= 14 ? "Closing soon" : d.daysUntil <= 45 ? "Coming up" : "Upcoming"}
+          <div style={{ fontFamily: DISPLAY, fontSize: 28, color: BONE, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.02em" }}>{d.daysUntil}d</div>
+          <div style={{
+            fontFamily: MONO,
+            fontSize: 10,
+            color: isClosingSoon ? AMBER : DUST,
+            marginTop: 6,
+            textTransform: "uppercase",
+            letterSpacing: "0.15em",
+          }}>
+            {countdownLabel}
           </div>
         </div>
       </div>
@@ -504,19 +552,63 @@ function DeadlinesTab() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, gap: 16, flexWrap: "wrap" }}>
         <p style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>Never miss an application window</p>
-        <button onClick={handleExportIcal} style={ghostBtnStyle()}>EXPORT .ICS</button>
+        <button
+          onClick={handleExportIcal}
+          style={{
+            background: "transparent",
+            color: DUST,
+            border: `1px solid ${FENCE}`,
+            borderRadius: 0,
+            fontFamily: MONO,
+            fontSize: 13,
+            padding: "0 16px",
+            height: 36,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            whiteSpace: "nowrap",
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            transition: "border-color 0.15s, color 0.15s",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.color = AMBER; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = FENCE; e.currentTarget.style.color = DUST; }}
+        >
+          EXPORT .ICS
+        </button>
       </div>
       <DataDisclaimer />
       {!alertDismissed && upcomingReminders.length > 0 && (
-        <div style={{ background: BARK, border: `1px solid ${AMBER}`, padding: 20, marginBottom: 20, display: "flex", alignItems: "flex-start", gap: 14 }}>
-          <div style={{ width: 20, height: 20, background: AMBER, flexShrink: 0 }} />
+        <div style={{
+          background: BARK,
+          borderLeft: `4px solid ${AMBER}`,
+          borderTop: `1px solid ${FENCE}`,
+          borderRight: `1px solid ${FENCE}`,
+          borderBottom: `1px solid ${FENCE}`,
+          borderRadius: 0,
+          padding: 20,
+          marginBottom: 20,
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 14,
+        }}>
+          <div style={{
+            fontFamily: MONO,
+            fontSize: 16,
+            color: AMBER,
+            flexShrink: 0,
+            lineHeight: 1,
+            marginTop: 2,
+            fontWeight: 500,
+          }}>▲</div>
           <div style={{ flex: 1 }}>
-            <p style={{ fontFamily: MONO, fontWeight: 500, fontSize: 13, color: AMBER, marginBottom: 8 }}>Upcoming deadline reminders</p>
+            <p style={{ fontFamily: MONO, fontWeight: 500, fontSize: 13, color: BONE, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.1em" }}>Upcoming deadline reminders</p>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6, padding: 0 }}>
               {upcomingReminders.map(r => {
                 const now = new Date(); let year = now.getFullYear(); let d = new Date(year, r.closeMonth - 1, r.closeDay); if (d < now) { year += 1; d = new Date(year, r.closeMonth - 1, r.closeDay); }
                 const days = Math.ceil((d.getTime() - now.getTime()) / 86400000);
-                return <li key={r.key} style={{ fontFamily: MONO, fontSize: 12, color: BONE }}>{r.stateName} {SPECIES_LABELS[r.species]} — closes {DL_MONTH_NAMES[r.closeMonth - 1]} {r.closeDay}<span style={{ color: AMBER, marginLeft: 6 }}>({days}d)</span></li>;
+                return <li key={r.key} style={{ fontFamily: MONO, fontSize: 13, color: DUST }}><span style={{ color: BONE, fontWeight: 500 }}>{r.stateName} {SPECIES_LABELS[r.species]}</span> — closes {DL_MONTH_NAMES[r.closeMonth - 1]} {r.closeDay}<span style={{ color: AMBER, marginLeft: 6 }}>({days}d)</span></li>;
               })}
             </ul>
           </div>
