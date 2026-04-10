@@ -156,15 +156,23 @@ export default function ChatPage() {
       }
     } catch {}
 
+    // 30-second timeout — abort the fetch if no response by then
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
+
+    const FRIENDLY_ERROR =
+      "Something went wrong on our end. Please try again in a moment — or refresh the page if the issue persists.";
+
     let receivedBytes = 0;
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: nextMessages, context }),
+        signal: controller.signal,
       });
-      if (!res.ok) throw new Error(await res.text());
-      if (!res.body) throw new Error("No response body");
+      if (!res.ok) throw new Error("non-2xx");
+      if (!res.body) throw new Error("no body");
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -183,7 +191,7 @@ export default function ChatPage() {
           return updated;
         });
       }
-    } catch (e) {
+    } catch {
       const interrupted = receivedBytes > 0;
       setMessages(prev => {
         const updated = [...prev];
@@ -197,10 +205,11 @@ export default function ChatPage() {
         }
         return [...prev, {
           role: "assistant",
-          content: `Sorry, something went wrong: ${e instanceof Error ? e.message : "Unknown error"}. Please try again.`,
+          content: FRIENDLY_ERROR,
         }];
       });
     } finally {
+      clearTimeout(timeoutId);
       setLoading(false);
       setTimeout(() => inputRef.current?.focus(), 100);
     }

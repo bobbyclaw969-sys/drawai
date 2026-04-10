@@ -77,7 +77,11 @@ function StrategyPageInner() {
     }
 
     if (error) {
-      setError(receivedBytes > 0 ? "__interrupted__" : (error instanceof Error ? error.message : "Something went wrong. Please try again."));
+      setError(
+        receivedBytes > 0
+          ? "__interrupted__"
+          : "We couldn't generate your strategy. This is usually a temporary issue — please try again.",
+      );
     }
 
     setLoading(false);
@@ -149,14 +153,39 @@ function StrategyPageInner() {
         {/* Error */}
         {error && error !== "__interrupted__" && (
           <div
-            className="rounded-xl p-6 text-center"
-            style={{ backgroundColor: "#2a1010", border: "1px solid #5a1010" }}
+            style={{
+              background: "var(--card)",
+              border: "1px solid var(--border)",
+              borderLeft: "3px solid var(--amber)",
+              padding: 20,
+              borderRadius: 0,
+              marginTop: 16,
+            }}
           >
-            <p className="text-sm mb-4" style={{ color: "#f87171" }}>{error}</p>
+            <p style={{
+              fontFamily: "var(--font-dm-mono), monospace",
+              fontSize: 13,
+              color: "var(--text)",
+              margin: 0,
+            }}>
+              {error}
+            </p>
             <button
               onClick={() => { fetchedRef.current = false; if (profile) generateStrategy(profile); }}
-              className="px-6 py-2 rounded-lg text-sm font-medium"
-              style={{ backgroundColor: "#f59e0b", color: "#0f1a0f" }}
+              style={{
+                marginTop: 16,
+                background: "transparent",
+                color: "var(--amber)",
+                border: "1px solid var(--amber)",
+                borderRadius: 0,
+                fontFamily: "var(--font-dm-mono), monospace",
+                fontWeight: 500,
+                fontSize: 13,
+                padding: "0 16px",
+                height: 36,
+                cursor: "pointer",
+                letterSpacing: "0.04em",
+              }}
             >
               Try Again
             </button>

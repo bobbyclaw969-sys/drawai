@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { Resend } from "resend";
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { logError } from "@/lib/errorLog";
 
@@ -10,6 +11,47 @@ function getSupabase() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
+}
+
+/**
+ * Notify the team via Resend on every feedback submission.
+ * Fails silently if RESEND_API_KEY is not set — submission still succeeds.
+ */
+async function notifyTeam(input: {
+  category: string;
+  message: string;
+  email: string;
+  referer: string;
+}): Promise<void> {
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) {
+    // TODO: configure RESEND_API_KEY in Vercel env to enable email notifications
+    return;
+  }
+  try {
+    const resend = new Resend(resendKey);
+    const fromName = input.email || "Anonymous";
+    const body = [
+      `From: ${fromName}`,
+      `Category: ${input.category}`,
+      `Page: ${input.referer || "(not captured)"}`,
+      `Time: ${new Date().toISOString()}`,
+      ``,
+      `Message:`,
+      input.message,
+    ].join("\n");
+    await resend.emails.send({
+      from: "Tag Hunter Feedback <team@f21.ai>",
+      to: "team@f21.ai",
+      replyTo: input.email || undefined,
+      subject: `New Tag Hunter Feedback — ${input.category}`,
+      text: body,
+    });
+  } catch (err) {
+    // Never let notification failure block the submission
+    console.warn("Feedback notification failed:", err);
+    void logError("api/feedback[notify]", err);
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -52,6 +94,14 @@ export async function POST(req: NextRequest) {
     });
 
     if (insertError) throw insertError;
+
+    // Fire-and-forget email notification — never blocks the response
+    void notifyTeam({
+      category: category ?? "general",
+      message,
+      email,
+      referer: req.headers.get("referer") ?? "",
+    });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

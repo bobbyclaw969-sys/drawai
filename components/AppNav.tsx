@@ -38,6 +38,20 @@ export default function AppNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close mobile menu whenever the route changes
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll while mobile overlay is open
+  useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [open]);
+
   const isActive = (href: string) => pathname.startsWith(href);
 
   return (
@@ -203,12 +217,66 @@ export default function AppNav() {
           </button>
         </div>
 
-        {/* Mobile overlay */}
-        {open && (
+      </nav>
+
+      {/* Mobile full-screen overlay */}
+      {open && (
+        <div
+          className="md:hidden fixed inset-0"
+          style={{
+            background: SOIL,
+            zIndex: 60,
+            display: "flex",
+            flexDirection: "column",
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Main menu"
+          onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+        >
+          {/* Header inside overlay — logo + close */}
           <div
+            className="flex items-center justify-between px-6 py-4"
+            style={{ borderBottom: "none" }}
+          >
+            <Link
+              href="/"
+              onClick={() => setOpen(false)}
+              style={{
+                color: AMBER,
+                fontFamily: "var(--font-display), serif",
+                fontWeight: 700,
+                fontSize: 22,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              ◎ TAG HUNTER
+            </Link>
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+              style={{
+                color: DUST,
+                background: "none",
+                border: "none",
+                fontSize: 24,
+                cursor: "pointer",
+                padding: 8,
+                minWidth: 48,
+                minHeight: 48,
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
+              onMouseLeave={e => (e.currentTarget.style.color = DUST)}
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Nav links */}
+          <nav
             role="menu"
-            className="md:hidden flex flex-col gap-4 px-6 pb-6"
-            style={{ background: SOIL }}
+            aria-label="Mobile"
+            className="flex flex-col gap-2 px-6 pt-8 flex-1"
           >
             {NAV_LINKS.map(l => (
               <Link
@@ -217,16 +285,20 @@ export default function AppNav() {
                 onClick={() => setOpen(false)}
                 style={{
                   color: isActive(l.href) ? AMBER : BONE,
-                  fontFamily: "var(--font-dm-mono), monospace",
-                  fontSize: 14,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  padding: "8px 0",
+                  fontFamily: "var(--font-display), serif",
+                  fontWeight: 700,
+                  fontSize: 32,
+                  letterSpacing: "-0.01em",
+                  padding: "16px 0",
+                  minHeight: 48,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
                 {l.label}
               </Link>
             ))}
+
             {isAdmin && (
               <Link
                 href="/admin/verify"
@@ -234,15 +306,20 @@ export default function AppNav() {
                 style={{
                   color: DUST,
                   fontFamily: "var(--font-dm-mono), monospace",
-                  fontSize: 12,
-                  letterSpacing: "0.1em",
+                  fontSize: 13,
+                  letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  padding: "8px 0",
+                  padding: "12px 0",
+                  minHeight: 48,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
                 Admin
               </Link>
             )}
+
+            {/* CTA */}
             <Link
               href="/plan"
               onClick={() => setOpen(false)}
@@ -251,56 +328,67 @@ export default function AppNav() {
                 color: SOIL,
                 fontFamily: "var(--font-dm-mono), monospace",
                 fontWeight: 500,
-                fontSize: 13,
-                height: 44,
+                fontSize: 14,
+                height: 56,
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: 8,
+                marginTop: 24,
                 borderRadius: 0,
+                letterSpacing: "0.02em",
               }}
             >
               Build Free Plan →
             </Link>
-            {!loading && (
-              user ? (
-                <button
-                  onClick={() => { signOut(); setOpen(false); }}
-                  style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
-                    fontSize: 13,
-                    color: DUST,
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    padding: "8px 0",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  SIGN OUT ({user.email})
-                </button>
-              ) : (
-                <Link
-                  href="/auth"
-                  onClick={() => setOpen(false)}
-                  style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
-                    fontSize: 13,
-                    color: DUST,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
-                    padding: "8px 0",
-                  }}
-                >
-                  Sign In
-                </Link>
-              )
-            )}
-          </div>
-        )}
-      </nav>
+
+            {/* Auth */}
+            <div style={{ marginTop: 16 }}>
+              {!loading && (
+                user ? (
+                  <button
+                    onClick={() => { signOut(); setOpen(false); }}
+                    style={{
+                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontSize: 13,
+                      color: DUST,
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      padding: "12px 0",
+                      minHeight: 48,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    SIGN OUT ({user.email})
+                  </button>
+                ) : (
+                  <Link
+                    href="/auth"
+                    onClick={() => setOpen(false)}
+                    style={{
+                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontSize: 13,
+                      color: DUST,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                      padding: "12px 0",
+                      minHeight: 48,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    Sign In
+                  </Link>
+                )
+              )}
+            </div>
+          </nav>
+        </div>
+      )}
     </>
   );
 }

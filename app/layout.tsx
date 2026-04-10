@@ -24,13 +24,15 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://taghunter.us"),
   title: "Tag Hunter — Free Hunting Tag Strategy",
   description:
-    "Free AI concierge that builds your personalized multi-year hunting strategy. Elk, deer, pronghorn, sheep, and more. No signup required.",
+    "AI-powered draw strategy for western big game. Build your personalized 10-year hunt plan free — no signup required.",
   openGraph: {
     title: "Tag Hunter — Free Hunting Tag Strategy",
     description:
-      "Stop guessing. Get a personalized 10-year hunt plan based on your points, budget, and goals. Free, no signup.",
+      "AI-powered draw strategy for western big game. Build your personalized 10-year hunt plan free — no signup required.",
+    url: "https://taghunter.us",
     siteName: "Tag Hunter",
     type: "website",
     locale: "en_US",
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tag Hunter — Free Hunting Tag Strategy",
     description:
-      "AI-powered draw strategy for every western big game species. Build your 10-year hunt plan free.",
+      "AI-powered draw strategy for western big game. Build your personalized 10-year hunt plan free — no signup required.",
   },
   other: {
     "mobile-web-app-capable": "yes",

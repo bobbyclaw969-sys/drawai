@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import AppNav from "@/components/AppNav";
 import PlanTimeline from "@/components/PlanTimeline";
 import WaitlistForm from "@/components/WaitlistForm";
 
@@ -14,13 +15,6 @@ const AMBER = "#D4852A";
 const GLOW = "#F0A040";
 const BONE = "#E8DFC8";
 const DUST = "#7A6E5F";
-
-const NAV_LINKS = [
-  { href: "/find", label: "Find My Hunt" },
-  { href: "/chat", label: "AI Advisor" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/plan", label: "Build Plan" },
-];
 
 // ── Species SVGs (clean recognizable silhouettes at 64x64) ────────────────
 const SpeciesSVG = ({ species, size = 36 }: { species: string; size?: number }) => {
@@ -266,24 +260,18 @@ const TOOLS = [
   { icon: "list", title: "My Applications", desc: "Track points, draws, and licenses.", href: "/dashboard?tab=tracker" },
 ];
 
-const TESTIMONIALS = [
+const EXAMPLE_PLANS = [
   {
-    species: "elk",
-    quote: "Burned my 8 Colorado elk points in Year 9 just like the plan said. Drew Unit 54. Best hunt of my life.",
-    name: "Jake T.",
-    tag: "Non-resident · Colorado Elk",
+    label: "COLORADO ELK · 8 POINTS · NON-RESIDENT",
+    text: "Banked points through Year 8. Applied CO Unit 37 in Year 9 at 9% draw odds. Drew the tag.",
   },
   {
-    species: "pronghorn",
-    quote: "Built a 5-state antelope/deer portfolio for under $1,100/year. Never would have figured that out on my own.",
-    name: "Maria S.",
-    tag: "Texas resident · Multi-state",
+    label: "MULTI-STATE · ANTELOPE + DEER · TEXAS RESIDENT",
+    text: "Built a 5-state antelope and deer portfolio for under $1,100/year in application fees.",
   },
   {
-    species: "mule_deer",
-    quote: "Found an OTC Idaho elk hunt for $650 I can do this fall while my Colorado points keep building.",
-    name: "Chris W.",
-    tag: "First-time western hunter",
+    label: "IDAHO OTC · FIRST-TIME WESTERN HUNTER",
+    text: "Found a same-year OTC Idaho elk hunt for $650 while building Colorado preference points in parallel.",
   },
 ];
 
@@ -295,7 +283,7 @@ const COMPARISON = [
   ["Application deadline tracker", true, true],
   ["Points & license tracker", true, true],
   ["Hunt logbook", true, "Limited"],
-  ["Data sources", "State CSVs + AI", "State CSVs"],
+  ["Data sources", "Official state agency data + AI", "State CSVs"],
 ];
 
 const PARTNERS = [
@@ -317,16 +305,10 @@ const heroStagger = {
 
 // ── Page ────────────────────────────────────────────────────────────────
 export default function Home() {
-  const [navOpen, setNavOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
   useEffect(() => {
     document.body.classList.add("editorial");
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       document.body.classList.remove("editorial");
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
@@ -334,107 +316,8 @@ export default function Home() {
     <div style={{ background: SOIL, color: BONE, fontFamily: "var(--font-dm-mono), monospace", position: "relative" }}>
       <div id="main-content" />
 
-      {/* ── NAV ────────────────────────────────────────────────────────── */}
-      <nav
-        role="navigation"
-        aria-label="Main"
-        className="sticky top-0 z-50"
-        style={{
-          background: SOIL,
-          borderBottom: "none",
-          boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.5)" : "none",
-          transition: "box-shadow 0.2s",
-        }}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
-          <Link href="/" className="flex items-center gap-2" style={{ color: AMBER, fontFamily: "var(--font-display), serif", fontWeight: 700, fontSize: 22, letterSpacing: "-0.01em" }}>
-            ◎ TAG HUNTER
-          </Link>
-
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map(l => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="uppercase transition-colors hover:text-amber-brand"
-                style={{ color: BONE, fontFamily: "var(--font-dm-mono), monospace", fontSize: 13, letterSpacing: "0.1em" }}
-                onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
-                onMouseLeave={e => (e.currentTarget.style.color = BONE)}
-              >
-                {l.label}
-              </Link>
-            ))}
-            <Link
-              href="/plan"
-              style={{
-                background: AMBER,
-                color: SOIL,
-                fontFamily: "var(--font-dm-mono), monospace",
-                fontWeight: 500,
-                fontSize: 13,
-                height: 44,
-                padding: "0 24px",
-                display: "inline-flex",
-                alignItems: "center",
-                borderRadius: 0,
-              }}
-            >
-              Build Free Plan →
-            </Link>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden"
-            onClick={() => setNavOpen(v => !v)}
-            aria-label="Toggle menu"
-            aria-expanded={navOpen}
-            style={{ color: BONE, background: "none", border: "none", fontSize: 24, cursor: "pointer" }}
-          >
-            {navOpen ? "✕" : "☰"}
-          </button>
-        </div>
-
-        {/* Mobile overlay */}
-        {navOpen && (
-          <div
-            role="menu"
-            className="md:hidden flex flex-col gap-4 px-6 pb-6"
-            style={{ background: SOIL }}
-          >
-            {NAV_LINKS.map(l => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={() => setNavOpen(false)}
-                className="uppercase"
-                style={{ color: BONE, fontFamily: "var(--font-dm-mono), monospace", fontSize: 14, letterSpacing: "0.1em", padding: "8px 0" }}
-              >
-                {l.label}
-              </Link>
-            ))}
-            <Link
-              href="/plan"
-              onClick={() => setNavOpen(false)}
-              style={{
-                background: AMBER,
-                color: SOIL,
-                fontFamily: "var(--font-dm-mono), monospace",
-                fontWeight: 500,
-                fontSize: 13,
-                height: 44,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 8,
-              }}
-            >
-              Build Free Plan →
-            </Link>
-          </div>
-        )}
-      </nav>
+      {/* Shared editorial nav */}
+      <AppNav />
 
       {/* ── HERO ───────────────────────────────────────────────────────── */}
       <section className="relative" style={{ height: "100vh", minHeight: 640, overflow: "hidden" }}>
@@ -644,7 +527,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SECTION 3: From the Field ──────────────────────────────────── */}
+      {/* ── SECTION 3: Example Plans ───────────────────────────────────── */}
       <section style={{ padding: "120px 24px", maxWidth: 1200, margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -654,15 +537,15 @@ export default function Home() {
           className="mb-12"
         >
           <p style={{ fontFamily: "var(--font-dm-mono), monospace", color: AMBER, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 12 }}>
-            Hunter Stories
+            Sample Scenarios
           </p>
           <h2 style={{ fontFamily: "var(--font-display), serif", fontWeight: 700, color: BONE, fontSize: 42, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
-            From the Field
+            Example Plans
           </h2>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
+          {EXAMPLE_PLANS.map((p, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 24 }}
@@ -673,11 +556,20 @@ export default function Home() {
                 background: BARK,
                 borderLeft: `4px solid ${AMBER}`,
                 padding: 28,
-                position: "relative",
               }}
             >
-              <div style={{ position: "absolute", top: 16, right: 16, color: AMBER, opacity: 0.6 }}>
-                <SpeciesSVG species={t.species} />
+              <div
+                style={{
+                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontSize: 11,
+                  color: AMBER,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.12em",
+                  marginBottom: 14,
+                  lineHeight: 1.4,
+                }}
+              >
+                {p.label}
               </div>
               <p
                 style={{
@@ -685,19 +577,11 @@ export default function Home() {
                   fontSize: 15,
                   fontStyle: "italic",
                   color: "rgba(232, 223, 200, 0.9)",
-                  lineHeight: 1.6,
-                  marginBottom: 20,
-                  paddingRight: 30,
+                  lineHeight: 1.7,
                 }}
               >
-                &ldquo;{t.quote}&rdquo;
+                {p.text}
               </p>
-              <div style={{ fontFamily: "var(--font-dm-mono), monospace", color: AMBER, fontSize: 13, fontWeight: 500, marginTop: 16 }}>
-                {t.name}
-              </div>
-              <div style={{ fontFamily: "var(--font-dm-mono), monospace", color: DUST, fontSize: 12, marginTop: 4 }}>
-                {t.tag}
-              </div>
             </motion.div>
           ))}
         </div>

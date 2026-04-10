@@ -147,7 +147,7 @@ export default function FindPage() {
     }
 
     if (error) {
-      setError(receivedBytes > 0 ? "__interrupted__" : (error instanceof Error ? error.message : "Something went wrong."));
+      setError(receivedBytes > 0 ? "__interrupted__" : "We couldn't complete your search. Please try again.");
     }
 
     setLoading(false);
@@ -787,12 +787,25 @@ export default function FindPage() {
               padding: 20,
               borderRadius: 0,
             }}>
-              <p style={{ fontFamily: FONT_MONO, fontSize: 13, color: BONE, marginBottom: 12, margin: 0 }}>{error}</p>
+              <p style={{ fontFamily: FONT_MONO, fontSize: 13, color: BONE, margin: 0 }}>{error}</p>
               <button
                 onClick={submit}
-                style={{ ...primaryBtnStyle(true, false), marginTop: 12 }}
-                onMouseEnter={e => (e.currentTarget.style.background = GLOW)}
-                onMouseLeave={e => (e.currentTarget.style.background = AMBER)}
+                style={{
+                  marginTop: 16,
+                  background: "transparent",
+                  color: AMBER,
+                  border: `1px solid ${AMBER}`,
+                  borderRadius: 0,
+                  fontFamily: FONT_MONO,
+                  fontWeight: 500,
+                  fontSize: 13,
+                  padding: "0 16px",
+                  height: 36,
+                  cursor: "pointer",
+                  letterSpacing: "0.04em",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = AMBER; e.currentTarget.style.color = SOIL; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = AMBER; }}
               >
                 Try Again
               </button>

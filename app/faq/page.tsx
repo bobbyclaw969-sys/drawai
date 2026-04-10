@@ -10,7 +10,7 @@ const FAQS = [
   },
   {
     q: "How accurate is the data?",
-    a: "Our draw odds, fees, and deadlines are sourced from official state agency reports and public harvest data. However, all figures are estimates — regulations, fees, and quotas change annually. Always verify at your state's official wildlife agency website before applying.",
+    a: "All draw odds, fees, and deadlines are manually researched from official state wildlife agency sources and verified each season. However, regulations and fees change annually — always confirm the exact deadline and fee at your state's official wildlife agency website before submitting any application. Each deadline row shows a verified stamp and direct source link when confirmed.",
   },
   {
     q: "Does the AI make mistakes?",
