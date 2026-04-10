@@ -3,6 +3,17 @@ import { useState, useRef, useEffect } from "react";
 import AppNav from "@/components/AppNav";
 import { ChatMessage } from "@/app/api/chat/route";
 
+const SOIL = "#0F0D0A";
+const BARK = "#1A1712";
+const FENCE = "#2E2A24";
+const AMBER = "#D4852A";
+const GLOW = "#F0A040";
+const BONE = "#E8DFC8";
+const DUST = "#7A6E5F";
+
+const DISPLAY = "var(--font-display), Georgia, serif";
+const MONO = "var(--font-dm-mono), monospace";
+
 const SUGGESTIONS = [
   "What's the best elk unit in Wyoming with 8 preference points?",
   "Should I burn my 12 Colorado deer points this year or keep building?",
@@ -13,6 +24,89 @@ const SUGGESTIONS = [
   "I have $1,500/yr — how do I build the best multi-state portfolio?",
   "How long realistically to draw a Utah deer tag as a non-resident?",
 ];
+
+// Minimal markdown renderer — bold, bullets, inline code
+function renderMarkdown(text: string) {
+  const lines = text.split("\n");
+  const out: React.ReactNode[] = [];
+  let buf: string[] = [];
+  const flushBuf = (keyBase: string) => {
+    if (buf.length === 0) return;
+    const joined = buf.join("\n");
+    out.push(
+      <p key={`${keyBase}-p`} style={{ margin: "0 0 10px 0", whiteSpace: "pre-wrap" }}>
+        {renderInline(joined)}
+      </p>
+    );
+    buf = [];
+  };
+
+  lines.forEach((line, i) => {
+    const bullet = line.match(/^\s*[-*]\s+(.*)$/);
+    if (bullet) {
+      flushBuf(`b${i}`);
+      out.push(
+        <div
+          key={`bullet-${i}`}
+          style={{
+            color: DUST,
+            borderLeft: `2px solid ${AMBER}`,
+            paddingLeft: 12,
+            margin: "6px 0",
+            lineHeight: 1.6,
+          }}
+        >
+          {renderInline(bullet[1])}
+        </div>
+      );
+    } else if (line.trim() === "") {
+      flushBuf(`e${i}`);
+    } else {
+      buf.push(line);
+    }
+  });
+  flushBuf("end");
+  return out;
+}
+
+function renderInline(text: string): React.ReactNode[] {
+  // Handle **bold** and `code`
+  const nodes: React.ReactNode[] = [];
+  const regex = /(\*\*[^*]+\*\*)|(`[^`]+`)/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let idx = 0;
+  while ((m = regex.exec(text)) !== null) {
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    const token = m[0];
+    if (token.startsWith("**")) {
+      nodes.push(
+        <span key={`b${idx++}`} style={{ fontWeight: 500, color: BONE, fontFamily: MONO }}>
+          {token.slice(2, -2)}
+        </span>
+      );
+    } else if (token.startsWith("`")) {
+      nodes.push(
+        <code
+          key={`c${idx++}`}
+          style={{
+            background: SOIL,
+            border: `1px solid ${FENCE}`,
+            color: AMBER,
+            fontFamily: MONO,
+            fontSize: "0.92em",
+            padding: "1px 6px",
+          }}
+        >
+          {token.slice(1, -1)}
+        </code>
+      );
+    }
+    last = m.index + token.length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes;
+}
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -97,7 +191,7 @@ export default function ChatPage() {
           // Append a note to the partial message rather than replacing it
           updated[updated.length - 1] = {
             role: "assistant",
-            content: updated[updated.length - 1].content + "\n\n_⚠️ Response interrupted — connection changed. Send a message to continue._",
+            content: updated[updated.length - 1].content + "\n\n_Response interrupted — connection changed. Send a message to continue._",
           };
           return updated;
         }
@@ -125,129 +219,318 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="page" style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        background: SOIL,
+        color: BONE,
+        fontFamily: MONO,
+      }}
+    >
       <AppNav />
 
-      {/* Chat header */}
-      <div style={{
-        padding: "16px 20px",
-        borderBottom: "1px solid var(--border)",
-        background: "var(--bg-elevated)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexShrink: 0,
-      }}>
+      {/* Page header bar */}
+      <div
+        style={{
+          background: BARK,
+          borderBottom: `1px solid ${FENCE}`,
+          padding: "16px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexShrink: 0,
+        }}
+      >
         <div>
-          <h1 style={{ fontSize: "1rem", fontWeight: 800 }}>AI Hunting Advisor</h1>
-          <p style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>
+          <h1
+            style={{
+              fontFamily: DISPLAY,
+              fontSize: 26,
+              fontWeight: 700,
+              color: BONE,
+              margin: 0,
+              letterSpacing: "-0.01em",
+              lineHeight: 1.1,
+            }}
+          >
+            AI Hunting Advisor
+          </h1>
+          <p
+            style={{
+              fontFamily: MONO,
+              fontSize: 13,
+              color: DUST,
+              margin: "4px 0 0 0",
+            }}
+          >
             Ask anything about western draws, units, points strategy, or gear
           </p>
         </div>
         {messages.length > 0 && (
-          <button onClick={clearChat} className="btn-ghost" style={{ fontSize: 12 }}>
-            🗑️ Clear
+          <button
+            onClick={clearChat}
+            style={{
+              border: `1px solid ${FENCE}`,
+              background: "transparent",
+              color: DUST,
+              fontFamily: MONO,
+              fontSize: 12,
+              padding: "8px 16px",
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              borderRadius: 0,
+              cursor: "pointer",
+              transition: "color 0.15s, border-color 0.15s",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = AMBER;
+              e.currentTarget.style.color = AMBER;
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = FENCE;
+              e.currentTarget.style.color = DUST;
+            }}
+          >
+            Clear
           </button>
         )}
       </div>
 
       {/* Messages */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "20px", display: "flex", flexDirection: "column", gap: 16, maxWidth: 800, width: "100%", margin: "0 auto" }}>
+      <div
+        style={{
+          flex: 1,
+          overflowY: "auto",
+          padding: "24px",
+          background: SOIL,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 720,
+            width: "100%",
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: 20,
+          }}
+        >
+          {/* Empty state */}
+          {messages.length === 0 && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 24,
+                paddingTop: 16,
+              }}
+            >
+              <div style={{ borderLeft: `2px solid ${AMBER}`, paddingLeft: 16 }}>
+                <div
+                  style={{
+                    fontFamily: MONO,
+                    fontSize: 11,
+                    color: AMBER,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.2em",
+                    marginBottom: 10,
+                  }}
+                >
+                  Field Desk / Advisor
+                </div>
+                <h2
+                  style={{
+                    fontFamily: DISPLAY,
+                    fontSize: 28,
+                    fontWeight: 700,
+                    color: BONE,
+                    margin: "0 0 10px 0",
+                    lineHeight: 1.15,
+                  }}
+                >
+                  Your AI Hunting Advisor
+                </h2>
+                <p
+                  style={{
+                    fontFamily: MONO,
+                    fontSize: 13,
+                    color: DUST,
+                    lineHeight: 1.65,
+                    maxWidth: 560,
+                    margin: 0,
+                  }}
+                >
+                  Ask anything — draw odds, unit recommendations, point strategy,
+                  season dates, gear questions. This advisor knows the West cold.
+                </p>
+              </div>
 
-        {/* Empty state */}
-        {messages.length === 0 && (
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div style={{ textAlign: "center", marginBottom: 32 }}>
-              <div style={{ fontSize: "3rem", marginBottom: 12 }}>🎯</div>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 800, marginBottom: 8 }}>Your AI Hunting Advisor</h2>
-              <p style={{ fontSize: 13, color: "var(--text-2)", maxWidth: 420, margin: "0 auto 16px", lineHeight: 1.65 }}>
-                Ask anything — draw odds, unit recommendations, point strategy, season dates,
-                gear questions. This advisor knows the West cold.
-              </p>
-              <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
-                {[
-                  { icon: "📚", label: "State regulations" },
-                  { icon: "🗺️", label: "Unit-level intel" },
-                  { icon: "📊", label: "Real draw odds" },
-                  { icon: "🔒", label: "No data stored" },
-                ].map(b => (
-                  <div key={b.label} style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 11px", borderRadius: 999, background: "var(--card)", border: "1px solid var(--border)", fontSize: 12, color: "var(--text-3)" }}>
-                    <span>{b.icon}</span>
-                    <span>{b.label}</span>
-                  </div>
+              <div
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 11,
+                  color: DUST,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.2em",
+                  marginTop: 8,
+                }}
+              >
+                Start With
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                  gap: 10,
+                }}
+              >
+                {SUGGESTIONS.map(s => (
+                  <button
+                    key={s}
+                    onClick={() => send(s)}
+                    style={{
+                      background: BARK,
+                      border: `1px solid ${FENCE}`,
+                      padding: "14px 16px",
+                      textAlign: "left",
+                      cursor: "pointer",
+                      fontFamily: MONO,
+                      fontSize: 13,
+                      color: BONE,
+                      lineHeight: 1.55,
+                      borderRadius: 0,
+                      transition: "border-color 0.15s, color 0.15s",
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = AMBER;
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = FENCE;
+                    }}
+                  >
+                    {s}
+                  </button>
                 ))}
               </div>
             </div>
+          )}
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 8 }}>
-              {SUGGESTIONS.map(s => (
-                <button
-                  key={s}
-                  onClick={() => send(s)}
-                  className="card card-hover"
-                  style={{ padding: "12px 14px", textAlign: "left", cursor: "pointer", fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 }}
+          {/* Message thread */}
+          {messages.map((msg, i) => {
+            if (msg.role === "user") {
+              return (
+                <div
+                  key={i}
+                  style={{
+                    background: AMBER,
+                    color: SOIL,
+                    fontFamily: MONO,
+                    fontSize: 14,
+                    padding: "12px 18px",
+                    maxWidth: 480,
+                    marginLeft: "auto",
+                    borderRadius: 0,
+                    lineHeight: 1.55,
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-word",
+                  }}
                 >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+                  {msg.content}
+                </div>
+              );
+            }
 
-        {/* Message thread */}
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex",
-              justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-              gap: 10,
-            }}
-          >
-            {msg.role === "assistant" && (
-              <div style={{
-                width: 30, height: 30, borderRadius: "50%",
-                background: "var(--amber-glow)", border: "1px solid var(--amber-glow-strong)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 14, flexShrink: 0, marginTop: 4,
-              }}>
-                🎯
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  gap: 12,
+                  maxWidth: 720,
+                  alignItems: "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    background: AMBER,
+                    color: SOIL,
+                    fontFamily: MONO,
+                    fontSize: 16,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    borderRadius: 0,
+                    lineHeight: 1,
+                    marginTop: 4,
+                  }}
+                >
+                  ◎
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    background: BARK,
+                    border: `1px solid ${FENCE}`,
+                    color: BONE,
+                    fontFamily: MONO,
+                    fontSize: 14,
+                    padding: "16px 20px",
+                    borderRadius: 0,
+                    lineHeight: 1.65,
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {msg.content ? (
+                    renderMarkdown(msg.content)
+                  ) : (
+                    loading && i === messages.length - 1 && (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          width: 8,
+                          height: 14,
+                          background: AMBER,
+                          verticalAlign: "middle",
+                          animation: "blink 1s step-end infinite",
+                        }}
+                      />
+                    )
+                  )}
+                </div>
               </div>
-            )}
+            );
+          })}
 
-            <div
-              style={{
-                maxWidth: "80%",
-                padding: "12px 16px",
-                borderRadius: msg.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-                background: msg.role === "user" ? "var(--amber)" : "var(--card)",
-                border: msg.role === "user" ? "none" : "1px solid var(--border)",
-                color: msg.role === "user" ? "var(--text-inv)" : "var(--text)",
-                fontSize: 14,
-                lineHeight: 1.65,
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
-              }}
-            >
-              {msg.content}
-              {loading && i === messages.length - 1 && msg.role === "assistant" && !msg.content && (
-                <span style={{ display: "inline-block", width: 2, height: "1em", background: "var(--amber)", marginLeft: 2, verticalAlign: "middle", animation: "blink 1s step-end infinite" }} />
-              )}
-            </div>
-          </div>
-        ))}
-
-        <div ref={bottomRef} />
+          <div ref={bottomRef} />
+        </div>
       </div>
 
       {/* Input bar */}
-      <div style={{
-        borderTop: "1px solid var(--border)",
-        padding: "12px 16px",
-        background: "var(--bg-elevated)",
-        flexShrink: 0,
-      }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", gap: 10, alignItems: "flex-end" }}>
+      <div
+        style={{
+          background: BARK,
+          borderTop: `1px solid ${FENCE}`,
+          padding: "16px 24px",
+          flexShrink: 0,
+          position: "sticky",
+          bottom: 0,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 720,
+            margin: "0 auto",
+            display: "flex",
+            gap: 12,
+            alignItems: "center",
+          }}
+        >
           <textarea
             ref={inputRef}
             value={input}
@@ -257,37 +540,64 @@ export default function ChatPage() {
             rows={1}
             style={{
               flex: 1,
-              background: "var(--card)",
-              border: "1px solid var(--border-2)",
-              borderRadius: 12,
-              color: "var(--text)",
-              padding: "10px 14px",
+              background: SOIL,
+              border: `1px solid ${FENCE}`,
+              borderRadius: 0,
+              color: BONE,
+              padding: "0 16px",
+              height: 44,
               fontSize: 14,
+              fontFamily: MONO,
               outline: "none",
               resize: "none",
-              fontFamily: "inherit",
-              lineHeight: 1.5,
-              maxHeight: 120,
-              overflow: "auto",
+              lineHeight: "44px",
+              overflow: "hidden",
             }}
-            onInput={e => {
-              const el = e.currentTarget;
-              el.style.height = "auto";
-              el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
-            }}
-            onFocus={e => e.currentTarget.style.borderColor = "var(--amber)"}
-            onBlur={e => e.currentTarget.style.borderColor = "var(--border-2)"}
+            onFocus={e => (e.currentTarget.style.borderColor = AMBER)}
+            onBlur={e => (e.currentTarget.style.borderColor = FENCE)}
           />
           <button
             onClick={() => send()}
             disabled={!input.trim() || loading}
-            className="btn-primary"
-            style={{ padding: "10px 16px", fontSize: 14, flexShrink: 0, opacity: (!input.trim() || loading) ? 0.45 : 1 }}
+            style={{
+              background: (!input.trim() || loading) ? FENCE : AMBER,
+              color: (!input.trim() || loading) ? DUST : SOIL,
+              fontFamily: MONO,
+              fontWeight: 500,
+              fontSize: 13,
+              padding: "0 20px",
+              height: 44,
+              border: "none",
+              borderRadius: 0,
+              cursor: (!input.trim() || loading) ? "not-allowed" : "pointer",
+              flexShrink: 0,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              transition: "background 0.15s",
+            }}
+            onMouseEnter={e => {
+              if (!(!input.trim() || loading)) e.currentTarget.style.background = GLOW;
+            }}
+            onMouseLeave={e => {
+              if (!(!input.trim() || loading)) e.currentTarget.style.background = AMBER;
+            }}
           >
             {loading ? "..." : "Send"}
           </button>
         </div>
-        <p style={{ textAlign: "center", fontSize: 10, color: "var(--text-3)", marginTop: 8, maxWidth: 800, marginInline: "auto" }}>
+        <p
+          style={{
+            textAlign: "center",
+            fontFamily: MONO,
+            fontSize: 10,
+            color: DUST,
+            marginTop: 10,
+            marginBottom: 0,
+            maxWidth: 720,
+            marginInline: "auto",
+            letterSpacing: "0.02em",
+          }}
+        >
           AI advisor provides general strategy guidance. Always verify regulations and fees at your state's official wildlife agency.
         </p>
       </div>

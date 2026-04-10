@@ -3,9 +3,22 @@ import { useState, useRef, useEffect } from "react";
 import AppNav from "@/components/AppNav";
 import StrategyOutput from "@/components/StrategyOutput";
 import AiDisclaimer from "@/components/AiDisclaimer";
-import { SPECIES_LABELS, SPECIES_EMOJI, ALL_STATES, STATE_NAMES } from "@/lib/huntingData";
+import { SPECIES_LABELS, ALL_STATES, STATE_NAMES } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { FindProfile } from "@/app/api/find/route";
+
+// ── Design tokens ─────────────────────────────────────────────────────────
+const SOIL  = "#0F0D0A";
+const BARK  = "#1A1712";
+const FENCE = "#2E2A24";
+const AMBER = "#D4852A";
+const GLOW  = "#F0A040";
+const BONE  = "#E8DFC8";
+const DUST  = "#7A6E5F";
+const PINE  = "#4A7C59";
+
+const FONT_DISPLAY = "var(--font-display), Georgia, serif";
+const FONT_MONO    = "var(--font-dm-mono), monospace";
 
 const SPECIES: SpeciesKey[] = [
   "elk", "mule_deer", "whitetail", "pronghorn",
@@ -13,26 +26,45 @@ const SPECIES: SpeciesKey[] = [
 ];
 
 const HUNT_TYPES = [
-  { value: "any",          label: "Any Method",    emoji: "✓" },
-  { value: "archery",      label: "Archery",        emoji: "🏹" },
-  { value: "rifle",        label: "Rifle",          emoji: "🎯" },
-  { value: "muzzleloader", label: "Muzzleloader",  emoji: "💨" },
+  { value: "any",          label: "Any Method"   },
+  { value: "archery",      label: "Archery"      },
+  { value: "rifle",        label: "Rifle"        },
+  { value: "muzzleloader", label: "Muzzleloader" },
 ];
 
 const TROPHY = [
-  { value: "otc_or_easy", label: "Hunt This Year", desc: "OTC or easy draw — I want to go now.", emoji: "🏕️" },
-  { value: "quality",     label: "Quality Hunt",   desc: "Good bulls/bucks, willing to wait 2-5 years.", emoji: "🦌" },
-  { value: "trophy",      label: "Trophy Hunt",    desc: "Above-average trophy — waiting 5-10+ years is fine.", emoji: "🏆" },
-  { value: "bucket_list", label: "Bucket List",    desc: "Once-in-a-lifetime caliber. I'll wait as long as it takes.", emoji: "⭐" },
+  { value: "otc_or_easy", label: "Hunt This Year", desc: "OTC or easy draw — I want to go now." },
+  { value: "quality",     label: "Quality Hunt",   desc: "Good bulls/bucks, willing to wait 2-5 years." },
+  { value: "trophy",      label: "Trophy Hunt",    desc: "Above-average trophy — waiting 5-10+ years is fine." },
+  { value: "bucket_list", label: "Bucket List",    desc: "Once-in-a-lifetime caliber. I'll wait as long as it takes." },
 ];
 
 const FREQUENCY = [
-  { value: "every_year",  label: "Every year",     desc: "I want to hunt every season, period." },
+  { value: "every_year",  label: "Every year",      desc: "I want to hunt every season, period." },
   { value: "every_2_3",   label: "Every 2-3 years", desc: "Some waiting is fine for the right hunt." },
   { value: "once",        label: "Once is enough",  desc: "I want one great hunt. Quality over quantity." },
 ];
 
 const STEPS = ["Species & Method", "Where & Points", "Priorities"];
+
+// ── Shared label / helper styles ─────────────────────────────────────────
+const sectionLabel: React.CSSProperties = {
+  display: "block",
+  fontFamily: FONT_MONO,
+  fontSize: 11,
+  letterSpacing: "0.12em",
+  textTransform: "uppercase",
+  color: DUST,
+  marginBottom: 12,
+};
+
+const cardStyle: React.CSSProperties = {
+  background: BARK,
+  border: `1px solid ${FENCE}`,
+  padding: 32,
+  borderRadius: 0,
+  marginTop: 32,
+};
 
 export default function FindPage() {
   const [step, setStep] = useState(0);
@@ -51,6 +83,11 @@ export default function FindPage() {
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.body.classList.add("editorial");
+    return () => { document.body.classList.remove("editorial"); };
+  }, []);
 
   const update = (u: Partial<FindProfile>) => setProfile(p => ({ ...p, ...u }));
   const toggleSpecies = (s: SpeciesKey) => {
@@ -120,114 +157,314 @@ export default function FindPage() {
     ["WY","CO","MT","UT","AZ","NM","ID","NV","OR","WA","CA","SD","ND","NE","KS"].includes(s)
   );
 
-  return (
-    <div className="page">
-      <AppNav />
-      <div className="page-inner" style={{ maxWidth: 680 }}>
+  // ── Reusable primary button ───────────────────────────────────────────
+  const primaryBtnStyle = (enabled: boolean, full = true): React.CSSProperties => ({
+    width: full ? "100%" : undefined,
+    height: 48,
+    padding: "0 24px",
+    background: enabled ? AMBER : FENCE,
+    color: enabled ? SOIL : DUST,
+    border: "none",
+    borderRadius: 0,
+    fontFamily: FONT_MONO,
+    fontWeight: 500,
+    fontSize: 14,
+    letterSpacing: "0.04em",
+    cursor: enabled ? "pointer" : "not-allowed",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+    transition: "background 0.15s",
+  });
 
-        {/* Hero */}
-        <div style={{ marginBottom: 32 }}>
+  const ghostBtnStyle: React.CSSProperties = {
+    height: 48,
+    padding: "0 24px",
+    background: "transparent",
+    color: BONE,
+    border: `1px solid ${FENCE}`,
+    borderRadius: 0,
+    fontFamily: FONT_MONO,
+    fontWeight: 500,
+    fontSize: 13,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+  };
+
+  return (
+    <div className="page" style={{ background: SOIL, color: BONE, minHeight: "100vh", fontFamily: FONT_MONO }}>
+      <AppNav />
+      <div className="page-inner" style={{ maxWidth: 768, padding: "48px 24px", margin: "0 auto" }}>
+
+        {/* ── Page header ───────────────────────────────────────────── */}
+        <div>
           <div style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            padding: "4px 12px", borderRadius: 999,
-            background: "var(--amber-glow)", border: "1px solid var(--amber-glow-strong)",
-            fontSize: 11, fontWeight: 700, color: "var(--amber)",
-            letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 14,
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: AMBER,
+            marginBottom: 12,
           }}>
-            🔍 AI Hunt Finder
+            AI HUNT FINDER
           </div>
-          <h1 style={{ fontSize: "1.9rem", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 10 }}>
+          <h1 style={{
+            fontFamily: FONT_DISPLAY,
+            fontWeight: 700,
+            color: BONE,
+            fontSize: "clamp(36px, 6vw, 48px)",
+            lineHeight: 1.05,
+            letterSpacing: "-0.02em",
+            margin: 0,
+          }}>
             Find your perfect hunt
           </h1>
-          <p style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.65, maxWidth: 520 }}>
-            Tell us what you want. Our AI matches you to specific units and states ranked by fit —
-            drawing on 80+ unit profiles across the American West.
+          <p style={{
+            fontFamily: FONT_MONO,
+            fontSize: 16,
+            color: DUST,
+            lineHeight: 1.6,
+            maxWidth: 480,
+            marginTop: 12,
+          }}>
+            Tell us what you want. Our AI matches you to specific units and states ranked by fit — drawing on 80+ unit profiles across the American West.
           </p>
         </div>
 
-        {/* Step indicator */}
-        <div style={{ display: "flex", alignItems: "center", marginBottom: 28 }}>
-          {STEPS.map((label, i) => (
-            <div key={label} style={{ display: "flex", alignItems: "center", flex: i < STEPS.length - 1 ? 1 : undefined }}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                <div className={`step-dot ${i < step ? "done" : i === step ? "active" : "todo"}`}>
-                  {i < step ? "✓" : i + 1}
+        {/* ── Step indicator ─────────────────────────────────────────── */}
+        <div style={{ display: "flex", alignItems: "flex-start", marginTop: 40 }}>
+          {STEPS.map((label, i) => {
+            const active = i === step;
+            const done = i < step;
+            const reached = active || done;
+            return (
+              <div key={label} style={{ display: "flex", alignItems: "flex-start", flex: i < STEPS.length - 1 ? 1 : undefined }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, minWidth: 28 }}>
+                  <div style={{
+                    width: 28,
+                    height: 28,
+                    background: reached ? AMBER : "transparent",
+                    border: reached ? `1px solid ${AMBER}` : `1px solid ${FENCE}`,
+                    color: reached ? SOIL : DUST,
+                    fontFamily: FONT_MONO,
+                    fontWeight: 500,
+                    fontSize: 13,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 0,
+                  }}>
+                    {i + 1}
+                  </div>
+                  <span style={{
+                    fontFamily: FONT_MONO,
+                    fontSize: 11,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: active ? AMBER : DUST,
+                    whiteSpace: "nowrap",
+                  }}>
+                    {label}
+                  </span>
                 </div>
-                <span style={{ fontSize: 11, fontWeight: i === step ? 700 : 500, color: i === step ? "var(--amber)" : "var(--text-3)", whiteSpace: "nowrap" }}>
-                  {label}
-                </span>
+                {i < STEPS.length - 1 && (
+                  <div style={{
+                    flex: 1,
+                    height: 1,
+                    marginTop: 14,
+                    marginLeft: 12,
+                    marginRight: 12,
+                    background: FENCE,
+                  }} />
+                )}
               </div>
-              {i < STEPS.length - 1 && (
-                <div style={{ flex: 1, height: 2, margin: "0 8px", marginBottom: 22, background: i < step ? "var(--amber)" : "var(--border)", borderRadius: 1 }} />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* ── Step 0: Species & Method ─────────────────────────────────── */}
+        {/* ── Step 0: Species & Method ─────────────────────────────── */}
         {step === 0 && (
-          <div className="card" style={{ padding: "28px 24px" }}>
-            <h2 style={{ fontSize: "1rem", fontWeight: 800, marginBottom: 20 }}>What are you hunting?</h2>
+          <div style={cardStyle}>
+            <h2 style={{
+              fontFamily: FONT_DISPLAY,
+              fontSize: 22,
+              fontWeight: 700,
+              color: BONE,
+              margin: 0,
+              marginBottom: 24,
+            }}>
+              What are you hunting?
+            </h2>
 
-            <div style={{ marginBottom: 24 }}>
-              <label className="field-label">Target Species <span className="req">*</span></label>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(145px, 1fr))", gap: 8 }}>
+            <div style={{ marginBottom: 28 }}>
+              <label style={sectionLabel}>
+                Target Species <span style={{ color: AMBER }}>*</span>
+              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 8 }}>
                 {SPECIES.map(s => {
                   const sel = profile.species?.includes(s);
                   return (
-                    <button key={s} onClick={() => toggleSpecies(s)} className={`choice-btn${sel ? " selected" : ""}`}>
-                      <div className="check">{sel ? "✓" : ""}</div>
-                      <span style={{ fontSize: "1.05rem" }}>{SPECIES_EMOJI[s]}</span>
-                      <span style={{ fontSize: 13 }}>{SPECIES_LABELS[s]}</span>
+                    <button
+                      key={s}
+                      onClick={() => toggleSpecies(s)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        background: sel ? BARK : SOIL,
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        borderRadius: 0,
+                        padding: "12px 16px",
+                        cursor: "pointer",
+                        fontFamily: FONT_MONO,
+                        fontWeight: 500,
+                        fontSize: 14,
+                        color: BONE,
+                        textAlign: "left",
+                        transition: "border-color 0.15s",
+                      }}
+                      onMouseEnter={e => { if (!sel) e.currentTarget.style.borderColor = AMBER; }}
+                      onMouseLeave={e => { if (!sel) e.currentTarget.style.borderColor = FENCE; }}
+                    >
+                      <span style={{
+                        width: 14,
+                        height: 14,
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        background: sel ? AMBER : "transparent",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}>
+                        {sel && <span style={{ width: 6, height: 6, background: SOIL }} />}
+                      </span>
+                      <span>{SPECIES_LABELS[s]}</span>
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            <div style={{ marginBottom: 24 }}>
-              <label className="field-label">Preferred Method</label>
+            <div style={{ marginBottom: 32 }}>
+              <label style={sectionLabel}>Preferred Method</label>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {HUNT_TYPES.map(ht => (
-                  <button key={ht.value} onClick={() => update({ huntType: ht.value })}
-                    className={`pill-btn${profile.huntType === ht.value ? " selected" : ""}`}>
-                    {ht.emoji} {ht.label}
-                  </button>
-                ))}
+                {HUNT_TYPES.map(ht => {
+                  const sel = profile.huntType === ht.value;
+                  return (
+                    <button
+                      key={ht.value}
+                      onClick={() => update({ huntType: ht.value })}
+                      style={{
+                        padding: "10px 18px",
+                        background: sel ? AMBER : "transparent",
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        borderRadius: 0,
+                        color: sel ? SOIL : DUST,
+                        fontFamily: FONT_MONO,
+                        fontSize: 13,
+                        fontWeight: 500,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        cursor: "pointer",
+                        transition: "all 0.15s",
+                      }}
+                      onMouseEnter={e => { if (!sel) { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.color = BONE; } }}
+                      onMouseLeave={e => { if (!sel) { e.currentTarget.style.borderColor = FENCE; e.currentTarget.style.color = DUST; } }}
+                    >
+                      {ht.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <button onClick={() => setStep(1)} className="btn-primary"
+            <button
+              onClick={() => setStep(1)}
               disabled={!canNext0}
-              style={{ width: "100%", justifyContent: "center", padding: "13px", fontSize: 15, opacity: canNext0 ? 1 : 0.45 }}>
+              style={primaryBtnStyle(canNext0)}
+              onMouseEnter={e => { if (canNext0) e.currentTarget.style.background = GLOW; }}
+              onMouseLeave={e => { if (canNext0) e.currentTarget.style.background = AMBER; }}
+            >
               Next: Where & Points →
             </button>
           </div>
         )}
 
-        {/* ── Step 1: States & Points ──────────────────────────────────── */}
+        {/* ── Step 1: States & Points ──────────────────────────────── */}
         {step === 1 && (
-          <div className="card" style={{ padding: "28px 24px" }}>
-            <h2 style={{ fontSize: "1rem", fontWeight: 800, marginBottom: 20 }}>Where will you hunt?</h2>
+          <div style={cardStyle}>
+            <h2 style={{
+              fontFamily: FONT_DISPLAY,
+              fontSize: 22,
+              fontWeight: 700,
+              color: BONE,
+              margin: 0,
+              marginBottom: 24,
+            }}>
+              Where will you hunt?
+            </h2>
 
-            <div style={{ marginBottom: 20 }}>
-              <label className="field-label">Your Residency <span className="req">*</span></label>
-              <select value={profile.residency ?? ""} onChange={e => update({ residency: e.target.value })}
-                className="input" style={{ maxWidth: 280 }}>
+            <div style={{ marginBottom: 24 }}>
+              <label style={sectionLabel}>
+                Your Residency <span style={{ color: AMBER }}>*</span>
+              </label>
+              <select
+                value={profile.residency ?? ""}
+                onChange={e => update({ residency: e.target.value })}
+                style={{
+                  width: "100%",
+                  maxWidth: 320,
+                  height: 44,
+                  padding: "0 14px",
+                  background: SOIL,
+                  color: BONE,
+                  border: `1px solid ${FENCE}`,
+                  borderRadius: 0,
+                  fontFamily: FONT_MONO,
+                  fontSize: 13,
+                  outline: "none",
+                }}
+                onFocus={e => (e.currentTarget.style.borderColor = AMBER)}
+                onBlur={e => (e.currentTarget.style.borderColor = FENCE)}
+              >
                 <option value="">Select your home state...</option>
                 {ALL_STATES.map(s => <option key={s} value={s}>{STATE_NAMES[s]} ({s})</option>)}
               </select>
             </div>
 
-            <div style={{ marginBottom: 20 }}>
-              <label className="field-label">States You'll Hunt <span style={{ color: "var(--text-3)", fontSize: 10, fontWeight: 500, textTransform: "none", letterSpacing: 0 }}>(leave blank = anywhere)</span></label>
+            <div style={{ marginBottom: 24 }}>
+              <label style={sectionLabel}>
+                States You&apos;ll Hunt <span style={{ color: DUST, textTransform: "none", letterSpacing: 0, fontSize: 10 }}>(leave blank = anywhere)</span>
+              </label>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {WESTERN_STATES.map(s => {
                   const sel = profile.states?.includes(s);
                   return (
-                    <button key={s} onClick={() => toggleState(s)}
-                      className={`pill-btn${sel ? " selected" : ""}`}
-                      style={{ fontSize: 11, padding: "5px 12px" }}>
+                    <button
+                      key={s}
+                      onClick={() => toggleState(s)}
+                      style={{
+                        padding: "7px 14px",
+                        background: sel ? AMBER : "transparent",
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        borderRadius: 0,
+                        color: sel ? SOIL : DUST,
+                        fontFamily: FONT_MONO,
+                        fontSize: 12,
+                        fontWeight: 500,
+                        letterSpacing: "0.08em",
+                        cursor: "pointer",
+                        transition: "all 0.15s",
+                      }}
+                      onMouseEnter={e => { if (!sel) { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.color = BONE; } }}
+                      onMouseLeave={e => { if (!sel) { e.currentTarget.style.borderColor = FENCE; e.currentTarget.style.color = DUST; } }}
+                    >
                       {s}
                     </button>
                   );
@@ -237,23 +474,60 @@ export default function FindPage() {
 
             {/* Points by selected states */}
             {(profile.states?.length ?? 0) > 0 && (
-              <div style={{ marginBottom: 20 }}>
-                <label className="field-label">Your Points</label>
+              <div style={{ marginBottom: 24 }}>
+                <label style={sectionLabel}>Your Points</label>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 8 }}>
                   {profile.states?.map(stateId => {
                     const pts = profile.pointsByState?.[stateId] ?? 0;
+                    const has = pts > 0;
                     return (
-                      <div key={stateId} className="card" style={{ padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: pts > 0 ? "var(--amber-glow)" : undefined, borderColor: pts > 0 ? "var(--amber-dim)" : undefined }}>
+                      <div
+                        key={stateId}
+                        style={{
+                          padding: "12px 14px",
+                          background: SOIL,
+                          border: `1px solid ${has ? AMBER : FENCE}`,
+                          borderRadius: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: 10,
+                        }}
+                      >
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: 13, color: pts > 0 ? "var(--amber)" : "var(--text)" }}>{stateId}</div>
-                          <div style={{ fontSize: 11, color: "var(--text-3)" }}>pts</div>
+                          <div style={{ fontFamily: FONT_MONO, fontWeight: 500, fontSize: 13, color: has ? AMBER : BONE, letterSpacing: "0.06em" }}>{stateId}</div>
+                          <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: DUST, textTransform: "uppercase", letterSpacing: "0.08em" }}>pts</div>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                          <button onClick={() => update({ pointsByState: { ...profile.pointsByState, [stateId]: Math.max(0, pts - 1) } })}
-                            style={{ width: 26, height: 26, borderRadius: 6, background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text)", cursor: "pointer", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
-                          <span style={{ minWidth: 24, textAlign: "center", fontWeight: 800, color: pts > 0 ? "var(--amber)" : "var(--text-3)" }}>{pts}</span>
-                          <button onClick={() => update({ pointsByState: { ...profile.pointsByState, [stateId]: pts + 1 } })}
-                            style={{ width: 26, height: 26, borderRadius: 6, background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text)", cursor: "pointer", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+                          <button
+                            onClick={() => update({ pointsByState: { ...profile.pointsByState, [stateId]: Math.max(0, pts - 1) } })}
+                            style={{
+                              width: 26, height: 26,
+                              background: "transparent",
+                              border: `1px solid ${FENCE}`,
+                              borderRadius: 0,
+                              color: BONE,
+                              cursor: "pointer",
+                              fontFamily: FONT_MONO,
+                              fontWeight: 500,
+                              display: "flex", alignItems: "center", justifyContent: "center",
+                            }}
+                          >−</button>
+                          <span style={{ minWidth: 22, textAlign: "center", fontFamily: FONT_MONO, fontWeight: 500, fontSize: 13, color: has ? AMBER : DUST }}>{pts}</span>
+                          <button
+                            onClick={() => update({ pointsByState: { ...profile.pointsByState, [stateId]: pts + 1 } })}
+                            style={{
+                              width: 26, height: 26,
+                              background: "transparent",
+                              border: `1px solid ${FENCE}`,
+                              borderRadius: 0,
+                              color: BONE,
+                              cursor: "pointer",
+                              fontFamily: FONT_MONO,
+                              fontWeight: 500,
+                              display: "flex", alignItems: "center", justifyContent: "center",
+                            }}
+                          >+</button>
                         </div>
                       </div>
                     );
@@ -262,43 +536,99 @@ export default function FindPage() {
               </div>
             )}
 
-            <div style={{ marginBottom: 24 }}>
-              <label className="field-label">Annual Budget: <span style={{ color: "var(--amber)", fontWeight: 800 }}>${(profile.budget ?? 600).toLocaleString()}</span></label>
-              <input type="range" min={100} max={5000} step={50} value={profile.budget ?? 600}
-                onChange={e => update({ budget: Number(e.target.value) })} />
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text-3)", marginTop: 4 }}>
+            <div style={{ marginBottom: 32 }}>
+              <label style={sectionLabel}>
+                Annual Budget: <span style={{ color: AMBER, fontWeight: 500 }}>${(profile.budget ?? 600).toLocaleString()}</span>
+              </label>
+              <input
+                type="range"
+                min={100}
+                max={5000}
+                step={50}
+                value={profile.budget ?? 600}
+                onChange={e => update({ budget: Number(e.target.value) })}
+                style={{ width: "100%", accentColor: AMBER }}
+              />
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: FONT_MONO, fontSize: 11, color: DUST, marginTop: 6, letterSpacing: "0.06em" }}>
                 <span>$100</span><span>$5,000</span>
               </div>
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => setStep(0)} className="btn-ghost" style={{ flex: 1, justifyContent: "center" }}>← Back</button>
-              <button onClick={() => setStep(2)} className="btn-primary" disabled={!canNext1}
-                style={{ flex: 2, justifyContent: "center", padding: "13px", fontSize: 15, opacity: canNext1 ? 1 : 0.45 }}>
+              <button
+                onClick={() => setStep(0)}
+                style={{ ...ghostBtnStyle, flex: 1 }}
+              >
+                ← Back
+              </button>
+              <button
+                onClick={() => setStep(2)}
+                disabled={!canNext1}
+                style={{ ...primaryBtnStyle(canNext1), flex: 2 }}
+                onMouseEnter={e => { if (canNext1) e.currentTarget.style.background = GLOW; }}
+                onMouseLeave={e => { if (canNext1) e.currentTarget.style.background = AMBER; }}
+              >
                 Next: Priorities →
               </button>
             </div>
           </div>
         )}
 
-        {/* ── Step 2: Trophy & Frequency ───────────────────────────────── */}
+        {/* ── Step 2: Trophy & Frequency ───────────────────────────── */}
         {step === 2 && (
-          <div className="card" style={{ padding: "28px 24px" }}>
-            <h2 style={{ fontSize: "1rem", fontWeight: 800, marginBottom: 20 }}>What matters most?</h2>
+          <div style={cardStyle}>
+            <h2 style={{
+              fontFamily: FONT_DISPLAY,
+              fontSize: 22,
+              fontWeight: 700,
+              color: BONE,
+              margin: 0,
+              marginBottom: 24,
+            }}>
+              What matters most?
+            </h2>
 
-            <div style={{ marginBottom: 24 }}>
-              <label className="field-label">Trophy Priority</label>
+            <div style={{ marginBottom: 28 }}>
+              <label style={sectionLabel}>Trophy Priority</label>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {TROPHY.map(t => {
                   const sel = profile.trophyPriority === t.value;
                   return (
-                    <button key={t.value} onClick={() => update({ trophyPriority: t.value as FindProfile["trophyPriority"] })}
-                      className={`choice-btn${sel ? " selected" : ""}`}>
-                      <div className="check">{sel ? "✓" : ""}</div>
-                      <span style={{ fontSize: "1.2rem" }}>{t.emoji}</span>
+                    <button
+                      key={t.value}
+                      onClick={() => update({ trophyPriority: t.value as FindProfile["trophyPriority"] })}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 12,
+                        padding: "14px 16px",
+                        background: sel ? BARK : SOIL,
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        borderRadius: 0,
+                        cursor: "pointer",
+                        textAlign: "left",
+                        fontFamily: FONT_MONO,
+                        transition: "border-color 0.15s",
+                      }}
+                      onMouseEnter={e => { if (!sel) e.currentTarget.style.borderColor = AMBER; }}
+                      onMouseLeave={e => { if (!sel) e.currentTarget.style.borderColor = FENCE; }}
+                    >
+                      <span style={{
+                        width: 14,
+                        height: 14,
+                        marginTop: 3,
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        background: sel ? AMBER : "transparent",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}>
+                        {sel && <span style={{ width: 6, height: 6, background: SOIL }} />}
+                      </span>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 14, color: sel ? "var(--amber)" : "var(--text)" }}>{t.label}</div>
-                        <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>{t.desc}</div>
+                        <div style={{ fontFamily: FONT_MONO, fontWeight: 500, fontSize: 14, color: sel ? AMBER : BONE }}>{t.label}</div>
+                        <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: DUST, marginTop: 4, lineHeight: 1.5 }}>{t.desc}</div>
                       </div>
                     </button>
                   );
@@ -306,18 +636,47 @@ export default function FindPage() {
               </div>
             </div>
 
-            <div style={{ marginBottom: 28 }}>
-              <label className="field-label">How Often Do You Want to Hunt?</label>
+            <div style={{ marginBottom: 32 }}>
+              <label style={sectionLabel}>How Often Do You Want to Hunt?</label>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {FREQUENCY.map(f => {
                   const sel = profile.frequency === f.value;
                   return (
-                    <button key={f.value} onClick={() => update({ frequency: f.value as FindProfile["frequency"] })}
-                      className={`choice-btn${sel ? " selected" : ""}`}>
-                      <div className="check">{sel ? "✓" : ""}</div>
+                    <button
+                      key={f.value}
+                      onClick={() => update({ frequency: f.value as FindProfile["frequency"] })}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 12,
+                        padding: "14px 16px",
+                        background: sel ? BARK : SOIL,
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        borderRadius: 0,
+                        cursor: "pointer",
+                        textAlign: "left",
+                        fontFamily: FONT_MONO,
+                        transition: "border-color 0.15s",
+                      }}
+                      onMouseEnter={e => { if (!sel) e.currentTarget.style.borderColor = AMBER; }}
+                      onMouseLeave={e => { if (!sel) e.currentTarget.style.borderColor = FENCE; }}
+                    >
+                      <span style={{
+                        width: 14,
+                        height: 14,
+                        marginTop: 3,
+                        border: `1px solid ${sel ? AMBER : FENCE}`,
+                        background: sel ? AMBER : "transparent",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}>
+                        {sel && <span style={{ width: 6, height: 6, background: SOIL }} />}
+                      </span>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 14, color: sel ? "var(--amber)" : "var(--text)" }}>{f.label}</div>
-                        <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>{f.desc}</div>
+                        <div style={{ fontFamily: FONT_MONO, fontWeight: 500, fontSize: 14, color: sel ? AMBER : BONE }}>{f.label}</div>
+                        <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: DUST, marginTop: 4, lineHeight: 1.5 }}>{f.desc}</div>
                       </div>
                     </button>
                   );
@@ -326,27 +685,34 @@ export default function FindPage() {
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => setStep(1)} className="btn-ghost" style={{ flex: 1, justifyContent: "center" }}>← Back</button>
-              <button onClick={submit} className="btn-primary"
-                style={{ flex: 2, justifyContent: "center", padding: "14px", fontSize: 15 }}>
+              <button onClick={() => setStep(1)} style={{ ...ghostBtnStyle, flex: 1 }}>← Back</button>
+              <button
+                onClick={submit}
+                style={{ ...primaryBtnStyle(true), flex: 2 }}
+                onMouseEnter={e => (e.currentTarget.style.background = GLOW)}
+                onMouseLeave={e => (e.currentTarget.style.background = AMBER)}
+              >
                 Find My Hunts →
               </button>
             </div>
           </div>
         )}
 
-        {/* ── Results ──────────────────────────────────────────────────── */}
-        <div ref={resultsRef} style={{ marginTop: result || loading ? 32 : 0 }}>
+        {/* ── Results ──────────────────────────────────────────────── */}
+        <div ref={resultsRef} style={{ marginTop: result || loading ? 40 : 0 }}>
           {loading && !result && (
-            <div className="card" style={{ padding: 24, display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ ...cardStyle, marginTop: 32, display: "flex", alignItems: "center", gap: 16 }}>
               <div style={{
-                width: 20, height: 20, borderRadius: "50%",
-                border: "2px solid var(--amber)", borderTopColor: "transparent",
-                animation: "spin 0.8s linear infinite", flexShrink: 0,
+                width: 20, height: 20,
+                border: `2px solid ${AMBER}`,
+                borderTopColor: "transparent",
+                animation: "spin 0.8s linear infinite",
+                flexShrink: 0,
+                borderRadius: 0,
               }} />
               <div>
-                <p style={{ fontWeight: 700, fontSize: 14 }}>Finding your best hunts...</p>
-                <p style={{ fontSize: 12, color: "var(--text-3)", marginTop: 4 }}>
+                <p style={{ fontFamily: FONT_MONO, fontWeight: 500, fontSize: 14, color: BONE, margin: 0 }}>Finding your best hunts...</p>
+                <p style={{ fontFamily: FONT_MONO, fontSize: 12, color: DUST, marginTop: 4, margin: 0 }}>
                   Matching your profile against 80+ units across the West
                 </p>
               </div>
@@ -354,24 +720,57 @@ export default function FindPage() {
           )}
 
           {(result || (loading && result)) && (
-            <div>
+            <div style={{ marginTop: 32 }}>
               <AiDisclaimer />
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-                <h2 style={{ fontSize: "1.1rem", fontWeight: 800 }}>Your Top Hunt Matches</h2>
-                <button onClick={() => { setResult(""); setStep(0); setProfile(p => ({ ...p, species: [], states: [] })); }}
-                  className="btn-ghost" style={{ fontSize: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, marginTop: 16 }}>
+                <h2 style={{
+                  fontFamily: FONT_DISPLAY,
+                  fontSize: 22,
+                  fontWeight: 700,
+                  color: BONE,
+                  margin: 0,
+                }}>
+                  Your Top Hunt Matches
+                </h2>
+                <button
+                  onClick={() => { setResult(""); setStep(0); setProfile(p => ({ ...p, species: [], states: [] })); }}
+                  style={{
+                    background: "transparent",
+                    border: `1px solid ${FENCE}`,
+                    borderRadius: 0,
+                    padding: "8px 16px",
+                    color: DUST,
+                    fontFamily: FONT_MONO,
+                    fontSize: 11,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.color = AMBER; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = FENCE; e.currentTarget.style.color = DUST; }}
+                >
                   Start Over
                 </button>
               </div>
-              <div className="card" style={{ padding: "24px 20px" }}>
+              <div style={{
+                background: BARK,
+                border: `1px solid ${FENCE}`,
+                padding: 32,
+                borderRadius: 0,
+              }}>
                 <StrategyOutput text={result} loading={loading} />
               </div>
               {!loading && result && (
-                <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-                  <a href="/plan" className="btn-primary" style={{ flex: 1, justifyContent: "center", textDecoration: "none" }}>
+                <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
+                  <a
+                    href="/plan"
+                    style={{ ...primaryBtnStyle(true, false), flex: 1 }}
+                    onMouseEnter={e => (e.currentTarget.style.background = GLOW)}
+                    onMouseLeave={e => (e.currentTarget.style.background = AMBER)}
+                  >
                     Build Full Year Plan →
                   </a>
-                  <a href="/chat" className="btn-ghost" style={{ flex: 1, justifyContent: "center", textDecoration: "none" }}>
+                  <a href="/chat" style={{ ...ghostBtnStyle, flex: 1 }}>
                     Ask the AI Advisor
                   </a>
                 </div>
@@ -380,25 +779,87 @@ export default function FindPage() {
           )}
 
           {error && error !== "__interrupted__" && (
-            <div className="card" style={{ padding: 20, background: "var(--danger-bg)", borderColor: "var(--danger-border)" }}>
-              <p style={{ fontSize: 13, color: "var(--danger)", marginBottom: 12 }}>{error}</p>
-              <button onClick={submit} className="btn-primary" style={{ fontSize: 13 }}>Try Again</button>
+            <div style={{
+              marginTop: 32,
+              background: BARK,
+              border: `1px solid ${FENCE}`,
+              borderLeft: `3px solid ${AMBER}`,
+              padding: 20,
+              borderRadius: 0,
+            }}>
+              <p style={{ fontFamily: FONT_MONO, fontSize: 13, color: BONE, marginBottom: 12, margin: 0 }}>{error}</p>
+              <button
+                onClick={submit}
+                style={{ ...primaryBtnStyle(true, false), marginTop: 12 }}
+                onMouseEnter={e => (e.currentTarget.style.background = GLOW)}
+                onMouseLeave={e => (e.currentTarget.style.background = AMBER)}
+              >
+                Try Again
+              </button>
             </div>
           )}
           {error === "__interrupted__" && (
-            <div className="card" style={{ padding: 16, background: "var(--warning-bg)", borderColor: "var(--warning-border)", display: "flex", alignItems: "flex-start", gap: 12 }}>
-              <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>⚠️</span>
+            <div style={{
+              marginTop: 32,
+              background: BARK,
+              border: `1px solid ${FENCE}`,
+              borderLeft: `3px solid ${AMBER}`,
+              padding: 20,
+              borderRadius: 0,
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 16,
+            }}>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color: "var(--amber)", marginBottom: 4 }}>Results may be incomplete — connection was interrupted</p>
-                <p style={{ fontSize: 12, color: "var(--text-3)" }}>Scroll up to see what was generated. Regenerate for the full results.</p>
+                <p style={{
+                  fontFamily: FONT_MONO,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  color: AMBER,
+                  marginBottom: 6,
+                  margin: 0,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                }}>
+                  Results may be incomplete — connection was interrupted
+                </p>
+                <p style={{ fontFamily: FONT_MONO, fontSize: 12, color: DUST, margin: 0, marginTop: 6 }}>
+                  Scroll up to see what was generated. Regenerate for the full results.
+                </p>
               </div>
-              <button onClick={submit} className="btn-ghost" style={{ flexShrink: 0, padding: "6px 14px", fontSize: 12, fontWeight: 600, color: "var(--amber)", cursor: "pointer" }}>Regenerate</button>
+              <button
+                onClick={submit}
+                style={{
+                  flexShrink: 0,
+                  padding: "8px 16px",
+                  background: "transparent",
+                  border: `1px solid ${AMBER}`,
+                  borderRadius: 0,
+                  color: AMBER,
+                  fontFamily: FONT_MONO,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                }}
+              >
+                Regenerate
+              </button>
             </div>
           )}
         </div>
 
-        <p style={{ textAlign: "center", fontSize: 11, color: "var(--text-3)", marginTop: 32 }}>
-          Unit data sourced from state agency harvest reports. Always verify at your state's official wildlife agency before applying.
+        <p style={{
+          textAlign: "center",
+          fontFamily: FONT_MONO,
+          fontSize: 11,
+          color: DUST,
+          marginTop: 48,
+          letterSpacing: "0.06em",
+          lineHeight: 1.6,
+        }}>
+          Unit data sourced from state agency harvest reports. Always verify at your state&apos;s official wildlife agency before applying.
         </p>
       </div>
 

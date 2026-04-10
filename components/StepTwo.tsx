@@ -1,6 +1,16 @@
 "use client";
+import { CSSProperties } from "react";
 import { HunterProfile, SpeciesKey, StatePoints } from "@/lib/types";
 import { getStatesForSpecies, STATE_NAMES, huntingData } from "@/lib/huntingData";
+
+// ── Design tokens ───────────────────────────────────────────────────────────
+const SOIL = "#0F0D0A";
+const FENCE = "#2E2A24";
+const AMBER = "#D4852A";
+const BONE = "#E8DFC8";
+const DUST = "#7A6E5F";
+
+const MONO = "var(--font-dm-mono), monospace";
 
 interface Props {
   profile: Partial<HunterProfile>;
@@ -16,6 +26,16 @@ const POINT_SYSTEM_LABELS: Record<string, string> = {
   lottery: "Lottery",
   otc: "OTC",
   none: "Lottery",
+};
+
+const sectionLabel: CSSProperties = {
+  fontFamily: MONO,
+  fontSize: 11,
+  color: DUST,
+  textTransform: "uppercase",
+  letterSpacing: "0.12em",
+  marginBottom: 12,
+  display: "block",
 };
 
 export default function StepTwo({ profile, onChange, onNext, onBack }: Props) {
@@ -34,31 +54,106 @@ export default function StepTwo({ profile, onChange, onNext, onBack }: Props) {
     return entry ? (POINT_SYSTEM_LABELS[entry.pointSystem] ?? "?") : "?";
   };
 
+  // Shared button styles
+  const backBtnStyle: CSSProperties = {
+    background: "transparent",
+    border: `1px solid ${FENCE}`,
+    color: DUST,
+    fontFamily: MONO,
+    fontSize: 13,
+    padding: "12px 24px",
+    height: 48,
+    borderRadius: 0,
+    cursor: "pointer",
+    transition: "border-color 0.15s, color 0.15s",
+  };
+
+  const primaryBtnStyle: CSSProperties = {
+    background: AMBER,
+    color: SOIL,
+    fontFamily: MONO,
+    fontWeight: 500,
+    fontSize: 14,
+    padding: "12px 32px",
+    height: 48,
+    border: "none",
+    borderRadius: 0,
+    cursor: "pointer",
+    transition: "background 0.15s",
+  };
+
   if (stateIds.length === 0) {
     return (
       <div>
-        <p style={{ color: "var(--text-3)", textAlign: "center", padding: "32px 0" }}>
+        <p
+          style={{
+            fontFamily: MONO,
+            fontSize: 13,
+            color: DUST,
+            textAlign: "center",
+            padding: "32px 0",
+            lineHeight: 1.6,
+          }}
+        >
           Go back and select at least one species.
         </p>
-        <button onClick={onBack} className="btn-ghost" style={{ width: "100%", justifyContent: "center" }}>
-          ← Back
+        <button
+          onClick={onBack}
+          style={{ ...backBtnStyle, width: "100%" }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = AMBER;
+            e.currentTarget.style.color = AMBER;
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = FENCE;
+            e.currentTarget.style.color = DUST;
+          }}
+        >
+          Back
         </button>
       </div>
     );
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+
+      {/* Intro */}
       <div>
-        <p style={{ fontSize: 14, fontWeight: 600, color: "var(--text)", marginBottom: 6 }}>
+        <label style={sectionLabel}>Preference Points By State</label>
+        <p
+          style={{
+            fontFamily: MONO,
+            fontSize: 13,
+            color: BONE,
+            marginTop: 0,
+            marginBottom: 8,
+            lineHeight: 1.5,
+          }}
+        >
           How many preference / bonus points do you have in each state?
         </p>
-        <p style={{ fontSize: 13, color: "var(--text-3)" }}>
+        <p
+          style={{
+            fontFamily: MONO,
+            fontSize: 12,
+            color: DUST,
+            margin: 0,
+            lineHeight: 1.5,
+          }}
+        >
           Not sure? Enter 0 — the plan will include point-building years.
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
+      {/* State rows */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+          gap: 8,
+        }}
+      >
         {stateIds.map(stateId => {
           const sys = getPointSystem(stateId);
           const pts = points[stateId] ?? 0;
@@ -66,79 +161,131 @@ export default function StepTwo({ profile, onChange, onNext, onBack }: Props) {
           return (
             <div
               key={stateId}
-              className="card"
               style={{
-                padding: "12px 14px",
+                background: SOIL,
+                border: `1px solid ${hasPoints ? AMBER : FENCE}`,
+                padding: "14px 16px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 12,
-                borderColor: hasPoints ? "var(--amber-dim)" : undefined,
-                background: hasPoints ? "var(--amber-glow)" : undefined,
+                borderRadius: 0,
               }}
             >
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 700, fontSize: 14, color: hasPoints ? "var(--amber)" : "var(--text)" }}>
+                <div
+                  style={{
+                    fontFamily: MONO,
+                    fontWeight: 500,
+                    fontSize: 14,
+                    color: hasPoints ? AMBER : BONE,
+                  }}
+                >
                   {STATE_NAMES[stateId.toUpperCase()] ?? stateId.toUpperCase()}
                 </div>
-                <div style={{ fontSize: 11, color: "var(--text-3)", marginTop: 2 }}>{sys} pts</div>
+                <div
+                  style={{
+                    fontFamily: MONO,
+                    fontSize: 10,
+                    color: DUST,
+                    marginTop: 4,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {sys} pts
+                </div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <button
                   onClick={() => setPoints(stateId, pts - 1)}
                   aria-label={`Decrease points for ${STATE_NAMES[stateId.toUpperCase()] ?? stateId}`}
                   style={{
-                    width: 28, height: 28,
-                    borderRadius: 6,
-                    background: "var(--bg-elevated)",
-                    border: "1px solid var(--border)",
-                    color: "var(--text)",
+                    width: 32,
+                    height: 32,
+                    background: "transparent",
+                    border: `1px solid ${FENCE}`,
+                    color: BONE,
+                    fontFamily: MONO,
                     fontSize: 16,
-                    fontWeight: 700,
+                    fontWeight: 500,
                     cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 0,
+                    transition: "border-color 0.15s",
                   }}
-                >−</button>
-                <span style={{
-                  minWidth: 28,
-                  textAlign: "center",
-                  fontWeight: 800,
-                  fontSize: 16,
-                  color: hasPoints ? "var(--amber)" : "var(--text-3)",
-                }}>
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = AMBER)}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = FENCE)}
+                >
+                  −
+                </button>
+                <span
+                  style={{
+                    minWidth: 32,
+                    textAlign: "center",
+                    fontFamily: MONO,
+                    fontWeight: 500,
+                    fontSize: 16,
+                    color: hasPoints ? AMBER : DUST,
+                  }}
+                >
                   {pts}
                 </span>
                 <button
                   onClick={() => setPoints(stateId, pts + 1)}
                   aria-label={`Increase points for ${STATE_NAMES[stateId.toUpperCase()] ?? stateId}`}
                   style={{
-                    width: 28, height: 28,
-                    borderRadius: 6,
-                    background: "var(--bg-elevated)",
-                    border: "1px solid var(--border)",
-                    color: "var(--text)",
+                    width: 32,
+                    height: 32,
+                    background: "transparent",
+                    border: `1px solid ${FENCE}`,
+                    color: BONE,
+                    fontFamily: MONO,
                     fontSize: 16,
-                    fontWeight: 700,
+                    fontWeight: 500,
                     cursor: "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 0,
+                    transition: "border-color 0.15s",
                   }}
-                >+</button>
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = AMBER)}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = FENCE)}
+                >
+                  +
+                </button>
               </div>
             </div>
           );
         })}
       </div>
 
-      <div style={{ display: "flex", gap: 10, paddingTop: 8 }}>
-        <button onClick={onBack} className="btn-ghost" style={{ flex: 1, justifyContent: "center" }}>
-          ← Back
+      {/* Navigation */}
+      <div style={{ display: "flex", gap: 12, paddingTop: 8 }}>
+        <button
+          onClick={onBack}
+          style={backBtnStyle}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = AMBER;
+            e.currentTarget.style.color = AMBER;
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = FENCE;
+            e.currentTarget.style.color = DUST;
+          }}
+        >
+          Back
         </button>
         <button
           onClick={onNext}
-          className="btn-primary"
-          style={{ flex: 2, justifyContent: "center", padding: "14px", fontSize: 15 }}
+          style={{ ...primaryBtnStyle, flex: 1 }}
+          onMouseEnter={e => (e.currentTarget.style.background = "#F0A040")}
+          onMouseLeave={e => (e.currentTarget.style.background = AMBER)}
         >
-          Build My Strategy →
+          Build Strategy
         </button>
       </div>
     </div>

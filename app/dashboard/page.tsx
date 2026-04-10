@@ -24,6 +24,21 @@ import {
 } from "@/lib/tracker";
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Design tokens
+// ─────────────────────────────────────────────────────────────────────────────
+const SOIL = "#0F0D0A";
+const BARK = "#1A1712";
+const FENCE = "#2E2A24";
+const AMBER = "#D4852A";
+const GLOW = "#F0A040";
+const BONE = "#E8DFC8";
+const DUST = "#7A6E5F";
+const PINE = "#4A7C59";
+
+const DISPLAY = "var(--font-display), Georgia, serif";
+const MONO = "var(--font-dm-mono), monospace";
+
+// ─────────────────────────────────────────────────────────────────────────────
 // APPLY TAB
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -104,12 +119,92 @@ function DeadlinePill({ stateId, species }: { stateId: string; species: string }
   let closeDate = new Date(year, dl.closeMonth - 1, dl.closeDay);
   if (closeDate < now) { year++; closeDate = new Date(year, dl.closeMonth - 1, dl.closeDay); }
   const days = Math.ceil((closeDate.getTime() - now.getTime()) / 86400000);
-  const color = days <= 14 ? "var(--danger)" : days <= 45 ? "var(--warning)" : "var(--success)";
   return (
-    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: `${color}18`, border: `1px solid ${color}40`, color, whiteSpace: "nowrap" }}>
+    <span
+      style={{
+        fontFamily: MONO,
+        fontSize: 10,
+        fontWeight: 500,
+        letterSpacing: "0.1em",
+        textTransform: "uppercase",
+        padding: "2px 8px",
+        border: `1px solid ${FENCE}`,
+        color: DUST,
+        whiteSpace: "nowrap",
+      }}
+    >
       {APPLY_MONTHS[dl.closeMonth]} {dl.closeDay} · {days}d
     </span>
   );
+}
+
+function primaryBtnStyle(): React.CSSProperties {
+  return {
+    background: AMBER,
+    color: SOIL,
+    fontFamily: MONO,
+    fontWeight: 500,
+    fontSize: 13,
+    padding: "0 16px",
+    height: 36,
+    border: "none",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+    whiteSpace: "nowrap",
+  };
+}
+
+function ghostBtnStyle(): React.CSSProperties {
+  return {
+    background: "transparent",
+    color: AMBER,
+    border: `1px solid ${AMBER}`,
+    fontFamily: MONO,
+    fontSize: 13,
+    padding: "0 16px",
+    height: 36,
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+    whiteSpace: "nowrap",
+  };
+}
+
+function statusBadgeStyle(): React.CSSProperties {
+  return {
+    fontFamily: MONO,
+    fontSize: 10,
+    fontWeight: 500,
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    padding: "2px 8px",
+    border: `1px solid ${FENCE}`,
+    color: DUST,
+    whiteSpace: "nowrap",
+    display: "inline-block",
+  };
+}
+
+function pillStyle(active: boolean): React.CSSProperties {
+  return {
+    background: active ? AMBER : "transparent",
+    color: active ? SOIL : DUST,
+    border: `1px solid ${active ? AMBER : FENCE}`,
+    fontFamily: MONO,
+    fontSize: 12,
+    padding: "6px 12px",
+    height: 32,
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    whiteSpace: "nowrap",
+  };
 }
 
 function GuideCard({ guide, species, profile }: { guide: StateApplyGuide; species: string; profile: HunterProfile | null }) {
@@ -122,52 +217,70 @@ function GuideCard({ guide, species, profile }: { guide: StateApplyGuide; specie
     navigator.clipboard.writeText(text).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
   };
   return (
-    <div className="card" style={{ overflow: "hidden" }}>
-      <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+    <div style={{ background: BARK, border: `1px solid ${FENCE}`, marginBottom: 8 }}>
+      <div style={{ padding: 20, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
-            <span style={{ fontWeight: 800, fontSize: 15, color: "var(--text)" }}>{guide.stateName}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 8 }}>
+            <span style={{ fontFamily: DISPLAY, fontSize: 18, color: BONE }}>{guide.stateName}</span>
             {species !== "all" && <DeadlinePill stateId={guide.stateId} species={species} />}
-            <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: "rgba(96,165,250,0.1)", border: "1px solid rgba(96,165,250,0.25)", color: "#60a5fa", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-              Draw Result: {DRAW_RESULT_MONTHS[guide.drawResultMonth]}
+            <span style={statusBadgeStyle()}>
+              DRAW RESULT: {DRAW_RESULT_MONTHS[guide.drawResultMonth]}
             </span>
           </div>
-          <p style={{ fontSize: 12, color: "var(--text-3)" }}>{guide.drawResultNote}</p>
+          <p style={{ fontFamily: MONO, fontSize: 13, color: DUST, marginTop: 8 }}>{guide.drawResultNote}</p>
         </div>
-        <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 8, flexShrink: 0, alignItems: "center" }}>
           {hasProfile && (
-            <button onClick={handleCopy} className="btn-ghost" style={{ fontSize: 12, padding: "7px 14px" }}>
-              {copied ? "✓ Copied!" : "📋 Pre-Fill"}
+            <button onClick={handleCopy} style={ghostBtnStyle()}>
+              {copied ? "COPIED" : "PRE-FILL"}
             </button>
           )}
-          <a href={guide.portalUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 12, padding: "7px 16px" }}>
+          <a href={guide.portalUrl} target="_blank" rel="noopener noreferrer" style={primaryBtnStyle()}>
             Apply →
           </a>
-          <button onClick={() => setExpanded(v => !v)} style={{ fontSize: 13, color: "var(--text-3)", background: "none", border: "1px solid var(--border)", borderRadius: 8, padding: "7px 12px", cursor: "pointer" }}>
+          <button
+            onClick={() => setExpanded(v => !v)}
+            style={{
+              background: "transparent",
+              border: `1px solid ${FENCE}`,
+              color: DUST,
+              fontFamily: MONO,
+              fontSize: 13,
+              height: 36,
+              width: 36,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
+            onMouseLeave={e => (e.currentTarget.style.color = DUST)}
+            aria-label={expanded ? "Collapse" : "Expand"}
+          >
             {expanded ? "▲" : "▼"}
           </button>
         </div>
       </div>
       {expanded && (
-        <div style={{ borderTop: "1px solid var(--border)", padding: 20 }}>
+        <div style={{ borderTop: `1px solid ${FENCE}`, padding: 20 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
             <div>
-              <p className="field-label" style={{ marginBottom: 10 }}>What You Need</p>
+              <p style={{ fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 10 }}>What You Need</p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 6, listStyle: "none", padding: 0 }}>
                 {guide.requiredFields.map((f, i) => (
-                  <li key={i} style={{ fontSize: 12, color: "var(--text-2)", display: "flex", gap: 8, alignItems: "flex-start" }}>
-                    <span style={{ color: "var(--text-3)", flexShrink: 0 }}>·</span>{f}
+                  <li key={i} style={{ fontFamily: MONO, fontSize: 12, color: BONE, display: "flex", gap: 8, alignItems: "flex-start" }}>
+                    <span style={{ color: DUST, flexShrink: 0 }}>·</span>{f}
                   </li>
                 ))}
               </ul>
             </div>
             {guide.specialRequirements.length > 0 && (
               <div>
-                <p className="field-label" style={{ marginBottom: 10, color: "var(--warning)" }}>Before You Apply</p>
+                <p style={{ fontFamily: MONO, fontSize: 11, color: AMBER, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 10 }}>Before You Apply</p>
                 <ul style={{ display: "flex", flexDirection: "column", gap: 6, listStyle: "none", padding: 0 }}>
                   {guide.specialRequirements.map((r, i) => (
-                    <li key={i} style={{ fontSize: 12, color: "var(--text-2)", display: "flex", gap: 8, alignItems: "flex-start" }}>
-                      <span style={{ color: "var(--warning)", flexShrink: 0 }}>⚠</span>{r}
+                    <li key={i} style={{ fontFamily: MONO, fontSize: 12, color: BONE, display: "flex", gap: 8, alignItems: "flex-start" }}>
+                      <span style={{ color: AMBER, flexShrink: 0 }}>!</span>{r}
                     </li>
                   ))}
                 </ul>
@@ -175,11 +288,11 @@ function GuideCard({ guide, species, profile }: { guide: StateApplyGuide; specie
             )}
             {guide.proTips.length > 0 && (
               <div>
-                <p className="field-label" style={{ marginBottom: 10, color: "var(--amber)" }}>Pro Tips</p>
+                <p style={{ fontFamily: MONO, fontSize: 11, color: AMBER, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 10 }}>Pro Tips</p>
                 <ul style={{ display: "flex", flexDirection: "column", gap: 6, listStyle: "none", padding: 0 }}>
                   {guide.proTips.map((t, i) => (
-                    <li key={i} style={{ fontSize: 12, color: "var(--text-2)", display: "flex", gap: 8, alignItems: "flex-start" }}>
-                      <span style={{ color: "var(--amber)", flexShrink: 0 }}>→</span>{t}
+                    <li key={i} style={{ fontFamily: MONO, fontSize: 12, color: BONE, display: "flex", gap: 8, alignItems: "flex-start" }}>
+                      <span style={{ color: AMBER, flexShrink: 0 }}>→</span>{t}
                     </li>
                   ))}
                 </ul>
@@ -187,16 +300,16 @@ function GuideCard({ guide, species, profile }: { guide: StateApplyGuide; specie
             )}
           </div>
           {guide.nrNotes && (
-            <div style={{ marginTop: 16, padding: "10px 14px", background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)", borderRadius: 8 }}>
-              <p style={{ fontSize: 12, color: "var(--text-2)" }}>
-                <span style={{ color: "#f97316", fontWeight: 700 }}>NR Note: </span>{guide.nrNotes}
+            <div style={{ marginTop: 16, padding: "12px 14px", background: SOIL, border: `1px solid ${FENCE}` }}>
+              <p style={{ fontFamily: MONO, fontSize: 12, color: BONE }}>
+                <span style={{ color: AMBER, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.1em" }}>NR Note: </span>{guide.nrNotes}
               </p>
             </div>
           )}
-          <div style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href={guide.portalUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "var(--amber)" }}>{guide.portalLabel} ↗</a>
-            <span style={{ color: "var(--border)", fontSize: 12 }}>·</span>
-            <Link href={`/states/${guide.stateId}`} style={{ fontSize: 12, color: "var(--text-3)" }}>State Profile →</Link>
+          <div style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+            <a href={guide.portalUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, fontSize: 12, color: AMBER, textDecoration: "none" }}>{guide.portalLabel} ↗</a>
+            <span style={{ color: FENCE, fontSize: 12 }}>·</span>
+            <Link href={`/states/${guide.stateId}`} style={{ fontFamily: MONO, fontSize: 12, color: DUST, textDecoration: "none" }}>State Profile →</Link>
           </div>
         </div>
       )}
@@ -227,32 +340,32 @@ function ApplyTab() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
-        <p style={{ fontSize: 13, color: "var(--text-2)" }}>Official apply links, step-by-step guides, and pre-fill cards for every state.</p>
-        <Link href="/profile" className={hasProfile ? "btn-ghost" : "btn-primary"} style={{ fontSize: 12, padding: "8px 16px", flexShrink: 0 }}>
-          {hasProfile ? "✓ Profile Set" : "Set Up Profile →"}
+        <p style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>Official apply links, step-by-step guides, and pre-fill cards for every state.</p>
+        <Link href="/profile" style={hasProfile ? ghostBtnStyle() : primaryBtnStyle()}>
+          {hasProfile ? "PROFILE SET" : "SET UP PROFILE →"}
         </Link>
       </div>
       {!hasProfile && (
-        <div className="card" style={{ padding: "14px 18px", marginBottom: 20, display: "flex", alignItems: "center", gap: 14, background: "rgba(245,158,11,0.06)", borderColor: "rgba(245,158,11,0.25)" }}>
-          <span style={{ fontSize: "1.4rem", flexShrink: 0 }}>📋</span>
+        <div style={{ background: BARK, border: `1px solid ${FENCE}`, padding: 20, marginBottom: 20, display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 20, height: 20, background: AMBER, flexShrink: 0 }} />
           <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 700, fontSize: 13, color: "var(--amber)", marginBottom: 2 }}>Set up your Hunter Profile to unlock pre-fill cards</p>
-            <p style={{ fontSize: 12, color: "var(--text-3)" }}>Fill your info once — Tag Hunter generates a copy-paste card pre-filled with your details for each state application.</p>
+            <p style={{ fontFamily: MONO, fontWeight: 500, fontSize: 13, color: AMBER, marginBottom: 4 }}>Set up your Hunter Profile to unlock pre-fill cards</p>
+            <p style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>Fill your info once — Tag Hunter generates a copy-paste card pre-filled with your details for each state application.</p>
           </div>
-          <Link href="/profile" className="btn-primary" style={{ fontSize: 12, padding: "8px 16px", flexShrink: 0 }}>Set Up →</Link>
+          <Link href="/profile" style={primaryBtnStyle()}>SET UP →</Link>
         </div>
       )}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
         {APPLY_SPECIES_FILTER.map(s => (
-          <button key={s.key} onClick={() => setSpeciesFilter(s.key)} className={`pill-btn${speciesFilter === s.key ? " selected" : ""}`} style={{ fontSize: 12, padding: "6px 14px" }}>
+          <button key={s.key} onClick={() => setSpeciesFilter(s.key)} style={pillStyle(speciesFilter === s.key)}>
             {s.label}
           </button>
         ))}
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
         {sorted.map(guide => <GuideCard key={guide.stateId} guide={guide} species={speciesForDeadline} profile={profile} />)}
       </div>
-      <p style={{ textAlign: "center", fontSize: 11, color: "var(--text-3)", marginTop: 32 }}>
+      <p style={{ textAlign: "center", fontFamily: MONO, fontSize: 11, color: DUST, marginTop: 32, letterSpacing: "0.05em" }}>
         Always verify deadlines, fees, and requirements at your state&apos;s official wildlife agency before applying.
       </p>
     </div>
@@ -293,32 +406,58 @@ function getDeadlines(speciesFilter: SpeciesKey | "all"): DeadlineItem[] {
   return deadlines.sort((a, b) => a.daysUntil - b.daysUntil);
 }
 
-function dlUrgencyColor(days: number) { if (days <= 14) return "var(--danger)"; if (days <= 45) return "var(--warning)"; return "var(--success)"; }
-
 function DeadlineCard({ d, watched, onToggle, highlight }: { d: DeadlineItem; watched: boolean; onToggle: () => void; highlight?: boolean }) {
-  const color = dlUrgencyColor(d.daysUntil);
+  const borderColor = highlight ? PINE : FENCE;
   return (
-    <div className="card" style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, borderColor: highlight ? "var(--success-border)" : undefined, background: highlight ? "var(--success-bg)" : undefined }}>
+    <div style={{
+      background: BARK,
+      border: `1px solid ${borderColor}`,
+      padding: 20,
+      marginBottom: 8,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 16,
+    }}>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 5 }}>
-          <span style={{ fontWeight: 800, fontSize: 14, color: "var(--text)" }}>{d.stateName}</span>
-          <span style={{ fontSize: 13, color: "var(--text-2)" }}>{SPECIES_LABELS[d.species]}</span>
-          {d.isOpenNow && <span className="badge badge-green">OPEN NOW</span>}
-          {d.hasOTC && <span className="badge badge-muted">OTC</span>}
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 8 }}>
+          <span style={{ fontFamily: DISPLAY, fontSize: 18, color: BONE }}>{d.stateName}</span>
+          <span style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>{SPECIES_LABELS[d.species]}</span>
+          {d.isOpenNow && (
+            <span style={{ ...statusBadgeStyle(), borderColor: PINE, color: PINE }}>OPEN NOW</span>
+          )}
+          {d.hasOTC && <span style={statusBadgeStyle()}>OTC</span>}
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 12, color: "var(--text-3)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.1em" }}>
           <span>Closes {DL_MONTH_NAMES[d.closeMonth - 1]} {d.closeDay}, {d.closeYear}</span>
           <span>·</span><span>NR ${d.feeNonresident.toLocaleString()}</span>
           <span>·</span><span>{POINT_SYSTEM_LABELS[d.pointSystem] ?? d.pointSystem}</span>
         </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-        <button onClick={onToggle} title={watched ? "Remove reminder" : "Set reminder"} style={{ fontSize: "1.1rem", color: watched ? "var(--amber)" : "var(--text-3)", background: "none", border: "none", cursor: "pointer" }}>
-          {watched ? "🔔" : "🔕"}
+      <div style={{ display: "flex", alignItems: "center", gap: 16, flexShrink: 0 }}>
+        <button
+          onClick={onToggle}
+          title={watched ? "Remove reminder" : "Set reminder"}
+          style={{
+            fontFamily: MONO,
+            fontSize: 10,
+            fontWeight: 500,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            padding: "4px 10px",
+            background: "transparent",
+            color: watched ? AMBER : DUST,
+            border: `1px solid ${watched ? AMBER : FENCE}`,
+            cursor: "pointer",
+          }}
+        >
+          {watched ? "WATCHING" : "REMIND"}
         </button>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: "1.1rem", fontWeight: 800, color, lineHeight: 1 }}>{d.daysUntil}d</div>
-          <div style={{ fontSize: 11, color, marginTop: 2 }}>{d.daysUntil <= 14 ? "Closing soon" : d.daysUntil <= 45 ? "Coming up" : "Upcoming"}</div>
+          <div style={{ fontFamily: DISPLAY, fontSize: 24, color: BONE, lineHeight: 1 }}>{d.daysUntil}d</div>
+          <div style={{ fontFamily: MONO, fontSize: 10, color: DUST, marginTop: 4, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+            {d.daysUntil <= 14 ? "Closing soon" : d.daysUntil <= 45 ? "Coming up" : "Upcoming"}
+          </div>
         </div>
       </div>
     </div>
@@ -352,61 +491,76 @@ function DeadlinesTab() {
     const blob = new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "taghunter-deadlines.ics"; a.click(); URL.revokeObjectURL(url);
   };
+  const sectionLabelStyle: React.CSSProperties = {
+    fontFamily: MONO,
+    fontSize: 11,
+    fontWeight: 500,
+    textTransform: "uppercase",
+    letterSpacing: "0.15em",
+    color: DUST,
+    marginBottom: 12,
+  };
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <p style={{ fontSize: 13, color: "var(--text-2)" }}>Never miss an application window</p>
-        <button onClick={handleExportIcal} className="btn-ghost" style={{ fontSize: 12 }}>📅 Export .ics</button>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, gap: 16, flexWrap: "wrap" }}>
+        <p style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>Never miss an application window</p>
+        <button onClick={handleExportIcal} style={ghostBtnStyle()}>EXPORT .ICS</button>
       </div>
       <DataDisclaimer />
       {!alertDismissed && upcomingReminders.length > 0 && (
-        <div className="card" style={{ padding: 16, marginBottom: 20, display: "flex", alignItems: "flex-start", gap: 12, background: "var(--warning-bg)", borderColor: "var(--warning-border)" }}>
-          <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>🔔</span>
+        <div style={{ background: BARK, border: `1px solid ${AMBER}`, padding: 20, marginBottom: 20, display: "flex", alignItems: "flex-start", gap: 14 }}>
+          <div style={{ width: 20, height: 20, background: AMBER, flexShrink: 0 }} />
           <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 700, fontSize: 13, color: "var(--warning)", marginBottom: 6 }}>Upcoming deadline reminders</p>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 4 }}>
+            <p style={{ fontFamily: MONO, fontWeight: 500, fontSize: 13, color: AMBER, marginBottom: 8 }}>Upcoming deadline reminders</p>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6, padding: 0 }}>
               {upcomingReminders.map(r => {
                 const now = new Date(); let year = now.getFullYear(); let d = new Date(year, r.closeMonth - 1, r.closeDay); if (d < now) { year += 1; d = new Date(year, r.closeMonth - 1, r.closeDay); }
                 const days = Math.ceil((d.getTime() - now.getTime()) / 86400000);
-                return <li key={r.key} style={{ fontSize: 12, color: "var(--text-2)" }}>{r.stateName} {SPECIES_LABELS[r.species]} — closes {DL_MONTH_NAMES[r.closeMonth - 1]} {r.closeDay}<span style={{ color: days <= 7 ? "var(--danger)" : "var(--amber)", fontWeight: 700 }}> ({days}d)</span></li>;
+                return <li key={r.key} style={{ fontFamily: MONO, fontSize: 12, color: BONE }}>{r.stateName} {SPECIES_LABELS[r.species]} — closes {DL_MONTH_NAMES[r.closeMonth - 1]} {r.closeDay}<span style={{ color: AMBER, marginLeft: 6 }}>({days}d)</span></li>;
               })}
             </ul>
           </div>
-          <button onClick={() => setAlertDismissed(true)} style={{ fontSize: 14, color: "var(--text-3)", background: "none", border: "none", cursor: "pointer" }}>✕</button>
+          <button
+            onClick={() => setAlertDismissed(true)}
+            style={{ fontFamily: MONO, fontSize: 14, color: DUST, background: "none", border: "none", cursor: "pointer" }}
+            aria-label="Dismiss"
+          >
+            ×
+          </button>
         </div>
       )}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
         {(["all", ...ALL_DL_SPECIES] as (SpeciesKey | "all")[]).map(s => (
-          <button key={s} onClick={() => setSpeciesFilter(s)} className={`pill-btn${speciesFilter === s ? " selected" : ""}`} style={{ fontSize: 12, padding: "6px 14px" }}>
+          <button key={s} onClick={() => setSpeciesFilter(s)} style={pillStyle(speciesFilter === s)}>
             {s === "all" ? "All Species" : SPECIES_LABELS[s]}
           </button>
         ))}
       </div>
       {openNow.length > 0 && (
         <div style={{ marginBottom: 24 }}>
-          <p className="section-label" style={{ color: "var(--success)" }}>✅ Apply Right Now</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <p style={{ ...sectionLabelStyle, color: PINE }}>Apply Right Now</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {openNow.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} highlight />; })}
           </div>
         </div>
       )}
       {upcoming.length > 0 && (
         <div style={{ marginBottom: 24 }}>
-          <p className="section-label" style={{ color: "var(--warning)" }}>⚡ Next 60 Days</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <p style={{ ...sectionLabelStyle, color: AMBER }}>Next 60 Days</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {upcoming.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} />; })}
           </div>
         </div>
       )}
       {later.length > 0 && (
         <div>
-          <p className="section-label">Later This Season</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <p style={sectionLabelStyle}>Later This Season</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {later.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} />; })}
           </div>
         </div>
       )}
-      <p style={{ textAlign: "center", fontSize: 11, color: "var(--text-3)", marginTop: 32 }}>Always verify deadlines at your state&apos;s official wildlife agency website before applying.</p>
+      <p style={{ textAlign: "center", fontFamily: MONO, fontSize: 11, color: DUST, marginTop: 32, letterSpacing: "0.05em" }}>Always verify deadlines at your state&apos;s official wildlife agency website before applying.</p>
     </div>
   );
 }
@@ -447,31 +601,44 @@ function TrackerTab() {
       if (sortKey === "status") return a.status.localeCompare(b.status);
       return 0;
     });
+  const selectStyle: React.CSSProperties = {
+    background: BARK,
+    color: BONE,
+    border: `1px solid ${FENCE}`,
+    fontFamily: MONO,
+    fontSize: 12,
+    padding: "6px 10px",
+    height: 32,
+    width: "auto",
+  };
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-        <p style={{ fontSize: 13, color: "var(--text-2)" }}>Track points, draws, and licenses — stored in your browser</p>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, gap: 16, flexWrap: "wrap" }}>
+        <p style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>Track points, draws, and licenses — stored in your browser</p>
         <div style={{ display: "flex", gap: 8 }}>
-          {apps.length > 0 && <button onClick={() => exportToCSV(apps)} className="btn-ghost" style={{ fontSize: 12 }}>↓ CSV</button>}
-          <button onClick={() => setShowAdd(true)} className="btn-primary" style={{ fontSize: 13, padding: "8px 16px" }}>+ Log Application</button>
+          {apps.length > 0 && <button onClick={() => exportToCSV(apps)} style={ghostBtnStyle()}>EXPORT CSV</button>}
+          <button onClick={() => setShowAdd(true)} style={primaryBtnStyle()}>+ LOG APPLICATION</button>
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 8, marginBottom: 24 }}>
         {[
-          { label: "Total Applications", value: apps.length },
+          { label: "Total Applications", value: String(apps.length) },
           { label: "Tags Drawn", value: `${drawn} / ${apps.length}` },
-          { label: `${CURRENT_YEAR} Apps`, value: thisYear.length },
+          { label: `${CURRENT_YEAR} Apps`, value: String(thisYear.length) },
           { label: "Fees (All Time)", value: `$${totalFees.toLocaleString()}` },
         ].map(s => (
-          <div key={s.label} className="stat-card"><div className="stat-value">{s.value}</div><div className="stat-label">{s.label}</div></div>
+          <div key={s.label} style={{ background: BARK, border: `1px solid ${FENCE}`, padding: 20 }}>
+            <div style={{ fontFamily: DISPLAY, fontSize: 28, color: BONE, lineHeight: 1 }}>{s.value}</div>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: DUST, marginTop: 8, textTransform: "uppercase", letterSpacing: "0.15em" }}>{s.label}</div>
+          </div>
         ))}
       </div>
       {pending.length > 0 && (
-        <div className="card" style={{ padding: 16, marginBottom: 20, background: "var(--warning-bg)", borderColor: "var(--warning-border)", display: "flex", alignItems: "flex-start", gap: 12 }}>
-          <span style={{ fontSize: "1.1rem" }}>⏳</span>
+        <div style={{ background: BARK, border: `1px solid ${AMBER}`, padding: 20, marginBottom: 20, display: "flex", alignItems: "flex-start", gap: 14 }}>
+          <div style={{ width: 20, height: 20, background: AMBER, flexShrink: 0 }} />
           <div>
-            <p style={{ fontWeight: 700, fontSize: 13, color: "var(--warning)" }}>{pending.length} application{pending.length > 1 ? "s" : ""} awaiting results</p>
-            <p style={{ fontSize: 12, color: "var(--text-2)", marginTop: 4 }}>{pending.map(a => `${a.stateName} ${SPECIES_LABELS[a.species as SpeciesKey]}`).join(" · ")}</p>
+            <p style={{ fontFamily: MONO, fontWeight: 500, fontSize: 13, color: AMBER }}>{pending.length} application{pending.length > 1 ? "s" : ""} awaiting results</p>
+            <p style={{ fontFamily: MONO, fontSize: 13, color: DUST, marginTop: 6 }}>{pending.map(a => `${a.stateName} ${SPECIES_LABELS[a.species as SpeciesKey]}`).join(" · ")}</p>
           </div>
         </div>
       )}
@@ -480,16 +647,16 @@ function TrackerTab() {
       <LicenseTracker />
       <HuntLogbook />
       {Object.keys(currentPoints).length > 0 && (
-        <div className="card" style={{ padding: 20, marginBottom: 20 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-3)", marginBottom: 14 }}>Current Points (derived from history)</h3>
+        <div style={{ background: BARK, border: `1px solid ${FENCE}`, padding: 20, marginBottom: 20 }}>
+          <h3 style={{ fontFamily: MONO, fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.15em", color: DUST, marginBottom: 14 }}>Current Points (derived from history)</h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {Object.entries(currentPoints).flatMap(([stateId, speciesMap]) =>
               Object.entries(speciesMap).map(([species, pts]) => (
-                <div key={`${stateId}-${species}`} className="badge badge-muted" style={{ padding: "4px 10px", borderRadius: 6 }}>
-                  <span style={{ color: "var(--text)" }}>{STATE_NAMES[stateId.toUpperCase()] ?? stateId}</span>
-                  <span style={{ color: "var(--text-3)", margin: "0 4px" }}>·</span>
-                  <span style={{ color: "var(--text-2)" }}>{SPECIES_LABELS[species as SpeciesKey]}</span>
-                  <span style={{ color: "var(--amber)", fontWeight: 800, marginLeft: 6 }}>{pts}pt</span>
+                <div key={`${stateId}-${species}`} style={{ fontFamily: MONO, fontSize: 11, padding: "4px 10px", border: `1px solid ${FENCE}`, color: DUST, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                  <span style={{ color: BONE }}>{STATE_NAMES[stateId.toUpperCase()] ?? stateId}</span>
+                  <span style={{ color: DUST, margin: "0 4px" }}>·</span>
+                  <span style={{ color: DUST }}>{SPECIES_LABELS[species as SpeciesKey]}</span>
+                  <span style={{ color: AMBER, fontWeight: 500, marginLeft: 6 }}>{pts}pt</span>
                 </div>
               ))
             )}
@@ -498,22 +665,36 @@ function TrackerTab() {
       )}
       {apps.length > 0 && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, alignItems: "center" }}>
-          <select value={filterYear} onChange={e => setFilterYear(e.target.value === "all" ? "all" : Number(e.target.value))} className="input" style={{ width: "auto", fontSize: 12, padding: "6px 10px" }}>
+          <select value={filterYear} onChange={e => setFilterYear(e.target.value === "all" ? "all" : Number(e.target.value))} style={selectStyle}>
             <option value="all">All Years</option>
             {years.map(y => <option key={y} value={y}>{y}</option>)}
           </select>
-          <select value={filterSpecies} onChange={e => setFilterSpecies(e.target.value as SpeciesKey | "all")} className="input" style={{ width: "auto", fontSize: 12, padding: "6px 10px" }}>
+          <select value={filterSpecies} onChange={e => setFilterSpecies(e.target.value as SpeciesKey | "all")} style={selectStyle}>
             <option value="all">All Species</option>
             {allSpecies.map(s => <option key={s} value={s}>{SPECIES_LABELS[s]}</option>)}
           </select>
-          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as AppStatus | "all")} className="input" style={{ width: "auto", fontSize: 12, padding: "6px 10px" }}>
+          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value as AppStatus | "all")} style={selectStyle}>
             <option value="all">All Statuses</option>
             {(Object.keys(STATUS_LABELS) as AppStatus[]).map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
           </select>
-          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text-3)" }}>
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.1em" }}>
             Sort:
             {(["year","state","species","status"] as SortKey[]).map(k => (
-              <button key={k} onClick={() => setSortKey(k)} style={{ padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: sortKey === k ? 700 : 500, background: sortKey === k ? "var(--amber-glow)" : "transparent", color: sortKey === k ? "var(--amber)" : "var(--text-3)", border: sortKey === k ? "1px solid rgba(232,150,15,0.3)" : "1px solid transparent", cursor: "pointer", textTransform: "capitalize" }}>
+              <button
+                key={k}
+                onClick={() => setSortKey(k)}
+                style={{
+                  padding: "4px 10px",
+                  fontFamily: MONO,
+                  fontSize: 11,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  background: sortKey === k ? AMBER : "transparent",
+                  color: sortKey === k ? SOIL : DUST,
+                  border: `1px solid ${sortKey === k ? AMBER : FENCE}`,
+                  cursor: "pointer",
+                }}
+              >
                 {k}
               </button>
             ))}
@@ -521,50 +702,110 @@ function TrackerTab() {
         </div>
       )}
       {apps.length === 0 ? (
-        <div className="card" style={{ padding: 56, textAlign: "center" }}>
-          <div style={{ fontSize: "2.5rem", marginBottom: 16 }}>📋</div>
-          <p style={{ fontWeight: 700, fontSize: 15, marginBottom: 8 }}>No applications logged yet</p>
-          <p style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 24, maxWidth: 400, margin: "0 auto 24px" }}>Track every state application, watch your points grow, and never miss a deadline.</p>
-          <button onClick={() => setShowAdd(true)} className="btn-primary">Log Your First Application</button>
+        <div style={{ background: BARK, border: `1px solid ${FENCE}`, padding: 56, textAlign: "center" }}>
+          <p style={{ fontFamily: DISPLAY, fontSize: 24, color: BONE, marginBottom: 12 }}>No applications logged yet</p>
+          <p style={{ fontFamily: MONO, fontSize: 13, color: DUST, marginBottom: 24, maxWidth: 400, margin: "0 auto 24px" }}>Track every state application, watch your points grow, and never miss a deadline.</p>
+          <button onClick={() => setShowAdd(true)} style={primaryBtnStyle()}>LOG YOUR FIRST APPLICATION</button>
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {filtered.length === 0 && <p style={{ textAlign: "center", padding: "32px 0", fontSize: 13, color: "var(--text-3)" }}>No applications match the current filters.</p>}
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {filtered.length === 0 && <p style={{ textAlign: "center", padding: "32px 0", fontFamily: MONO, fontSize: 13, color: DUST }}>No applications match the current filters.</p>}
           {filtered.map(app => {
             const colors = STATUS_COLORS[app.status];
             const isConfirmingDelete = confirmDeleteId === app.id;
             return (
-              <div key={app.id} className="card" style={{ padding: 16 }}>
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
+              <div key={app.id} style={{ background: BARK, border: `1px solid ${FENCE}`, padding: 20, marginBottom: 8 }}>
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                      <span style={{ fontWeight: 800, fontSize: 14, color: "var(--text)" }}>{app.year}</span>
-                      <span style={{ fontWeight: 700, fontSize: 14, color: "var(--amber)" }}>{app.stateName}</span>
-                      <span style={{ fontSize: 14, color: "var(--text-2)" }}>{SPECIES_LABELS[app.species as SpeciesKey]}</span>
-                      <span style={{ fontSize: 12, color: "var(--text-3)", textTransform: "capitalize" }}>{app.seasonType}</span>
+                    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                      <span style={{ fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.1em" }}>{app.year}</span>
+                      <span style={{ fontFamily: DISPLAY, fontSize: 18, color: BONE }}>{app.stateName}</span>
+                      <span style={{ fontFamily: MONO, fontSize: 13, color: DUST }}>{SPECIES_LABELS[app.species as SpeciesKey]}</span>
+                      <span style={{ fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.1em" }}>{app.seasonType}</span>
                     </div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 12, fontSize: 12, color: "var(--text-3)" }}>
-                      {app.pointsBefore >= 0 && <span>Points: <span style={{ color: "var(--text)" }}>{app.pointsBefore}</span>{app.pointsAfter !== app.pointsBefore && <span> → <span style={{ color: app.status === "drawn" ? "var(--danger)" : "var(--success)" }}>{app.pointsAfter}</span></span>}</span>}
-                      {app.feeSpent > 0 && <span>Fee: <span style={{ color: "var(--text)" }}>${app.feeSpent}</span></span>}
-                      {app.appliedDate && <span>Applied: {app.appliedDate}</span>}
-                      {app.notes && <span style={{ fontStyle: "italic" }}>"{app.notes}"</span>}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 14, fontFamily: MONO, fontSize: 12, color: DUST }}>
+                      {app.pointsBefore >= 0 && (
+                        <span>Points: <span style={{ color: BONE }}>{app.pointsBefore}</span>
+                          {app.pointsAfter !== app.pointsBefore && (
+                            <span> → <span style={{ color: app.status === "drawn" ? AMBER : PINE }}>{app.pointsAfter}</span></span>
+                          )}
+                        </span>
+                      )}
+                      {app.feeSpent > 0 && <span>Fee: <span style={{ color: BONE }}>${app.feeSpent}</span></span>}
+                      {app.appliedDate && <span>Applied: <span style={{ color: BONE }}>{app.appliedDate}</span></span>}
+                      {app.notes && <span style={{ fontStyle: "italic" }}>&quot;{app.notes}&quot;</span>}
                     </div>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
-                    <span className="badge" style={{ background: colors.bg, border: `1px solid ${colors.border}`, color: colors.text, borderRadius: 6, padding: "3px 10px" }}>{STATUS_LABELS[app.status]}</span>
+                    <span style={{ ...statusBadgeStyle(), borderColor: colors.border, color: colors.text }}>{STATUS_LABELS[app.status]}</span>
                     {(app.status === "applied" || app.status === "pending") && (
                       <div style={{ display: "flex", gap: 6 }}>
-                        <button onClick={() => handleStatusChange(app.id, "drawn")} className="badge badge-green" style={{ cursor: "pointer", padding: "3px 10px", borderRadius: 6 }}>Drawn ✓</button>
-                        <button onClick={() => handleStatusChange(app.id, "not_drawn")} className="badge badge-red" style={{ cursor: "pointer", padding: "3px 10px", borderRadius: 6 }}>Not Drawn</button>
+                        <button
+                          onClick={() => handleStatusChange(app.id, "drawn")}
+                          style={{
+                            fontFamily: MONO,
+                            fontSize: 10,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.1em",
+                            padding: "4px 10px",
+                            background: "transparent",
+                            color: PINE,
+                            border: `1px solid ${PINE}`,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Drawn
+                        </button>
+                        <button
+                          onClick={() => handleStatusChange(app.id, "not_drawn")}
+                          style={{
+                            fontFamily: MONO,
+                            fontSize: 10,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.1em",
+                            padding: "4px 10px",
+                            background: "transparent",
+                            color: DUST,
+                            border: `1px solid ${FENCE}`,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Not Drawn
+                        </button>
                       </div>
                     )}
                     {isConfirmingDelete ? (
                       <div style={{ display: "flex", gap: 6 }}>
-                        <button onClick={() => handleDelete(app.id)} style={{ fontSize: 11, padding: "2px 8px", borderRadius: 4, background: "var(--danger-bg)", color: "var(--danger)", border: "1px solid var(--danger-border)", cursor: "pointer" }}>Confirm Delete</button>
-                        <button onClick={() => setConfirmDeleteId(null)} style={{ fontSize: 11, color: "var(--text-3)", cursor: "pointer", background: "none", border: "none" }}>Cancel</button>
+                        <button
+                          onClick={() => handleDelete(app.id)}
+                          style={{
+                            fontFamily: MONO,
+                            fontSize: 10,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.1em",
+                            padding: "4px 10px",
+                            background: AMBER,
+                            color: SOIL,
+                            border: `1px solid ${AMBER}`,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => setConfirmDeleteId(null)}
+                          style={{ fontFamily: MONO, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em", color: DUST, cursor: "pointer", background: "none", border: "none" }}
+                        >
+                          Cancel
+                        </button>
                       </div>
                     ) : (
-                      <button onClick={() => setConfirmDeleteId(app.id)} style={{ fontSize: 11, color: "var(--text-3)", cursor: "pointer", background: "none", border: "none" }}>Delete</button>
+                      <button
+                        onClick={() => setConfirmDeleteId(app.id)}
+                        style={{ fontFamily: MONO, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em", color: DUST, cursor: "pointer", background: "none", border: "none" }}
+                      >
+                        Delete
+                      </button>
                     )}
                   </div>
                 </div>
@@ -573,7 +814,7 @@ function TrackerTab() {
           })}
         </div>
       )}
-      <p style={{ textAlign: "center", fontSize: 11, color: "var(--text-3)", marginTop: 32 }}>Data stored locally in your browser. Use Export CSV to back up your records.</p>
+      <p style={{ textAlign: "center", fontFamily: MONO, fontSize: 11, color: DUST, marginTop: 32, letterSpacing: "0.05em" }}>Data stored locally in your browser. Use Export CSV to back up your records.</p>
       {showAdd && <AddApplicationModal onClose={() => setShowAdd(false)} onAdded={() => { reload(); setShowAdd(false); }} />}
     </div>
   );
@@ -585,11 +826,41 @@ function TrackerTab() {
 
 type Tab = "apply" | "deadlines" | "tracker";
 
-const TAB_CONFIG: { key: Tab; label: string; emoji: string }[] = [
-  { key: "apply",     label: "Apply",          emoji: "🗂️" },
-  { key: "deadlines", label: "Deadlines",       emoji: "📅" },
-  { key: "tracker",   label: "My Applications", emoji: "📋" },
+const TAB_CONFIG: { key: Tab; label: string }[] = [
+  { key: "apply",     label: "Apply" },
+  { key: "deadlines", label: "Deadlines" },
+  { key: "tracker",   label: "My Applications" },
 ];
+
+function TabButton({ active, label, onClick }: { active: boolean; label: string; onClick: () => void }) {
+  const [hover, setHover] = useState(false);
+  const color = active ? AMBER : (hover ? BONE : DUST);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        padding: "14px 20px",
+        fontFamily: MONO,
+        fontWeight: 500,
+        fontSize: 12,
+        textTransform: "uppercase",
+        letterSpacing: "0.15em",
+        color,
+        background: "none",
+        border: "none",
+        borderBottom: active ? `2px solid ${AMBER}` : "2px solid transparent",
+        cursor: "pointer",
+        marginBottom: -1,
+        whiteSpace: "nowrap",
+        transition: "color 0.15s",
+      }}
+    >
+      {label}
+    </button>
+  );
+}
 
 function DashboardInner() {
   const searchParams = useSearchParams();
@@ -604,42 +875,20 @@ function DashboardInner() {
   };
 
   return (
-    <div className="page">
+    <div className="page" style={{ background: SOIL, color: BONE, fontFamily: MONO, minHeight: "100vh" }}>
       <AppNav />
-      <div className="page-inner">
+      <div className="page-inner-wide" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 64px" }}>
 
         {/* Page header */}
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Dashboard</h1>
-          <p style={{ fontSize: 13, color: "var(--text-2)", marginTop: 4 }}>Apply, track deadlines, and manage your applications in one place.</p>
+        <div style={{ padding: "40px 0 24px" }}>
+          <h1 style={{ fontFamily: DISPLAY, fontSize: 42, fontWeight: 700, letterSpacing: "-0.02em", color: BONE, lineHeight: 1.1 }}>Dashboard</h1>
+          <p style={{ fontFamily: MONO, fontSize: 14, color: DUST, marginTop: 8 }}>Apply, track deadlines, and manage your applications in one place.</p>
         </div>
 
         {/* Tab bar */}
-        <div style={{ display: "flex", gap: 4, borderBottom: "1px solid var(--border)", marginBottom: 28 }}>
+        <div style={{ display: "flex", gap: 0, borderBottom: `1px solid ${FENCE}`, marginBottom: 24 }}>
           {TAB_CONFIG.map(t => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              style={{
-                padding: "10px 16px",
-                fontSize: 14,
-                fontWeight: activeTab === t.key ? 700 : 500,
-                color: activeTab === t.key ? "var(--amber)" : "var(--text-3)",
-                background: "none",
-                border: "none",
-                borderBottom: activeTab === t.key ? "2px solid var(--amber)" : "2px solid transparent",
-                cursor: "pointer",
-                marginBottom: -1,
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                transition: "color 0.15s",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span style={{ fontSize: "1rem" }}>{t.emoji}</span>
-              {t.label}
-            </button>
+            <TabButton key={t.key} active={activeTab === t.key} label={t.label} onClick={() => setTab(t.key)} />
           ))}
         </div>
 
@@ -656,7 +905,7 @@ function DashboardInner() {
 export default function DashboardPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center" style={{ color: "var(--text-3)" }}>
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: SOIL, color: DUST, fontFamily: MONO }}>
         Loading...
       </div>
     }>

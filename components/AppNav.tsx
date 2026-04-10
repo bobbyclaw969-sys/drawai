@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/useAuth";
 
 const NAV_LINKS = [
@@ -10,112 +10,255 @@ const NAV_LINKS = [
   { href: "/dashboard", label: "Dashboard" },
 ];
 
+const SOIL = "#0F0D0A";
+const FENCE = "#2E2A24";
+const AMBER = "#D4852A";
+const GLOW = "#F0A040";
+const BONE = "#E8DFC8";
+const DUST = "#7A6E5F";
+
 export default function AppNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { user, signOut, loading } = useAuth();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const isActive = (href: string) => pathname.startsWith(href);
 
   return (
     <>
-      <nav className="app-nav no-print" role="navigation" aria-label="Main">
-        <Link href="/" className="nav-logo" onClick={() => setOpen(false)}>
-          🎯 Tag Hunter
-        </Link>
-
-        {/* Desktop */}
-        <div className="nav-links nav-desktop-links">
-          {NAV_LINKS.map(l => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={`nav-link${isActive(l.href) ? " nav-link-active" : ""}`}
-            >
-              {l.label}
-            </Link>
-          ))}
-          <Link href="/plan" className="btn-primary" style={{ padding: "7px 16px", fontSize: 13 }}>
-            Build Plan
+      <nav
+        role="navigation"
+        aria-label="Main"
+        className="no-print sticky top-0 z-50"
+        style={{
+          background: SOIL,
+          borderBottom: "none",
+          boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.5)" : "none",
+          transition: "box-shadow 0.2s",
+        }}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            style={{
+              color: AMBER,
+              fontFamily: "var(--font-display), serif",
+              fontWeight: 700,
+              fontSize: 22,
+              letterSpacing: "-0.01em",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            ◎ TAG HUNTER
           </Link>
-          {!loading && (
-            user ? (
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <Link
-                  href="/profile"
-                  style={{
-                    width: 30, height: 30, borderRadius: "50%", display: "flex",
-                    alignItems: "center", justifyContent: "center", fontSize: 13,
-                    background: "var(--amber-glow)", border: "1px solid rgba(232,150,15,0.4)",
-                    color: "var(--amber)", fontWeight: 700, textDecoration: "none",
-                  }}
-                  title={user.email ?? "Profile"}
-                >
-                  {(user.email?.[0] ?? "U").toUpperCase()}
-                </Link>
-                <button
-                  onClick={signOut}
-                  style={{ fontSize: 12, color: "var(--text-3)", background: "none", border: "none", cursor: "pointer" }}
-                >
-                  Sign out
-                </button>
-              </div>
-            ) : (
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map(l => (
               <Link
-                href="/auth"
+                key={l.href}
+                href={l.href}
                 style={{
-                  padding: "7px 14px", borderRadius: 6, fontSize: 13, fontWeight: 600,
-                  border: "1px solid var(--border-2)", color: "var(--text-2)",
-                  background: "transparent", textDecoration: "none",
+                  color: isActive(l.href) ? AMBER : BONE,
+                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontSize: 13,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  transition: "color 0.15s",
                 }}
+                onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
+                onMouseLeave={e => (e.currentTarget.style.color = isActive(l.href) ? AMBER : BONE)}
               >
-                Sign in
+                {l.label}
               </Link>
-            )
-          )}
+            ))}
+            <Link
+              href="/plan"
+              style={{
+                background: AMBER,
+                color: SOIL,
+                fontFamily: "var(--font-dm-mono), monospace",
+                fontWeight: 500,
+                fontSize: 13,
+                height: 44,
+                padding: "0 20px",
+                display: "inline-flex",
+                alignItems: "center",
+                borderRadius: 0,
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = GLOW)}
+              onMouseLeave={e => (e.currentTarget.style.background = AMBER)}
+            >
+              Build Free Plan →
+            </Link>
+            {!loading && (
+              user ? (
+                <div className="flex items-center gap-3">
+                  <Link
+                    href="/profile"
+                    title={user.email ?? "Profile"}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      background: "transparent",
+                      border: `1px solid ${FENCE}`,
+                      color: BONE,
+                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontSize: 12,
+                      fontWeight: 500,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {(user.email?.[0] ?? "U").toUpperCase()}
+                  </Link>
+                  <button
+                    onClick={signOut}
+                    style={{
+                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontSize: 12,
+                      color: DUST,
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
+                    onMouseLeave={e => (e.currentTarget.style.color = DUST)}
+                  >
+                    SIGN OUT
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/auth"
+                  style={{
+                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontSize: 12,
+                    color: DUST,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
+                  onMouseLeave={e => (e.currentTarget.style.color = DUST)}
+                >
+                  Sign In
+                </Link>
+              )
+            )}
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden"
+            onClick={() => setOpen(v => !v)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            style={{
+              color: BONE,
+              background: "none",
+              border: "none",
+              fontSize: 24,
+              cursor: "pointer",
+            }}
+          >
+            {open ? "✕" : "☰"}
+          </button>
         </div>
 
-        {/* Hamburger */}
-        <button
-          className="hamburger"
-          onClick={() => setOpen(v => !v)}
-          aria-label="Toggle menu"
-          aria-expanded={open}
-        >
-          {open ? "✕" : "☰"}
-        </button>
-      </nav>
-
-      {/* Mobile dropdown */}
-      <div className={`mobile-menu${open ? " open" : ""}`} role="menu">
-        {NAV_LINKS.map(l => (
-          <Link
-            key={l.href}
-            href={l.href}
-            className={`nav-link${isActive(l.href) ? " nav-link-active" : ""}`}
-            onClick={() => setOpen(false)}
+        {/* Mobile overlay */}
+        {open && (
+          <div
+            role="menu"
+            className="md:hidden flex flex-col gap-4 px-6 pb-6"
+            style={{ background: SOIL }}
           >
-            {l.label}
-          </Link>
-        ))}
-        <Link href="/plan" className="btn-primary" onClick={() => setOpen(false)}>
-          Build Plan
-        </Link>
-        {!loading && (
-          user ? (
-            <button
-              onClick={() => { signOut(); setOpen(false); }}
-              style={{ fontSize: 14, color: "var(--text-3)", background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: "8px 0" }}
+            {NAV_LINKS.map(l => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                style={{
+                  color: isActive(l.href) ? AMBER : BONE,
+                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontSize: 14,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  padding: "8px 0",
+                }}
+              >
+                {l.label}
+              </Link>
+            ))}
+            <Link
+              href="/plan"
+              onClick={() => setOpen(false)}
+              style={{
+                background: AMBER,
+                color: SOIL,
+                fontFamily: "var(--font-dm-mono), monospace",
+                fontWeight: 500,
+                fontSize: 13,
+                height: 44,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 8,
+                borderRadius: 0,
+              }}
             >
-              Sign out ({user.email})
-            </button>
-          ) : (
-            <Link href="/auth" className="nav-link" onClick={() => setOpen(false)}>
-              Sign in
+              Build Free Plan →
             </Link>
-          )
+            {!loading && (
+              user ? (
+                <button
+                  onClick={() => { signOut(); setOpen(false); }}
+                  style={{
+                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontSize: 13,
+                    color: DUST,
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    padding: "8px 0",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  SIGN OUT ({user.email})
+                </button>
+              ) : (
+                <Link
+                  href="/auth"
+                  onClick={() => setOpen(false)}
+                  style={{
+                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontSize: 13,
+                    color: DUST,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                    padding: "8px 0",
+                  }}
+                >
+                  Sign In
+                </Link>
+              )
+            )}
+          </div>
         )}
-      </div>
+      </nav>
     </>
   );
 }

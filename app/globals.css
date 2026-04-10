@@ -15,37 +15,37 @@
   --font-mono:    var(--font-dm-mono);
 }
 
-/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+/* ─── Design Tokens — Editorial Palette (soil/bark/fence/amber/bone/dust) ── */
 :root {
-  /* Base surfaces — warm earth tones */
-  --bg:           #060d05;
-  --bg-elevated:  #0b1709;
-  --card:         #0e1c0c;
-  --card-hover:   #142610;
-  --card-2:       #091408;
+  /* Base surfaces */
+  --bg:           #0F0D0A;  /* soil */
+  --bg-elevated:  #1A1712;  /* bark */
+  --card:         #1A1712;  /* bark */
+  --card-hover:   #221d16;
+  --card-2:       #0F0D0A;
 
   /* Borders */
-  --border:       #1c3818;
-  --border-2:     #254520;
-  --border-3:     #30491f;
+  --border:       #2E2A24;  /* fence */
+  --border-2:     #3a352c;
+  --border-3:     #4a4334;
 
-  /* Amber — primary accent, slightly warmer */
-  --amber:        #e08c0a;
-  --amber-light:  #f5ad28;
-  --amber-dim:    #78490a;
-  --amber-glow:   rgba(220, 140, 10, 0.13);
-  --amber-glow-strong: rgba(220, 140, 10, 0.27);
+  /* Amber — primary accent */
+  --amber:        #D4852A;
+  --amber-light:  #F0A040;  /* glow */
+  --amber-dim:    #8a5618;
+  --amber-glow:   rgba(212, 133, 42, 0.13);
+  --amber-glow-strong: rgba(212, 133, 42, 0.27);
 
   /* Text */
-  --text:         #ede8dc;
-  --text-2:       #8fb887;
-  --text-3:       #4a6e45;
-  --text-inv:     #070f06;
+  --text:         #E8DFC8;  /* bone */
+  --text-2:       #a89880;
+  --text-3:       #7A6E5F;  /* dust */
+  --text-inv:     #0F0D0A;  /* soil */
 
   /* Status */
-  --success:      #3da86a;
-  --success-bg:   rgba(61, 168, 106, 0.12);
-  --success-border: rgba(61, 168, 106, 0.3);
+  --success:      #4A7C59;  /* pine */
+  --success-bg:   rgba(74, 124, 89, 0.12);
+  --success-border: rgba(74, 124, 89, 0.3);
   --danger:       #c25050;
   --danger-bg:    rgba(194, 80, 80, 0.12);
   --danger-border: rgba(194, 80, 80, 0.3);
@@ -63,11 +63,11 @@
   /* Overlay */
   --overlay:      rgba(0, 0, 0, 0.7);
 
-  /* Radii */
-  --r-sm:  6px;
-  --r:     12px;
-  --r-lg:  16px;
-  --r-xl:  24px;
+  /* Radii — editorial design system uses zero radius everywhere */
+  --r-sm:  0px;
+  --r:     0px;
+  --r-lg:  0px;
+  --r-xl:  0px;
 
   /* Shadows */
   --shadow:    0 2px 12px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);
@@ -93,8 +93,8 @@ html { scroll-behavior: smooth; }
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 15px;
+  font-family: var(--font-dm-mono), 'SF Mono', 'DM Mono', monospace;
+  font-size: 14px;
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -108,61 +108,66 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--border-3); }
 
 /* ─── Typography ─────────────────────────────────────────────────────────── */
-h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+h1, h2, h3, h4 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
 a { color: inherit; text-decoration: none; }
 input, select, textarea, button { font-family: inherit; }
 
-/* ─── Utility: Cards ─────────────────────────────────────────────────────── */
+/* ─── Utility: Cards (Editorial — flat, no shadows) ────────────────────── */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
+  border-radius: 0;
+  box-shadow: none;
 }
 .card-hover {
-  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s;
 }
 .card-hover:hover {
-  background: var(--card-hover);
-  border-color: var(--border-2);
-  box-shadow: var(--shadow-lg);
+  background: var(--card);
+  border-color: var(--amber);
+  box-shadow: none;
 }
 
-/* ─── Utility: Buttons ───────────────────────────────────────────────────── */
+/* ─── Utility: Buttons (Editorial — flat, no shadows, no radius) ────────── */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 24px;
+  padding: 12px 24px;
   background: var(--amber);
   color: var(--text-inv);
-  font-weight: 700;
-  font-size: 14px;
-  border-radius: var(--r-sm);
+  font-family: var(--font-dm-mono), monospace;
+  font-weight: 500;
+  font-size: 13px;
+  border-radius: 0;
   border: none;
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
-  letter-spacing: 0.01em;
-  box-shadow: 0 2px 12px rgba(232, 150, 15, 0.35);
+  transition: background 0.15s;
+  letter-spacing: 0.02em;
+  box-shadow: none;
 }
 .btn-primary:hover {
   background: var(--amber-light);
-  box-shadow: 0 4px 20px rgba(232, 150, 15, 0.45);
-  transform: translateY(-1px);
+  box-shadow: none;
+  transform: none;
 }
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:active { transform: none; }
 .btn-primary:disabled {
-  background: var(--border-2);
+  background: var(--border);
   color: var(--text-3);
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
 }
 .btn-primary:disabled:hover {
-  background: var(--border-2);
+  background: var(--border);
   box-shadow: none;
-  transform: none;
 }
 
 .btn-ghost {
@@ -170,20 +175,21 @@ input, select, textarea, button { font-family: inherit; }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 10px 20px;
   background: transparent;
-  color: var(--text-2);
+  color: var(--amber);
+  font-family: var(--font-dm-mono), monospace;
   font-weight: 500;
   font-size: 13px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--border);
+  border-radius: 0;
+  border: 1px solid var(--amber);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 .btn-ghost:hover {
-  background: var(--card-hover);
-  border-color: var(--border-2);
-  color: var(--text);
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--text-inv);
 }
 
 /* ─── Utility: Labels / Badges ───────────────────────────────────────────── */
@@ -191,32 +197,35 @@ input, select, textarea, button { font-family: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  padding: 3px 8px;
+  border-radius: 0;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .badge-green  { background: var(--success-bg);  color: var(--success);  border: 1px solid var(--success-border); }
 .badge-red    { background: var(--danger-bg);   color: var(--danger);   border: 1px solid var(--danger-border); }
 .badge-amber  { background: var(--amber-glow);  color: var(--amber);    border: 1px solid rgba(232,150,15,0.3); }
 .badge-muted  { background: rgba(255,255,255,0.04); color: var(--text-2); border: 1px solid var(--border); }
 
-/* ─── Utility: Form Inputs ───────────────────────────────────────────────── */
+/* ─── Utility: Form Inputs (Editorial) ─────────────────────────────────── */
 .input {
-  background: var(--bg-elevated);
+  background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: var(--r-sm);
+  border-radius: 0;
   color: var(--text);
-  padding: 8px 12px;
+  font-family: var(--font-dm-mono), monospace;
+  padding: 10px 14px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s;
   width: 100%;
 }
 .input:focus {
   border-color: var(--amber);
-  box-shadow: 0 0 0 3px var(--amber-glow);
+  box-shadow: none;
 }
 .input::placeholder { color: var(--border-3); }
 .input:disabled {
@@ -225,38 +234,41 @@ input, select, textarea, button { font-family: inherit; }
 }
 select.input { cursor: pointer; }
 
-/* ─── Utility: Stat Card ─────────────────────────────────────────────────── */
+/* ─── Utility: Stat Card (Editorial) ─────────────────────────────────────── */
 .stat-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 16px;
+  border-radius: 0;
+  padding: 20px;
   text-align: center;
 }
 .stat-value {
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 700;
   color: var(--amber);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 1;
 }
 .stat-label {
-  font-size: 11px;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 10px;
   color: var(--text-3);
-  margin-top: 4px;
+  margin-top: 6px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   font-weight: 500;
 }
 
-/* ─── Utility: Section Header ────────────────────────────────────────────── */
+/* ─── Utility: Section Header (Editorial overline) ──────────────────────── */
 .section-label {
+  font-family: var(--font-dm-mono), monospace;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-3);
-  margin-bottom: 16px;
+  letter-spacing: 0.18em;
+  color: var(--amber);
+  margin-bottom: 20px;
 }
 
 /* ─── Utility: Glow Effects ──────────────────────────────────────────────── */
@@ -288,7 +300,8 @@ select.input { cursor: pointer; }
 
 /* ─── Strategy Output ────────────────────────────────────────────────────── */
 .strategy-output h2 {
-  font-size: 1.15rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--amber);
   margin-top: 2rem;
@@ -341,9 +354,9 @@ select.input { cursor: pointer; }
 .strategy-output strong { color: #fff; font-weight: 700; }
 .strategy-output em { color: var(--text-2); font-style: italic; }
 .strategy-output code {
-  background: var(--bg-elevated);
+  background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 0;
   padding: 0.15em 0.4em;
   font-size: 0.85em;
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
@@ -475,45 +488,46 @@ input[type="range"]::-moz-range-thumb {
   box-shadow: 0 0 0 3px var(--amber-glow);
 }
 
-/* ─── Choice Button (species, goal, etc.) ────────────────────────────────── */
+/* ─── Choice Button (Editorial — square checkbox) ────────────────────────── */
 .choice-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: var(--r);
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 0;
   border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text-2);
-  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.12s, border-color 0.12s, color 0.12s, box-shadow 0.12s;
+  transition: border-color 0.15s, background 0.15s;
   text-align: left;
   width: 100%;
 }
 .choice-btn:hover {
-  background: var(--card-hover);
-  border-color: var(--border-2);
+  border-color: var(--amber);
+  background: var(--bg);
   color: var(--text);
 }
 .choice-btn.selected {
-  background: var(--amber-glow);
+  background: var(--card);
   border-color: var(--amber);
-  color: var(--amber);
-  box-shadow: 0 0 0 1px var(--amber-glow-strong) inset;
+  color: var(--text);
+  box-shadow: none;
 }
 .choice-btn .check {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid var(--border-2);
+  width: 14px;
+  height: 14px;
+  border-radius: 0;
+  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   font-size: 10px;
-  transition: background 0.12s, border-color 0.12s;
+  transition: background 0.15s, border-color 0.15s;
 }
 .choice-btn.selected .check {
   background: var(--amber);
@@ -522,59 +536,64 @@ input[type="range"]::-moz-range-thumb {
   font-weight: 900;
 }
 
-/* ─── Pill Button (hunt type, years) ─────────────────────────────────────── */
+/* ─── Pill Button (Editorial — square corners) ────────────────────────────── */
 .pill-btn {
-  padding: 8px 20px;
-  border-radius: 999px;
+  padding: 8px 16px;
+  border-radius: 0;
   border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text-2);
-  font-size: 13px;
-  font-weight: 600;
+  background: transparent;
+  color: var(--text-3);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 .pill-btn:hover {
-  background: var(--card-hover);
-  border-color: var(--border-2);
+  border-color: var(--amber);
+  background: transparent;
   color: var(--text);
 }
 .pill-btn.selected {
   background: var(--amber);
   border-color: var(--amber);
   color: var(--text-inv);
-  font-weight: 700;
+  font-weight: 500;
 }
 
-/* ─── Field Label ────────────────────────────────────────────────────────── */
+/* ─── Field Label (Editorial) ───────────────────────────────────────────── */
 .field-label {
+  font-family: var(--font-dm-mono), monospace;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.12em;
   color: var(--text-3);
   margin-bottom: 10px;
   display: block;
 }
-.field-label .req { color: var(--danger); margin-left: 2px; }
+.field-label .req { color: var(--amber); margin-left: 2px; }
 
-/* ─── Step counter dot ───────────────────────────────────────────────────── */
+/* ─── Step counter dot (Editorial — square) ──────────────────────────────── */
 .step-dot {
   width: 28px;
   height: 28px;
-  border-radius: 50%;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-dm-mono), monospace;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 500;
   flex-shrink: 0;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 .step-dot.done   { background: var(--amber); color: var(--text-inv); }
-.step-dot.active { background: var(--amber); color: var(--text-inv); box-shadow: 0 0 0 3px var(--amber-glow-strong); }
-.step-dot.todo   { background: var(--border); color: var(--text-3); }
+.step-dot.active { background: var(--amber); color: var(--text-inv); box-shadow: none; }
+.step-dot.todo   { background: transparent; border: 1px solid var(--border); color: var(--text-3); }
 
 /* ─── Mobile Nav ─────────────────────────────────────────────────────────── */
 .mobile-menu {
@@ -774,8 +793,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .modal-panel {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-lg);
+  border-radius: 0;
+  box-shadow: none;
   width: 100%;
   max-width: 480px;
   max-height: 90vh;
@@ -816,7 +835,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 /* ─── Alert Boxes (reusable) ───────────────────────────────────────��────── */
 .alert {
   padding: 14px 18px;
-  border-radius: var(--r);
+  border-radius: 0;
+  font-family: var(--font-dm-mono), monospace;
   font-size: 13px;
   line-height: 1.6;
 }
@@ -882,4 +902,41 @@ body.editorial::before {
 .species-tile:hover .species-tile-arrow {
   opacity: 1 !important;
   transform: translateX(2px);
+}
+
+/* ─── Editorial Hard Overrides — apply to all inner pages ──────────────── */
+.page {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+.page-inner, .page-inner-wide {
+  font-family: var(--font-dm-mono), monospace;
+}
+.page h1, .page h2, .page h3 {
+  font-family: var(--font-display), Georgia, serif;
+}
+/* Kill any rounded corners that slipped through */
+.page .card,
+.page .input,
+.page .btn-primary,
+.page .btn-ghost,
+.page .badge,
+.page .pill-btn,
+.page .choice-btn,
+.page .stat-card,
+.page input,
+.page select,
+.page textarea,
+.page button {
+  border-radius: 0 !important;
+}
+/* Also kill rounded on inline border-radius style attributes within page containers */
+.page [class*="rounded"] {
+  border-radius: 0 !important;
+}
+/* Page nav already updated via AppNav.tsx — kill the legacy .app-nav background */
+.app-nav {
+  background: var(--bg) !important;
+  border-bottom: none !important;
 }
