@@ -437,22 +437,33 @@ export default function Home() {
 
       {/* ── HERO ───────────────────────────────────────────────────────── */}
       <section className="relative" style={{ height: "100vh", minHeight: 640, overflow: "hidden" }}>
-        {/* Layered hero background — always works, no external dependencies */}
+        {/* Layered hero background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ background: SOIL }}>
-          {/* Deep forest gradient base */}
+          {/* Background video */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            src="/elk-hero.mp4"
+          />
+
+          {/* Deep forest gradient base — sits ON TOP of video for tint */}
           <div
             className="absolute inset-0"
             style={{
-              background: "radial-gradient(ellipse at 70% 30%, #2a1f12 0%, #1a1410 30%, #0F0D0A 70%)",
+              background: "radial-gradient(ellipse at 70% 30%, rgba(42,31,18,0.55) 0%, rgba(26,20,16,0.7) 30%, rgba(15,13,10,0.85) 70%)",
             }}
           />
 
-          {/* Topographic line pattern (mountain ridges) */}
+          {/* Topographic line pattern (mountain ridges) — mostly stroke now so video shows through */}
           <svg
             className="absolute inset-0 w-full h-full"
             viewBox="0 0 1440 900"
             preserveAspectRatio="xMidYMid slice"
-            style={{ opacity: 0.55 }}
+            style={{ opacity: 0.4, mixBlendMode: "screen" }}
           >
             <defs>
               <linearGradient id="topoFade" x1="0" y1="0" x2="0" y2="1">
@@ -461,17 +472,10 @@ export default function Home() {
                 <stop offset="100%" stopColor="#D4852A" stopOpacity="0" />
               </linearGradient>
             </defs>
-            {/* Distant ridge */}
-            <path d="M0,520 L80,480 L180,510 L280,450 L380,490 L480,440 L580,470 L680,420 L780,460 L880,430 L980,470 L1080,440 L1180,480 L1280,450 L1380,470 L1440,460 L1440,900 L0,900 Z" fill="#1a1410" />
-            <path d="M0,520 L80,480 L180,510 L280,450 L380,490 L480,440 L580,470 L680,420 L780,460 L880,430 L980,470 L1080,440 L1180,480 L1280,450 L1380,470 L1440,460" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.4" />
-
-            {/* Mid ridge */}
-            <path d="M0,620 L100,580 L220,610 L340,550 L460,590 L580,540 L700,580 L820,520 L940,560 L1060,530 L1180,570 L1300,540 L1440,560 L1440,900 L0,900 Z" fill="#0f0c08" />
-            <path d="M0,620 L100,580 L220,610 L340,550 L460,590 L580,540 L700,580 L820,520 L940,560 L1060,530 L1180,570 L1300,540 L1440,560" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.5" />
-
-            {/* Front ridge — darkest */}
-            <path d="M0,750 L120,700 L240,730 L360,680 L480,720 L600,670 L720,710 L840,660 L960,700 L1080,650 L1200,690 L1320,650 L1440,680 L1440,900 L0,900 Z" fill="#070605" />
-            <path d="M0,750 L120,700 L240,730 L360,680 L480,720 L600,670 L720,710 L840,660 L960,700 L1080,650 L1200,690 L1320,650 L1440,680" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.35" />
+            {/* Ridge stroke lines only — let video show through */}
+            <path d="M0,520 L80,480 L180,510 L280,450 L380,490 L480,440 L580,470 L680,420 L780,460 L880,430 L980,470 L1080,440 L1180,480 L1280,450 L1380,470 L1440,460" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.5" />
+            <path d="M0,620 L100,580 L220,610 L340,550 L460,590 L580,540 L700,580 L820,520 L940,560 L1060,530 L1180,570 L1300,540 L1440,560" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.45" />
+            <path d="M0,750 L120,700 L240,730 L360,680 L480,720 L600,670 L720,710 L840,660 L960,700 L1080,650 L1200,690 L1320,650 L1440,680" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.4" />
 
             {/* Sky topo lines */}
             <g stroke="#D4852A" strokeOpacity="0.08" fill="none" strokeWidth="1">
