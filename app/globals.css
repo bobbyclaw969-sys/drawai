@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* ─── Tailwind v4 Theme (homepage redesign tokens) ───────────────────────── */
+@theme {
+  --color-soil:  #0F0D0A;
+  --color-bark:  #1A1712;
+  --color-fence: #2E2A24;
+  --color-amber-brand: #D4852A;
+  --color-glow:  #F0A040;
+  --color-bone:  #E8DFC8;
+  --color-dust:  #7A6E5F;
+  --color-pine:  #4A7C59;
+
+  --font-display: var(--font-display);
+  --font-mono:    var(--font-dm-mono);
+}
+
 /* ─── Design Tokens ──────────────────────────────────────────────────────── */
 :root {
   /* Base surfaces — warm earth tones */
@@ -824,4 +839,35 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   background: var(--danger-bg);
   border: 1px solid var(--danger-border);
   color: var(--danger);
+}
+
+/* ─── Homepage Redesign — Grain Texture ─────────────────────────────────── */
+body.editorial::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ─── Trophy Pulse Ring ─────────────────────────────────────────────────── */
+@keyframes trophyPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(240, 160, 64, 0.7); }
+  70%  { box-shadow: 0 0 0 18px rgba(240, 160, 64, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(240, 160, 64, 0); }
+}
+.trophy-pulse {
+  animation: trophyPulse 2.2s ease-out infinite;
+}
+
+/* ─── Hero CTA gentle pulse ──────────────────────��──────────────────────── */
+@keyframes ctaPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.02); }
+}
+.cta-pulse {
+  animation: ctaPulse 3s ease-in-out infinite;
 }
