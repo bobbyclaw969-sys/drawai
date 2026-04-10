@@ -586,11 +586,17 @@ function DeadlinesTab() {
   const [upcomingReminders, setUpcomingReminders] = useState<DeadlineReminder[]>([]);
   const [verificationMap, setVerificationMap] = useState<Map<string, DeadlineVerification>>(new Map());
   useEffect(() => { const r = loadReminders(); setWatchedKeys(new Set(r.map(x => x.key))); setUpcomingReminders(getUpcomingReminders(14)); }, []);
+  // Verifications are optional enhancement data — fetch defensively, never block render
   useEffect(() => {
     let cancelled = false;
-    getAllVerifications(DATA_YEAR).then(list => {
-      if (!cancelled) setVerificationMap(buildVerificationMap(list));
-    });
+    (async () => {
+      try {
+        const list = await getAllVerifications(DATA_YEAR);
+        if (!cancelled && list) setVerificationMap(buildVerificationMap(list));
+      } catch (err) {
+        console.warn("Failed to fetch deadline verifications (rendering as unverified):", err);
+      }
+    })();
     return () => { cancelled = true; };
   }, []);
   const getVerification = (d: DeadlineItem) =>
