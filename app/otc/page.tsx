@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import AppNav from "@/components/AppNav";
-import { huntingData, SPECIES_LABELS, SPECIES_EMOJI } from "@/lib/huntingData";
+import { huntingData, SPECIES_LABELS } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import DataFreshnessWarning from "@/components/DataFreshnessWarning";
 
@@ -150,7 +150,7 @@ export default function OTCPage() {
             <button key={s} onClick={() => setSpeciesFilter(s)}
               className={`pill-btn${speciesFilter === s ? " selected" : ""}`}
             >
-              {SPECIES_EMOJI[s]} {SPECIES_LABELS[s]}
+              {SPECIES_LABELS[s]}
             </button>
           ))}
         </div>
@@ -247,7 +247,6 @@ function OTCCard({ entry, open }: { entry: OTCEntry; open: boolean }) {
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="text-xl">{SPECIES_EMOJI[entry.species]}</span>
             <span className="font-bold text-sm" style={{ color: "var(--text)" }}>{entry.stateName}</span>
             <span className="text-sm" style={{ color: "var(--amber)" }}>{SPECIES_LABELS[entry.species]}</span>
             {entry.seasonType !== "any" && (

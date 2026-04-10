@@ -904,6 +904,14 @@ body.editorial::before {
   transform: translateX(2px);
 }
 
+/* ─── Plan Timeline responsive switch (bulletproof) ─────────────────────── */
+.plan-timeline-desktop { display: none; }
+.plan-timeline-mobile  { display: flex; }
+@media (min-width: 768px) {
+  .plan-timeline-desktop { display: block; }
+  .plan-timeline-mobile  { display: none; }
+}
+
 /* ─── Editorial Hard Overrides — apply to all inner pages ──────────────── */
 .page {
   background: var(--bg);

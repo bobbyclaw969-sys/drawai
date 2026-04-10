@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Tag Hunter — Free Hunting Tag Strategy",
     description:
-      "AI-powered draw strategy for western big game. Build your personalized 10-year hunt plan free — no signup required.",
+      "AI-powered draw strategy for western big game. Free, no signup, built for hunters.",
     url: "https://taghunter.us",
     siteName: "Tag Hunter",
     type: "website",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tag Hunter — Free Hunting Tag Strategy",
     description:
-      "AI-powered draw strategy for western big game. Build your personalized 10-year hunt plan free — no signup required.",
+      "AI-powered draw strategy for western big game. Free, no signup, built for hunters.",
   },
   other: {
     "mobile-web-app-capable": "yes",

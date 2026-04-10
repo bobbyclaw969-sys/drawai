@@ -423,7 +423,7 @@ export default function Home() {
                 marginBottom: 24,
               }}
             >
-              Free · No Signup · Built for Hunters
+              FREE · NO SIGNUP · BUILT FOR HUNTERS
             </motion.div>
 
             <motion.h1
@@ -1058,7 +1058,7 @@ export default function Home() {
               lineHeight: 1.6,
             }}
           >
-            Draw odds from state CSVs, deadline push notifications, and more.
+            Official draw odds, deadline alerts, and new features — straight to your inbox.
           </p>
           <div style={{ marginTop: 32 }}>
             <WaitlistForm source="homepage-redesign" />

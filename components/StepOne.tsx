@@ -17,7 +17,7 @@ const MONO = "var(--font-dm-mono), monospace";
 
 const ALL_SPECIES: SpeciesKey[] = [
   "elk", "mule_deer", "whitetail", "pronghorn",
-  "bighorn_sheep", "mountain_goat", "moose", "black_bear", "bison", "mountain_lion",
+  "bighorn_sheep", "mountain_goat", "moose", "black_bear", "bison",
 ];
 
 const HUNT_TYPES: { value: HuntType; label: string }[] = [

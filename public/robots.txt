@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /auth/callback
+Disallow: /admin
+Disallow: /api
+Disallow: /auth
 
 Sitemap: https://taghunter.us/sitemap.xml

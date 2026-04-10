@@ -1,5 +1,23 @@
 import { StateSeasonData, SpeciesKey } from './types';
 
+/**
+ * ⚠ FEE AUDIT FLAG (2026-04-10):
+ * The following western NR records currently have feeNonresident < $25,
+ * which is suspiciously low. These are likely application fees rather than
+ * total NR tag costs. Manually verify against state agency sources before
+ * launch and update with the true total NR cost (license + tag + stamps):
+ *
+ *   - Montana elk, mule_deer, pronghorn, bighorn_sheep, mountain_goat,
+ *     black_bear, bison ($20 each — Montana NR Big Game/Combo is ~$1,000+)
+ *   - Nevada elk, mule_deer, pronghorn, bighorn_sheep, moose,
+ *     mountain_goat ($10 each — NV NR tags are $300–$1,200+)
+ *   - New Mexico mule_deer ($15 — NM NR deer is ~$310 + license)
+ *   - Utah moose ($10 — UT NR moose is ~$1,500+)
+ *
+ * Do not bulk-fix without verifying each record. These are flagged
+ * for the admin verification workflow at /admin/verify.
+ */
+
 /** Year this data was last verified against state agency sources. */
 export const DATA_YEAR = 2026;
 
@@ -566,11 +584,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'ca', stateName: 'California', species: 'black_bear', seasonType: 'any',
     appOpenMonth: 7, appCloseMonth: 8, appCloseDay: 31,
-    feeNonresident: 48, feeResident: 48,
+    feeNonresident: 298, feeResident: 48,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 20,
     hasOTC: true, oddsAtZeroPts: 0.99, oddsAt5Pts: 0.99, oddsAt10Pts: 0.99,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'State-wide quota applies — season closes when quota is reached, sometimes mid-season. Check current quota status at wildlife.ca.gov before purchasing. Sierra Nevada and Coast Ranges hold large populations.',
+    notes: 'State-wide quota applies — season closes when quota is reached, sometimes mid-season. Check current quota status at wildlife.ca.gov before purchasing. NR tag ~$282 + $16 NR license = ~$298 total. Sierra Nevada and Coast Ranges hold large populations.',
     difficulty: 'easy',
   },
   {

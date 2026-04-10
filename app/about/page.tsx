@@ -55,7 +55,10 @@ export default function AboutPage() {
           <section>
             <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>Built by Factor21</h2>
             <p>
-              Tag Hunter is built by <a href="https://f21.ai" style={{ color: "var(--amber)" }}>Factor21</a>, a technology company focused on building tools that close information gaps. We&apos;re hunters ourselves — the frustration with the existing landscape is what drove us to build this.
+              Tag Hunter is built and maintained by <a href="https://f21.ai" style={{ color: "var(--amber)" }}>Factor21</a> (f21.ai), an AI technology company based in Santa Cruz, California. We build tools that close information gaps — Tag Hunter is our answer to the $500/year consultant problem in western big game hunting.
+            </p>
+            <p style={{ marginTop: 12 }}>
+              Tag Hunter is actively maintained. Deadline data is manually verified each season against official state agency sources. If you find an error, use the <a href="/feedback" style={{ color: "var(--amber)" }}>Feedback</a> link — we fix data issues within 24 hours.
             </p>
           </section>
 

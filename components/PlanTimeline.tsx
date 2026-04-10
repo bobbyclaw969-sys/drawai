@@ -88,7 +88,7 @@ export default function PlanTimeline() {
   return (
     <div className="relative">
       {/* Desktop horizontal timeline */}
-      <div className="hidden md:block relative" style={{ minHeight: 380 }}>
+      <div className="plan-timeline-desktop relative" style={{ minHeight: 380 }}>
         {/* Track line */}
         <div
           className="absolute left-0 right-0"
@@ -148,7 +148,7 @@ export default function PlanTimeline() {
       </div>
 
       {/* Mobile vertical timeline */}
-      <div className="md:hidden flex flex-col gap-6">
+      <div className="plan-timeline-mobile flex flex-col gap-6">
         {NODES.map((node, i) => {
           const isTrophy = node.type === "TROPHY";
           return (
