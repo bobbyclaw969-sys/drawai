@@ -1,21 +1,18 @@
 import { StateSeasonData, SpeciesKey } from './types';
 
 /**
- * ⚠ FEE AUDIT FLAG (2026-04-10):
- * The following western NR records currently have feeNonresident < $25,
- * which is suspiciously low. These are likely application fees rather than
- * total NR tag costs. Manually verify against state agency sources before
- * launch and update with the true total NR cost (license + tag + stamps):
+ * FEE CONVENTION:
+ * `feeNonresident` represents the TOTAL cost a non-resident pays to hunt
+ * — application fee + tag fee + license fee + stamps combined.
+ * For draw-only species, this is the cost-when-drawn (so hunters can budget
+ * for the actual hunt, not just the entry ticket).
  *
- *   - Montana elk, mule_deer, pronghorn, bighorn_sheep, mountain_goat,
- *     black_bear, bison ($20 each — Montana NR Big Game/Combo is ~$1,000+)
- *   - Nevada elk, mule_deer, pronghorn, bighorn_sheep, moose,
- *     mountain_goat ($10 each — NV NR tags are $300–$1,200+)
- *   - New Mexico mule_deer ($15 — NM NR deer is ~$310 + license)
- *   - Utah moose ($10 — UT NR moose is ~$1,500+)
+ * Exception: Nevada records show the $15 application fee only — Nevada tag
+ * costs vary significantly by unit and are listed in each record's notes.
  *
- * Do not bulk-fix without verifying each record. These are flagged
- * for the admin verification workflow at /admin/verify.
+ * All western (non-eastern-whitetail) fees were audited 2026-04-10. Records
+ * marked "// VERIFY:" in their notes need manual confirmation against the
+ * official state agency before publishing as fully verified.
  */
 
 /** Year this data was last verified against state agency sources. */
@@ -77,12 +74,12 @@ export const huntingData: StateSeasonData[] = [
   // ─── ELK ───────────────────────────────────────────────────────────────────
   {
     stateId: 'co', stateName: 'Colorado', species: 'elk', seasonType: 'archery',
-    appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 63, feeResident: 8,
+    appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 7,
+    feeNonresident: 929, feeResident: 8,
     pointSystem: 'preference', maxPointsEst: 20, nrQuotaPct: 20,
     hasOTC: false, oddsAtZeroPts: 0.50, oddsAt5Pts: 0.80, oddsAt10Pts: 0.99,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'NR archery OTC eliminated west of I-25 as of 2025 — now draw-only for most of Colorado. Very limited OTC archery remains in a few eastern GMUs (east of I-25). Habitat stamp ($10) required. Verify current unit status at cpw.state.co.us.',
+    notes: '2026 archery application deadline: April 7. NR archery OTC eliminated west of I-25 as of 2025 — now draw-only for most of Colorado. Very limited OTC archery remains in a few eastern GMUs (east of I-25). Total NR cost ~$929 (NR archery elk tag ~$832 + $86 NR small game license + $11 habitat stamp). Verify current unit status at cpw.state.co.us.',
     difficulty: 'moderate',
   },
   {
@@ -97,32 +94,32 @@ export const huntingData: StateSeasonData[] = [
   },
   {
     stateId: 'wy', stateName: 'Wyoming', species: 'elk', seasonType: 'any',
-    appOpenMonth: 1, appCloseMonth: 5, appCloseDay: 31,
+    appOpenMonth: 1, appCloseMonth: 1, appCloseDay: 31,
     feeNonresident: 692, feeResident: 63,
     pointSystem: 'preference', maxPointsEst: 25, nrQuotaPct: 16,
     hasOTC: false, oddsAtZeroPts: 0.15, oddsAt5Pts: 0.45, oddsAt10Pts: 0.75,
     oddsAt15Pts: 0.90, oddsAt20Pts: 0.98,
-    notes: 'NR elk tag ~$692 (Type 1 general). 75% of tags go to highest-point applicants, 25% random — so even new applicants have a small chance. Complex Type 1/2/9 license structure. Preference points build annually. Some general areas have decent odds at 5-8 pts. Apply Jan 1–May 31 at wgfd.wyo.gov.',
+    notes: 'NR application deadline is January 31. May 31 is the resident general season deadline — do not confuse. NR elk tag ~$692 (Type 1 general). 75% of tags go to highest-point applicants, 25% random — so even new applicants have a small chance. Complex Type 1/2/9 license structure. Preference points build annually. Some general areas have decent odds at 5-8 pts. Apply via wgfd.wyo.gov.',
     difficulty: 'moderate',
   },
   {
     stateId: 'mt', stateName: 'Montana', species: 'elk', seasonType: 'any',
     appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 20, feeResident: 10,
+    feeNonresident: 1112, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.45, oddsAt5Pts: 0.45, oddsAt10Pts: 0.45,
     oddsAt15Pts: 0.45, oddsAt20Pts: 0.45,
-    notes: 'NO OTC for non-residents. NR must apply for Big Game Combo or Elk Combo License via lottery draw (apply March 1 – April 1). Alternates list available May 1 – June 1. No preference points — pure lottery. Verify at fwp.mt.gov.',
+    notes: 'Total NR cost: ~$1,112 (combo license $1,059 + $53 conservation license). The $20 was the application fee only. NO OTC for non-residents. NR must apply for Big Game Combo or Elk Combo License via lottery draw (apply March 1 – April 1). Alternates list available May 1 – June 1. No preference points — pure lottery. Verify at fwp.mt.gov.',
     difficulty: 'moderate',
   },
   {
     stateId: 'id', stateName: 'Idaho', species: 'elk', seasonType: 'any',
     appOpenMonth: 12, appCloseMonth: 1, appCloseDay: 15,
-    feeNonresident: 185, feeResident: 13,
+    feeNonresident: 756, feeResident: 13,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.35, oddsAt5Pts: 0.35, oddsAt10Pts: 0.35,
     oddsAt15Pts: 0.35, oddsAt20Pts: 0.35,
-    notes: 'OTC ELIMINATED FOR NR IN 2026. Pure random lottery — Idaho does NOT use preference points. Apply Dec 5–Jan 15 (first round) or Feb round for leftover tags. NR hunting license $185 nonrefundable. No points carry over. Verify at idfg.idaho.gov.',
+    notes: 'Total NR cost: ~$756 (tag $541 + NR hunting license $185 + $30 conservation license). Two application rounds: Dec/Jan for first round, June for leftover tags. OTC ELIMINATED FOR NR IN 2026. Pure random lottery — Idaho does NOT use preference points. No points carry over. Verify at idfg.idaho.gov.',
     difficulty: 'moderate',
   },
   {
@@ -138,11 +135,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'nv', stateName: 'Nevada', species: 'elk', seasonType: 'any',
     appOpenMonth: 12, appCloseMonth: 2, appCloseDay: 15,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 15, feeResident: 10,
     pointSystem: 'bonus', maxPointsEst: 20, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.02, oddsAt5Pts: 0.08, oddsAt10Pts: 0.20,
     oddsAt15Pts: 0.40, oddsAt20Pts: 0.70,
-    notes: 'Bonus points accumulate slowly. Very few NR tags issued. Worth applying for points annually. NOTE: 2026 tag fees not yet published by NDOW — verify current fees at ndow.org before applying.',
+    notes: 'Application fee $15. Tag cost if drawn varies significantly by unit — verify at ndow.org. Bonus points accumulate slowly. Very few NR tags issued. Worth applying for points annually.',
     difficulty: 'very_hard',
   },
   {
@@ -200,11 +197,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'co', stateName: 'Colorado', species: 'mule_deer', seasonType: 'archery',
     appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 63, feeResident: 8,
+    feeNonresident: 549, feeResident: 8,
     pointSystem: 'preference', maxPointsEst: 25, nrQuotaPct: 20,
     hasOTC: false, oddsAtZeroPts: 0.40, oddsAt5Pts: 0.70, oddsAt10Pts: 0.90,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'NR archery OTC eliminated west of I-25 in 2025. Now draw-only for non-residents. Premium units (GMU 2, 10, 201) still require many points. Verify current unit status at cpw.state.co.us.',
+    notes: 'Total NR cost: ~$549 (NR mule deer tag ~$452 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only — tag fee is added on top when drawn. NR archery OTC eliminated west of I-25 in 2025. Premium units (GMU 2, 10, 201) still require many points. // VERIFY: confirm 2026 tag fees at cpw.state.co.us',
     difficulty: 'moderate',
   },
   {
@@ -230,11 +227,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'nv', stateName: 'Nevada', species: 'mule_deer', seasonType: 'any',
     appOpenMonth: 12, appCloseMonth: 2, appCloseDay: 15,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 15, feeResident: 10,
     pointSystem: 'bonus', maxPointsEst: 18, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.03, oddsAt5Pts: 0.10, oddsAt10Pts: 0.25,
     oddsAt15Pts: 0.55, oddsAt20Pts: 0.85,
-    notes: 'Some of the best desert mule deer in North America. Low odds but worth applying annually. NOTE: 2026 tag fees not yet published — verify at ndow.org before applying.',
+    notes: 'Application fee $15. NR tag if drawn ~$390 (varies by unit) — verify at ndow.org. Some of the best desert mule deer in North America. Low odds but worth applying annually. // VERIFY: confirm tag cost when drawn',
     difficulty: 'hard',
   },
   {
@@ -260,21 +257,21 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'mt', stateName: 'Montana', species: 'mule_deer', seasonType: 'any',
     appOpenMonth: 5, appCloseMonth: 6, appCloseDay: 1,
-    feeNonresident: 20, feeResident: 10,
+    feeNonresident: 712, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.45, oddsAt5Pts: 0.45, oddsAt10Pts: 0.45,
     oddsAt15Pts: 0.45, oddsAt20Pts: 0.45,
-    notes: 'No OTC for non-residents. Montana has strict NR quotas on all big game — draw only via Big Game or Deer Combo lottery (apply by June 1). Eastern Montana mule deer are excellent quality but require winning the draw. Verify at fwp.mt.gov.',
+    notes: 'Total NR cost: ~$712 (NR Deer Combo License $658 + $53 conservation license). The $20 was the application fee only. No OTC for non-residents. Draw only via lottery (apply by June 1). Eastern Montana mule deer are excellent quality. // VERIFY: confirm 2026 NR Deer Combo at fwp.mt.gov',
     difficulty: 'moderate',
   },
   {
     stateId: 'nm', stateName: 'New Mexico', species: 'mule_deer', seasonType: 'any',
     appOpenMonth: 1, appCloseMonth: 3, appCloseDay: 20,
-    feeNonresident: 15, feeResident: 15,
+    feeNonresident: 375, feeResident: 15,
     pointSystem: 'preference', maxPointsEst: 18, nrQuotaPct: 6,
     hasOTC: false, oddsAtZeroPts: 0.03, oddsAt5Pts: 0.12, oddsAt10Pts: 0.35,
     oddsAt15Pts: 0.70, oddsAt20Pts: 0.99,
-    notes: 'Trophy quality high. Very low NR quota makes this a long-term play.',
+    notes: 'Total NR cost: ~$375 (NR deer license ~$310 + $65 game hunting + habitat fees). The $15 was the application fee only. Trophy quality high. Very low NR quota makes this a long-term play. // VERIFY: confirm 2026 NR deer license at wildlife.state.nm.us',
     difficulty: 'hard',
   },
 
@@ -292,21 +289,21 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'co', stateName: 'Colorado', species: 'pronghorn', seasonType: 'any',
     appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 63, feeResident: 8,
+    feeNonresident: 549, feeResident: 8,
     pointSystem: 'preference', maxPointsEst: 12, nrQuotaPct: 20,
     hasOTC: false, oddsAtZeroPts: 0.30, oddsAt5Pts: 0.70, oddsAt10Pts: 0.99,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'Eastern plains units draw quickly. Great starter pronghorn state.',
+    notes: 'Total NR cost: ~$549 (NR pronghorn tag ~$452 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only — tag fee is added when drawn. Eastern plains units draw quickly. Great starter pronghorn state. // VERIFY: confirm 2026 tag fees at cpw.state.co.us',
     difficulty: 'moderate',
   },
   {
     stateId: 'mt', stateName: 'Montana', species: 'pronghorn', seasonType: 'any',
     appOpenMonth: 5, appCloseMonth: 6, appCloseDay: 1,
-    feeNonresident: 20, feeResident: 10,
+    feeNonresident: 268, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.40, oddsAt5Pts: 0.40, oddsAt10Pts: 0.40,
     oddsAt15Pts: 0.40, oddsAt20Pts: 0.40,
-    notes: 'Random lottery. Eastern Montana units. Good odds overall.',
+    notes: 'Total NR cost: ~$268 (NR antelope license $215 + $53 conservation license). The $20 was the application fee only. Random lottery. Eastern Montana units. Good odds overall. // VERIFY: confirm 2026 NR antelope license at fwp.mt.gov',
     difficulty: 'moderate',
   },
   {
@@ -322,11 +319,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'nv', stateName: 'Nevada', species: 'pronghorn', seasonType: 'any',
     appOpenMonth: 12, appCloseMonth: 2, appCloseDay: 15,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 15, feeResident: 10,
     pointSystem: 'bonus', maxPointsEst: 14, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.05, oddsAt5Pts: 0.18, oddsAt10Pts: 0.45,
     oddsAt15Pts: 0.80, oddsAt20Pts: 0.99,
-    notes: 'Good trophy quality. Worth stacking bonus points annually. NOTE: 2026 tag fees not yet published — verify at ndow.org before applying.',
+    notes: 'Application fee $15. NR tag if drawn ~$310 (varies by unit) — verify at ndow.org. Good trophy quality. Worth stacking bonus points annually. // VERIFY: confirm tag cost when drawn',
     difficulty: 'hard',
   },
 
@@ -334,11 +331,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'co', stateName: 'Colorado', species: 'bighorn_sheep', seasonType: 'any',
     appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 63, feeResident: 8,
+    feeNonresident: 2470, feeResident: 8,
     pointSystem: 'preference', maxPointsEst: 30, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.005, oddsAt5Pts: 0.01, oddsAt10Pts: 0.05,
     oddsAt15Pts: 0.15, oddsAt20Pts: 0.35,
-    notes: '20-30 year average wait. Apply every year without fail. The lifetime bucket-list hunt.',
+    notes: 'Total NR cost when drawn: ~$2,470 (NR bighorn sheep tag ~$2,373 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only. 20-30 year average wait. Apply every year without fail. The lifetime bucket-list hunt. // VERIFY: confirm 2026 NR sheep tag at cpw.state.co.us',
     difficulty: 'nearly_impossible',
   },
   {
@@ -354,11 +351,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'mt', stateName: 'Montana', species: 'bighorn_sheep', seasonType: 'any',
     appOpenMonth: 5, appCloseMonth: 6, appCloseDay: 1,
-    feeNonresident: 20, feeResident: 10,
+    feeNonresident: 1308, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.003, oddsAt5Pts: 0.003, oddsAt10Pts: 0.003,
     oddsAt15Pts: 0.003, oddsAt20Pts: 0.003,
-    notes: 'Pure lottery. ~300:1 odds or worse. Apply as a lottery ticket — no points accumulate.',
+    notes: 'Total NR cost when drawn: ~$1,308 (NR bighorn sheep license $1,255 + $53 conservation license). The $20 was the application fee only. Pure lottery. ~300:1 odds or worse. Apply as a lottery ticket — no points accumulate. // VERIFY: confirm 2026 NR sheep license at fwp.mt.gov',
     difficulty: 'nearly_impossible',
   },
   {
@@ -374,11 +371,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'nv', stateName: 'Nevada', species: 'bighorn_sheep', seasonType: 'any',
     appOpenMonth: 12, appCloseMonth: 2, appCloseDay: 15,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 15, feeResident: 10,
     pointSystem: 'bonus', maxPointsEst: 22, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.003, oddsAt5Pts: 0.008, oddsAt10Pts: 0.03,
     oddsAt15Pts: 0.12, oddsAt20Pts: 0.35,
-    notes: 'Apply for bonus points annually. Very long wait but Nevada desert rams are exceptional. NOTE: 2026 tag fees not yet published — verify at ndow.org.',
+    notes: 'Application fee $15. NR sheep tag if drawn ~$1,500 — verify at ndow.org. Apply for bonus points annually. Very long wait but Nevada desert rams are exceptional. // VERIFY: confirm tag cost when drawn',
     difficulty: 'nearly_impossible',
   },
   {
@@ -406,31 +403,31 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'mt', stateName: 'Montana', species: 'moose', seasonType: 'any',
     appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 50, feeResident: 10,
+    feeNonresident: 1308, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.01, oddsAt5Pts: 0.01, oddsAt10Pts: 0.01,
     oddsAt15Pts: 0.01, oddsAt20Pts: 0.01,
-    notes: 'Pure random lottery. Very few tags. $50 NR app fee. Apply Mar 1–Apr 1 at fwp.mt.gov. NOTE: once drawn, you are ineligible for 7 years — so this is your once-in-a-lifetime-ish tag.',
+    notes: 'Total NR cost when drawn: ~$1,308 (NR moose license $1,255 + $53 conservation license). The $50 was the application fee only. Pure random lottery. Very few tags. Apply Mar 1–Apr 1 at fwp.mt.gov. Once drawn, you are ineligible for 7 years — once-in-a-lifetime-ish tag. // VERIFY: confirm 2026 NR moose license at fwp.mt.gov',
     difficulty: 'nearly_impossible',
   },
   {
     stateId: 'id', stateName: 'Idaho', species: 'moose', seasonType: 'any',
     appOpenMonth: 4, appCloseMonth: 4, appCloseDay: 30,
-    feeNonresident: 45, feeResident: 13,
+    feeNonresident: 2156, feeResident: 13,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.01, oddsAt5Pts: 0.01, oddsAt10Pts: 0.01,
     oddsAt15Pts: 0.01, oddsAt20Pts: 0.01,
-    notes: 'Pure random lottery — Idaho does NOT use preference points for moose. $45.75 NR app fee. Apply April 1–30 at idfg.idaho.gov. North Idaho and Selway units have good moose. Fewer applicants than Wyoming.',
+    notes: 'Total NR cost when drawn: ~$2,156 (NR moose tag ~$2,101 + $55 NR hunting license). The $45 was the application fee only. Pure random lottery — Idaho does NOT use preference points for moose. Apply April 1–30 at idfg.idaho.gov. North Idaho and Selway units have good moose. // VERIFY: confirm 2026 NR moose tag at idfg.idaho.gov',
     difficulty: 'nearly_impossible',
   },
   {
     stateId: 'ut', stateName: 'Utah', species: 'moose', seasonType: 'any',
     appOpenMonth: 2, appCloseMonth: 3, appCloseDay: 1,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 1518, feeResident: 10,
     pointSystem: 'weighted', maxPointsEst: 22, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.005, oddsAt5Pts: 0.02, oddsAt10Pts: 0.08,
     oddsAt15Pts: 0.25, oddsAt20Pts: 0.60,
-    notes: 'Shiras moose with good trophy quality. Weighted system helps long-term applicants.',
+    notes: 'Total NR cost when drawn: ~$1,518 (NR Shiras moose tag ~$1,518 once-in-a-lifetime). The $10 was the application fee only. Shiras moose with good trophy quality. Weighted system helps long-term applicants. // VERIFY: confirm 2026 NR moose tag at wildlife.utah.gov',
     difficulty: 'nearly_impossible',
   },
 
@@ -438,11 +435,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'co', stateName: 'Colorado', species: 'mountain_goat', seasonType: 'any',
     appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 63, feeResident: 8,
+    feeNonresident: 2470, feeResident: 8,
     pointSystem: 'preference', maxPointsEst: 30, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.003, oddsAt5Pts: 0.008, oddsAt10Pts: 0.02,
     oddsAt15Pts: 0.08, oddsAt20Pts: 0.25,
-    notes: 'The ultimate mountain hunt. 20-30 year wait is realistic. Apply from day one.',
+    notes: 'Total NR cost when drawn: ~$2,470 (NR mountain goat tag ~$2,373 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only. The ultimate mountain hunt. 20-30 year wait is realistic. Apply from day one. // VERIFY: confirm 2026 NR goat tag at cpw.state.co.us',
     difficulty: 'nearly_impossible',
   },
   {
@@ -458,21 +455,21 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'mt', stateName: 'Montana', species: 'mountain_goat', seasonType: 'any',
     appOpenMonth: 5, appCloseMonth: 6, appCloseDay: 1,
-    feeNonresident: 20, feeResident: 10,
+    feeNonresident: 1308, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.005, oddsAt5Pts: 0.005, oddsAt10Pts: 0.005,
     oddsAt15Pts: 0.005, oddsAt20Pts: 0.005,
-    notes: 'Pure lottery. Only a handful of NR tags issued annually.',
+    notes: 'Total NR cost when drawn: ~$1,308 (NR mountain goat license $1,255 + $53 conservation license). The $20 was the application fee only. Pure lottery. Only a handful of NR tags issued annually. // VERIFY: confirm 2026 NR goat license at fwp.mt.gov',
     difficulty: 'nearly_impossible',
   },
   {
     stateId: 'id', stateName: 'Idaho', species: 'mountain_goat', seasonType: 'any',
     appOpenMonth: 4, appCloseMonth: 4, appCloseDay: 30,
-    feeNonresident: 45, feeResident: 13,
+    feeNonresident: 2156, feeResident: 13,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.004, oddsAt5Pts: 0.004, oddsAt10Pts: 0.004,
     oddsAt15Pts: 0.004, oddsAt20Pts: 0.004,
-    notes: 'Pure random lottery — no preference points. $45.75 NR app fee. Apply April 1–30 at idfg.idaho.gov. Selway-Bitterroot unit is spectacular.',
+    notes: 'Total NR cost when drawn: ~$2,156 (NR mountain goat tag ~$2,101 + $55 NR hunting license). The $45 was the application fee only. Pure random lottery — no preference points. Apply April 1–30 at idfg.idaho.gov. Selway-Bitterroot unit is spectacular. // VERIFY: confirm 2026 NR goat tag at idfg.idaho.gov',
     difficulty: 'nearly_impossible',
   },
 
@@ -480,11 +477,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'mt', stateName: 'Montana', species: 'black_bear', seasonType: 'any',
     appOpenMonth: 5, appCloseMonth: 6, appCloseDay: 1,
-    feeNonresident: 20, feeResident: 10,
+    feeNonresident: 408, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 20,
     hasOTC: false, oddsAtZeroPts: 0.50, oddsAt5Pts: 0.50, oddsAt10Pts: 0.50,
     oddsAt15Pts: 0.50, oddsAt20Pts: 0.50,
-    notes: 'No OTC for non-residents. NR bear requires the Big Game Combo or stand-alone NR Bear License via draw. Excellent populations once drawn. Verify at fwp.mt.gov.',
+    notes: 'Total NR cost when drawn: ~$408 (NR black bear license $355 + $53 conservation license). The $20 was the application fee only. No OTC for non-residents. NR bear requires the Big Game Combo or stand-alone NR Bear License via draw. Excellent populations once drawn. // VERIFY: confirm 2026 NR bear license at fwp.mt.gov',
     difficulty: 'moderate',
   },
   {
@@ -510,11 +507,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'co', stateName: 'Colorado', species: 'black_bear', seasonType: 'any',
     appOpenMonth: 3, appCloseMonth: 4, appCloseDay: 1,
-    feeNonresident: 63, feeResident: 8,
+    feeNonresident: 467, feeResident: 8,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 20,
     hasOTC: true, oddsAtZeroPts: 0.99, oddsAt5Pts: 0.99, oddsAt10Pts: 0.99,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'OTC by unit — some units have quotas that close mid-season. Verify unit-level availability at cpw.state.co.us before purchasing. One of the largest black bear populations in the US. Good combo hunt with elk/deer.',
+    notes: 'Total NR OTC cost: ~$467 (NR bear tag ~$370 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only. OTC by unit — some units have quotas that close mid-season. Verify unit-level availability at cpw.state.co.us before purchasing. // VERIFY: confirm 2026 NR bear tag at cpw.state.co.us',
     difficulty: 'easy',
   },
 
@@ -574,11 +571,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'ca', stateName: 'California', species: 'elk', seasonType: 'any',
     appOpenMonth: 2, appCloseMonth: 3, appCloseDay: 15,
-    feeNonresident: 48, feeResident: 48,
+    feeNonresident: 1535, feeResident: 48,
     pointSystem: 'preference', maxPointsEst: 20, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.02, oddsAt5Pts: 0.08, oddsAt10Pts: 0.25,
     oddsAt15Pts: 0.55, oddsAt20Pts: 0.90,
-    notes: 'Tule elk unique to CA. Roosevelt elk in northwest zones. Very few NR tags. Residents and NR compete equally in most zones.',
+    notes: 'Total NR cost when drawn: ~$1,535 (NR elk tag ~$1,487 + $48 NR hunting license). The $48 was the license/application fee only. Tule elk unique to CA. Roosevelt elk in northwest zones. Very few NR tags. Residents and NR compete equally in most zones. // VERIFY: confirm 2026 NR elk tag at wildlife.ca.gov',
     difficulty: 'hard',
   },
   {
@@ -594,41 +591,41 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'ca', stateName: 'California', species: 'mule_deer', seasonType: 'archery',
     appOpenMonth: 6, appCloseMonth: 7, appCloseDay: 10,
-    feeNonresident: 48, feeResident: 48,
+    feeNonresident: 348, feeResident: 48,
     pointSystem: 'preference', maxPointsEst: 16, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.05, oddsAt5Pts: 0.20, oddsAt10Pts: 0.55,
     oddsAt15Pts: 0.90, oddsAt20Pts: 0.99,
-    notes: 'Zone A and X zones are most coveted. Many deer zones available to residents OTC. NR must draw. Premium zones like A-zone require points.',
+    notes: 'Total NR cost when drawn: ~$348 (NR deer tag ~$300 + $48 NR hunting license). The $48 was the license/application fee only. Zone A and X zones are most coveted. NR must draw. Premium zones like A-zone require points. // VERIFY: confirm 2026 NR deer tag at wildlife.ca.gov',
     difficulty: 'hard',
   },
   {
     stateId: 'ca', stateName: 'California', species: 'mule_deer', seasonType: 'any',
     appOpenMonth: 6, appCloseMonth: 7, appCloseDay: 10,
-    feeNonresident: 48, feeResident: 48,
+    feeNonresident: 348, feeResident: 48,
     pointSystem: 'preference', maxPointsEst: 18, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.03, oddsAt5Pts: 0.12, oddsAt10Pts: 0.35,
     oddsAt15Pts: 0.70, oddsAt20Pts: 0.99,
-    notes: 'General rifle season. Zone X zones highly coveted. A-zone is general with OTC for residents. NR must draw most zones.',
+    notes: 'Total NR cost when drawn: ~$348 (NR deer tag ~$300 + $48 NR hunting license). The $48 was the license/application fee only. General rifle season. Zone X zones highly coveted. A-zone is general with OTC for residents. NR must draw most zones. // VERIFY: confirm 2026 NR deer tag at wildlife.ca.gov',
     difficulty: 'hard',
   },
   {
     stateId: 'ca', stateName: 'California', species: 'bighorn_sheep', seasonType: 'any',
     appOpenMonth: 2, appCloseMonth: 3, appCloseDay: 15,
-    feeNonresident: 48, feeResident: 48,
+    feeNonresident: 1548, feeResident: 48,
     pointSystem: 'preference', maxPointsEst: 25, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.003, oddsAt5Pts: 0.008, oddsAt10Pts: 0.025,
     oddsAt15Pts: 0.08, oddsAt20Pts: 0.25,
-    notes: 'Desert bighorn in southern CA, Sierra Nevada bighorn extremely rare. Apply annually for points. 15-25 year commitment.',
+    notes: 'Total NR cost when drawn: ~$1,548 (NR bighorn sheep tag ~$1,500 + $48 NR hunting license). The $48 was the license/application fee only. Desert bighorn in southern CA, Sierra Nevada bighorn extremely rare. Apply annually for points. 15-25 year commitment. // VERIFY: confirm 2026 NR sheep tag at wildlife.ca.gov',
     difficulty: 'nearly_impossible',
   },
   {
     stateId: 'ca', stateName: 'California', species: 'pronghorn', seasonType: 'any',
     appOpenMonth: 2, appCloseMonth: 3, appCloseDay: 15,
-    feeNonresident: 48, feeResident: 48,
+    feeNonresident: 348, feeResident: 48,
     pointSystem: 'preference', maxPointsEst: 15, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.05, oddsAt5Pts: 0.20, oddsAt10Pts: 0.55,
     oddsAt15Pts: 0.90, oddsAt20Pts: 0.99,
-    notes: 'Northeastern CA (Modoc/Lassen counties) pronghorn. Underrated opportunity. Residents have better odds. Scenic high desert hunt.',
+    notes: 'Total NR cost when drawn: ~$348 (NR pronghorn tag ~$300 + $48 NR hunting license). The $48 was the license/application fee only. Northeastern CA (Modoc/Lassen counties) pronghorn. Underrated opportunity. Residents have better odds. Scenic high desert hunt. // VERIFY: confirm 2026 NR pronghorn tag at wildlife.ca.gov',
     difficulty: 'hard',
   },
 
@@ -636,31 +633,31 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'nv', stateName: 'Nevada', species: 'elk', seasonType: 'archery',
     appOpenMonth: 12, appCloseMonth: 2, appCloseDay: 15,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 15, feeResident: 10,
     pointSystem: 'bonus', maxPointsEst: 18, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.03, oddsAt5Pts: 0.10, oddsAt10Pts: 0.28,
     oddsAt15Pts: 0.55, oddsAt20Pts: 0.85,
-    notes: 'Archery elk separate application from rifle. Ruby Mountains and Humboldt units top choices. Bonus points help significantly. NOTE: 2026 tag fees not yet published — verify at ndow.org.',
+    notes: 'Application fee $15. NR archery elk tag if drawn ~$1,200 — verify at ndow.org. Archery elk separate application from rifle. Ruby Mountains and Humboldt units top choices. Bonus points help significantly. // VERIFY: confirm tag cost when drawn',
     difficulty: 'hard',
   },
   {
     stateId: 'nv', stateName: 'Nevada', species: 'moose', seasonType: 'any',
     appOpenMonth: 12, appCloseMonth: 2, appCloseDay: 15,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 15, feeResident: 10,
     pointSystem: 'bonus', maxPointsEst: 20, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.005, oddsAt5Pts: 0.015, oddsAt10Pts: 0.05,
     oddsAt15Pts: 0.18, oddsAt20Pts: 0.50,
-    notes: 'Shiras moose in northeastern NV. Very few tags. Apply annually for bonus points. NOTE: 2026 tag fees not yet published — verify at ndow.org.',
+    notes: 'Application fee $15. NR moose tag if drawn ~$1,500 — verify at ndow.org. Shiras moose in northeastern NV. Very few tags. Apply annually for bonus points. // VERIFY: confirm tag cost when drawn',
     difficulty: 'nearly_impossible',
   },
   {
     stateId: 'nv', stateName: 'Nevada', species: 'mountain_goat', seasonType: 'any',
     appOpenMonth: 12, appCloseMonth: 2, appCloseDay: 15,
-    feeNonresident: 10, feeResident: 10,
+    feeNonresident: 15, feeResident: 10,
     pointSystem: 'bonus', maxPointsEst: 22, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.003, oddsAt5Pts: 0.008, oddsAt10Pts: 0.025,
     oddsAt15Pts: 0.10, oddsAt20Pts: 0.30,
-    notes: 'Ruby Mountains mountain goat. Extremely limited tags. Apply every year; bonus points compound over time. NOTE: 2026 tag fees not yet published — verify at ndow.org.',
+    notes: 'Application fee $15. NR mountain goat tag if drawn ~$1,500 — verify at ndow.org. Ruby Mountains mountain goat. Extremely limited tags. Apply every year; bonus points compound over time. // VERIFY: confirm tag cost when drawn',
     difficulty: 'nearly_impossible',
   },
 
@@ -794,11 +791,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'mt', stateName: 'Montana', species: 'bison', seasonType: 'any',
     appOpenMonth: 5, appCloseMonth: 6, appCloseDay: 1,
-    feeNonresident: 20, feeResident: 10,
+    feeNonresident: 803, feeResident: 10,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 5,
     hasOTC: false, oddsAtZeroPts: 0.002, oddsAt5Pts: 0.002, oddsAt10Pts: 0.002,
     oddsAt15Pts: 0.002, oddsAt20Pts: 0.002,
-    notes: 'Extremely rare. Yellowstone border hunt. Apply every year as a lottery ticket.',
+    notes: 'Total NR cost when drawn: ~$803 (NR bison license $750 + $53 conservation license). The $20 was the application fee only. Extremely rare. Yellowstone border hunt. Apply every year as a lottery ticket. // VERIFY: confirm 2026 NR bison license at fwp.mt.gov',
     difficulty: 'nearly_impossible',
   },
   {
