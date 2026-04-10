@@ -37,20 +37,21 @@ export function proxy(request: NextRequest) {
         status: 204,
         headers: {
           "Access-Control-Allow-Origin": incomingOrigin ?? "https://taghunter.us",
-          "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+          "Access-Control-Allow-Methods": "POST, GET, DELETE, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Max-Age": "86400",
         },
       });
     }
 
-    // Reject cross-origin POST requests from unknown origins
-    if (request.method === "POST" && incomingOrigin && !isAllowedOrigin(incomingOrigin)) {
+    // Reject cross-origin mutating requests from unknown origins (CSRF protection)
+    const isMutating = request.method === "POST" || request.method === "DELETE" || request.method === "PUT" || request.method === "PATCH";
+    if (isMutating && incomingOrigin && !isAllowedOrigin(incomingOrigin)) {
       return new Response("Forbidden", { status: 403 });
     }
 
-    // Require JSON content-type on POST
-    if (request.method === "POST" && !ct.includes("application/json")) {
+    // Require JSON content-type on POST/PUT/PATCH/DELETE (when body is sent)
+    if (isMutating && !ct.includes("application/json") && parseInt(request.headers.get("content-length") ?? "0") > 0) {
       return new Response("Bad Request", { status: 400 });
     }
 
@@ -74,7 +75,7 @@ export function proxy(request: NextRequest) {
   // ── CORS: restrict API responses to allowed origins ───────────────────────
   if (pathname.startsWith("/api/") && incomingOrigin && isAllowedOrigin(incomingOrigin)) {
     response.headers.set("Access-Control-Allow-Origin", incomingOrigin);
-    response.headers.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    response.headers.set("Access-Control-Allow-Methods", "POST, GET, DELETE, OPTIONS");
     response.headers.set("Access-Control-Allow-Headers", "Content-Type");
     response.headers.set("Vary", "Origin");
   }

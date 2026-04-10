@@ -2,11 +2,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import AppNav from "@/components/AppNav";
-import { huntingData, SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
+import { huntingData, SPECIES_LABELS, STATE_NAMES, DATA_YEAR } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { toggleReminder, loadReminders, getUpcomingReminders, DeadlineReminder } from "@/lib/tracker";
-import DataDisclaimer from "@/components/DataDisclaimer";
-import DataFreshnessWarning from "@/components/DataFreshnessWarning";
+import {
+  DeadlineVerification, getAllVerifications, buildVerificationMap,
+} from "@/lib/verifications";
 
 const ALL_SPECIES: SpeciesKey[] = [
   "elk", "mule_deer", "whitetail", "pronghorn",
@@ -107,12 +108,24 @@ export default function DeadlinesPage() {
   const [watchedKeys, setWatchedKeys] = useState<Set<string>>(new Set());
   const [alertDismissed, setAlertDismissed] = useState(false);
   const [upcomingReminders, setUpcomingReminders] = useState<DeadlineReminder[]>([]);
+  const [verificationMap, setVerificationMap] = useState<Map<string, DeadlineVerification>>(new Map());
 
   useEffect(() => {
     const reminders = loadReminders();
     setWatchedKeys(new Set(reminders.map(r => r.key)));
     setUpcomingReminders(getUpcomingReminders(14));
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    getAllVerifications(DATA_YEAR).then(list => {
+      if (!cancelled) setVerificationMap(buildVerificationMap(list));
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const getVerification = (d: Deadline) =>
+    verificationMap.get(`${d.stateId}-${d.species}`) ?? null;
 
   const deadlines = getDeadlines(speciesFilter);
   const openNow = deadlines.filter(d => d.isOpenNow);
@@ -174,7 +187,6 @@ export default function DeadlinesPage() {
     <div className="page">
       <AppNav />
       <div className="page-inner">
-      <DataFreshnessWarning />
       {/* Page title row */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
         <div>
@@ -185,8 +197,6 @@ export default function DeadlinesPage() {
           📅 Export .ics
         </button>
       </div>
-
-      <DataDisclaimer />
 
       {/* Reminder alerts */}
       {!alertDismissed && upcomingReminders.length > 0 && (
@@ -245,7 +255,7 @@ export default function DeadlinesPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {openNow.map(d => {
               const key = `${d.stateId}-${d.species}`;
-              return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} highlight />;
+              return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} highlight verification={getVerification(d)} />;
             })}
           </div>
         </div>
@@ -257,7 +267,7 @@ export default function DeadlinesPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {upcoming.map(d => {
               const key = `${d.stateId}-${d.species}`;
-              return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} />;
+              return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} verification={getVerification(d)} />;
             })}
           </div>
         </div>
@@ -269,7 +279,7 @@ export default function DeadlinesPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {later.map(d => {
               const key = `${d.stateId}-${d.species}`;
-              return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} />;
+              return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} verification={getVerification(d)} />;
             })}
           </div>
         </div>
@@ -288,6 +298,7 @@ interface CardProps {
   watched: boolean;
   onToggle: () => void;
   highlight?: boolean;
+  verification?: DeadlineVerification | null;
 }
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -298,50 +309,68 @@ function urgencyColor(days: number) {
   return "var(--success)";
 }
 
-function DeadlineCard({ d, watched, onToggle, highlight }: CardProps) {
+function DeadlineCard({ d, watched, onToggle, highlight, verification }: CardProps) {
   const color = urgencyColor(d.daysUntil);
+  const isVerified = !!verification;
   return (
     <div
       className="card"
       style={{
         padding: "14px 16px",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 16,
+        flexDirection: "column",
+        gap: 12,
         borderColor: highlight ? "var(--success-border)" : undefined,
         background: highlight ? "var(--success-bg)" : undefined,
       }}
     >
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 5 }}>
-          <span style={{ fontWeight: 800, fontSize: 14, color: "var(--text)" }}>{d.stateName}</span>
-          <span style={{ fontSize: 13, color: "var(--text-2)" }}>{SPECIES_LABELS[d.species]}</span>
-          {d.isOpenNow && <span className="badge badge-green">OPEN NOW</span>}
-          {d.hasOTC && <span className="badge badge-muted">OTC</span>}
-        </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 12, color: "var(--text-3)" }}>
-          <span>Closes {MONTHS[d.closeMonth - 1]} {d.closeDay}, {d.closeYear}</span>
-          <span>·</span>
-          <span>NR ${d.feeNonresident.toLocaleString()}</span>
-          <span>·</span>
-          <span>{POINT_SYSTEM_LABELS[d.pointSystem] ?? d.pointSystem}</span>
-        </div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-        <button
-          onClick={onToggle}
-          title={watched ? "Remove reminder" : "Set reminder"}
-          style={{ fontSize: "1.1rem", color: watched ? "var(--amber)" : "var(--text-3)", background: "none", border: "none", cursor: "pointer" }}
-        >
-          {watched ? "🔔" : "🔕"}
-        </button>
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: "1.1rem", fontWeight: 800, color, lineHeight: 1 }}>{d.daysUntil}d</div>
-          <div style={{ fontSize: 11, color, marginTop: 2 }}>
-            {d.daysUntil <= 14 ? "Closing soon" : d.daysUntil <= 45 ? "Coming up" : "Upcoming"}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 5 }}>
+            <span style={{ fontWeight: 800, fontSize: 14, color: "var(--text)" }}>{d.stateName}</span>
+            <span style={{ fontSize: 13, color: "var(--text-2)" }}>{SPECIES_LABELS[d.species]}</span>
+            {d.isOpenNow && <span className="badge badge-green">OPEN NOW</span>}
+            {d.hasOTC && <span className="badge badge-muted">OTC</span>}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 12, color: "var(--text-3)" }}>
+            <span>Closes {MONTHS[d.closeMonth - 1]} {d.closeDay}, {d.closeYear}</span>
+            <span>·</span>
+            <span>NR ${d.feeNonresident.toLocaleString()}</span>
+            <span>·</span>
+            <span>{POINT_SYSTEM_LABELS[d.pointSystem] ?? d.pointSystem}</span>
           </div>
         </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+          <button
+            onClick={onToggle}
+            title={watched ? "Remove reminder" : "Set reminder"}
+            style={{ fontSize: 11, fontWeight: 700, padding: "4px 10px", border: `1px solid ${watched ? "var(--amber)" : "var(--border)"}`, color: watched ? "var(--amber)" : "var(--text-3)", background: "none", cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.06em" }}
+          >
+            {watched ? "Watching" : "Remind"}
+          </button>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: "1.1rem", fontWeight: 800, color, lineHeight: 1 }}>{d.daysUntil}d</div>
+            <div style={{ fontSize: 11, color, marginTop: 2 }}>
+              {d.daysUntil <= 14 ? "Closing soon" : d.daysUntil <= 45 ? "Coming up" : "Upcoming"}
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Verification footer */}
+      <div style={{ borderTop: "1px solid var(--border)", paddingTop: 8 }}>
+        {isVerified ? (
+          <span style={{ fontSize: 11, color: "var(--success)" }}>
+            ✓ Verified {new Date(verification!.verified_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+            {" · "}
+            <a href={verification!.source_url} target="_blank" rel="noopener noreferrer" style={{ color: "var(--success)", textDecoration: "underline" }}>
+              {verification!.source_label} ↗
+            </a>
+          </span>
+        ) : (
+          <span style={{ fontSize: 11, color: "var(--amber)" }}>
+            ⚠ Unverified — always check official state site
+          </span>
+        )}
       </div>
     </div>
   );

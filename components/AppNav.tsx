@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAuth } from "@/lib/useAuth";
 
 const NAV_LINKS = [
@@ -9,6 +9,11 @@ const NAV_LINKS = [
   { href: "/chat",      label: "AI Advisor" },
   { href: "/dashboard", label: "Dashboard" },
 ];
+
+const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "")
+  .split(",")
+  .map(e => e.trim().toLowerCase())
+  .filter(Boolean);
 
 const SOIL = "#0F0D0A";
 const FENCE = "#2E2A24";
@@ -22,6 +27,10 @@ export default function AppNav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { user, signOut, loading } = useAuth();
+  const isAdmin = useMemo(
+    () => !!user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase()),
+    [user?.email],
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -82,6 +91,23 @@ export default function AppNav() {
                 {l.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href="/admin/verify"
+                style={{
+                  color: DUST,
+                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontSize: 11,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  transition: "color 0.15s",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
+                onMouseLeave={e => (e.currentTarget.style.color = DUST)}
+              >
+                Admin
+              </Link>
+            )}
             <Link
               href="/plan"
               style={{
@@ -201,6 +227,22 @@ export default function AppNav() {
                 {l.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href="/admin/verify"
+                onClick={() => setOpen(false)}
+                style={{
+                  color: DUST,
+                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontSize: 12,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  padding: "8px 0",
+                }}
+              >
+                Admin
+              </Link>
+            )}
             <Link
               href="/plan"
               onClick={() => setOpen(false)}

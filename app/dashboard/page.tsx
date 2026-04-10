@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import AppNav from "@/components/AppNav";
-import DataDisclaimer from "@/components/DataDisclaimer";
 import AddApplicationModal from "@/components/AddApplicationModal";
 import BudgetDashboard from "@/components/BudgetDashboard";
 import PointsTracker from "@/components/PointsTracker";
@@ -13,7 +12,7 @@ import LicenseTracker from "@/components/LicenseTracker";
 
 // ── shared data ─────────────────────────────────────────────────────────────
 import { STATE_APPLY_GUIDES, StateApplyGuide, DRAW_RESULT_MONTHS } from "@/lib/applyData";
-import { huntingData, SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
+import { huntingData, SPECIES_LABELS, STATE_NAMES, DATA_YEAR } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { HunterProfile } from "@/app/profile/page";
 import {
@@ -22,6 +21,9 @@ import {
   loadTracker, updateApplication, deleteApplication,
   deriveCurrentPoints, exportToCSV, CURRENT_YEAR,
 } from "@/lib/tracker";
+import {
+  DeadlineVerification, getAllVerifications, buildVerificationMap,
+} from "@/lib/verifications";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Design tokens
@@ -411,10 +413,19 @@ function getDeadlines(speciesFilter: SpeciesKey | "all"): DeadlineItem[] {
   return deadlines.sort((a, b) => a.daysUntil - b.daysUntil);
 }
 
-function DeadlineCard({ d, watched, onToggle, highlight }: { d: DeadlineItem; watched: boolean; onToggle: () => void; highlight?: boolean }) {
+function DeadlineCard({ d, watched, onToggle, highlight, verification }: { d: DeadlineItem; watched: boolean; onToggle: () => void; highlight?: boolean; verification?: DeadlineVerification | null }) {
   const borderColor = highlight ? PINE : FENCE;
   const isClosingSoon = d.daysUntil <= 14;
   const countdownLabel = isClosingSoon ? "Closing soon" : "Upcoming";
+  const isVerified = !!verification;
+  // Use confirmed values if they differ from computed/source values
+  const confirmedDate = verification?.close_date_confirmed
+    ? new Date(verification.close_date_confirmed)
+    : null;
+  const showConfirmedDate = confirmedDate &&
+    (confirmedDate.getMonth() + 1 !== d.closeMonth || confirmedDate.getDate() !== d.closeDay);
+  const confirmedFee = verification?.fee_nr_confirmed;
+  const showConfirmedFee = confirmedFee != null && confirmedFee !== d.feeNonresident;
   return (
     <div style={{
       background: BARK,
@@ -423,10 +434,15 @@ function DeadlineCard({ d, watched, onToggle, highlight }: { d: DeadlineItem; wa
       padding: 20,
       marginBottom: 8,
       display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 16,
+      flexDirection: "column",
+      gap: 14,
     }}>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 16,
+      }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 8 }}>
           <span style={{ fontFamily: DISPLAY, fontSize: 20, color: BONE, fontWeight: 700 }}>{d.stateName}</span>
@@ -508,6 +524,57 @@ function DeadlineCard({ d, watched, onToggle, highlight }: { d: DeadlineItem; wa
           </div>
         </div>
       </div>
+      </div>
+      {/* Verification footer */}
+      <div style={{
+        borderTop: `1px solid ${FENCE}`,
+        paddingTop: 10,
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: 10,
+      }}>
+        {isVerified ? (
+          <>
+            <span style={{
+              fontFamily: MONO,
+              fontSize: 11,
+              color: PINE,
+              letterSpacing: "0.04em",
+            }}>
+              ✓ Verified {new Date(verification!.verified_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+              {" · "}
+              <a
+                href={verification!.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: PINE, textDecoration: "underline" }}
+              >
+                {verification!.source_label} ↗
+              </a>
+            </span>
+            {showConfirmedDate && (
+              <span style={{ fontFamily: MONO, fontSize: 10, color: AMBER, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                Confirmed close: {confirmedDate!.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+              </span>
+            )}
+            {showConfirmedFee && (
+              <span style={{ fontFamily: MONO, fontSize: 10, color: AMBER, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                Confirmed NR fee: ${confirmedFee!.toLocaleString()}
+              </span>
+            )}
+          </>
+        ) : (
+          <span style={{
+            fontFamily: MONO,
+            fontSize: 11,
+            color: AMBER,
+            letterSpacing: "0.04em",
+          }}>
+            ⚠ Unverified — always check official state site
+          </span>
+        )}
+      </div>
     </div>
   );
 }
@@ -517,7 +584,17 @@ function DeadlinesTab() {
   const [watchedKeys, setWatchedKeys] = useState<Set<string>>(new Set());
   const [alertDismissed, setAlertDismissed] = useState(false);
   const [upcomingReminders, setUpcomingReminders] = useState<DeadlineReminder[]>([]);
+  const [verificationMap, setVerificationMap] = useState<Map<string, DeadlineVerification>>(new Map());
   useEffect(() => { const r = loadReminders(); setWatchedKeys(new Set(r.map(x => x.key))); setUpcomingReminders(getUpcomingReminders(14)); }, []);
+  useEffect(() => {
+    let cancelled = false;
+    getAllVerifications(DATA_YEAR).then(list => {
+      if (!cancelled) setVerificationMap(buildVerificationMap(list));
+    });
+    return () => { cancelled = true; };
+  }, []);
+  const getVerification = (d: DeadlineItem) =>
+    verificationMap.get(`${d.stateId}-${d.species}`) ?? null;
   const deadlines = getDeadlines(speciesFilter);
   const openNow = deadlines.filter(d => d.isOpenNow);
   const upcoming = deadlines.filter(d => !d.isOpenNow && d.daysUntil <= 60);
@@ -578,7 +655,6 @@ function DeadlinesTab() {
           EXPORT .ICS
         </button>
       </div>
-      <DataDisclaimer />
       {!alertDismissed && upcomingReminders.length > 0 && (
         <div style={{
           background: BARK,
@@ -632,7 +708,7 @@ function DeadlinesTab() {
         <div style={{ marginBottom: 24 }}>
           <p style={{ ...sectionLabelStyle, color: PINE }}>Apply Right Now</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {openNow.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} highlight />; })}
+            {openNow.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} highlight verification={getVerification(d)} />; })}
           </div>
         </div>
       )}
@@ -640,7 +716,7 @@ function DeadlinesTab() {
         <div style={{ marginBottom: 24 }}>
           <p style={{ ...sectionLabelStyle, color: AMBER }}>Next 60 Days</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {upcoming.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} />; })}
+            {upcoming.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} verification={getVerification(d)} />; })}
           </div>
         </div>
       )}
@@ -648,7 +724,7 @@ function DeadlinesTab() {
         <div>
           <p style={sectionLabelStyle}>Later This Season</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {later.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} />; })}
+            {later.map(d => { const key = `${d.stateId}-${d.species}`; return <DeadlineCard key={key} d={d} watched={watchedKeys.has(key)} onToggle={() => handleToggleReminder(d)} verification={getVerification(d)} />; })}
           </div>
         </div>
       )}
