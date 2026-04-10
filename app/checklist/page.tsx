@@ -262,8 +262,11 @@ function ChecklistCard({ item, onToggle }: { item: ChecklistItem; onToggle: () =
             {SPECIES_LABELS[item.species]}
           </span>
           {item.hasOTC && (
-            <span className="badge badge-green">
-              OTC
+            <span
+              className="badge badge-green"
+              title="Over-the-counter tag available for non-residents — no draw required"
+            >
+              NR OTC
             </span>
           )}
         </div>

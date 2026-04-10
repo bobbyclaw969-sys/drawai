@@ -63,8 +63,11 @@ function StateGroup({ title, states }: { title: string; states: ReturnType<typeo
             <div className="flex items-start justify-between mb-2">
               <span className="font-bold text-sm" style={{ color: "var(--text)" }}>{s.stateName}</span>
               {s.hasOTC && (
-                <span className="badge badge-green">
-                  OTC
+                <span
+                  className="badge badge-green"
+                  title="Over-the-counter tag available for non-residents — no draw required"
+                >
+                  NR OTC
                 </span>
               )}
             </div>

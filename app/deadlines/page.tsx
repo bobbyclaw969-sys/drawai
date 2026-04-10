@@ -330,7 +330,14 @@ function DeadlineCard({ d, watched, onToggle, highlight, verification }: CardPro
             <span style={{ fontWeight: 800, fontSize: 14, color: "var(--text)" }}>{d.stateName}</span>
             <span style={{ fontSize: 13, color: "var(--text-2)" }}>{SPECIES_LABELS[d.species]}</span>
             {d.isOpenNow && <span className="badge badge-green">OPEN NOW</span>}
-            {d.hasOTC && <span className="badge badge-muted">OTC</span>}
+            {d.hasOTC && (
+              <span
+                className="badge badge-muted"
+                title="Over-the-counter tag available for non-residents — no draw required"
+              >
+                NR OTC
+              </span>
+            )}
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 12, color: "var(--text-3)" }}>
             <span>Closes {MONTHS[d.closeMonth - 1]} {d.closeDay}, {d.closeYear}</span>

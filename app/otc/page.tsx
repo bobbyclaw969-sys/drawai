@@ -110,10 +110,32 @@ export default function OTCPage() {
       <DataFreshnessWarning />
       {/* Page title */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em" }}>OTC Tag Finder</h1>
+        <h1 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em" }}>
+          NR OTC Tag Finder
+        </h1>
         <p style={{ fontSize: 13, color: "var(--text-2)", marginTop: 4 }}>
-          Hunt this year — no draw required. Buy a license and go.
+          Non-resident over-the-counter tags — hunt this year, no draw required.
         </p>
+      </div>
+
+      {/* NR-only clarifier */}
+      <div
+        style={{
+          background: "var(--card)",
+          borderLeft: "4px solid var(--amber)",
+          borderTop: "1px solid var(--border)",
+          borderRight: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
+          borderRadius: 0,
+          padding: 16,
+          marginBottom: 20,
+          fontFamily: "var(--font-dm-mono), monospace",
+          fontSize: 13,
+          color: "var(--text-3)",
+          lineHeight: 1.6,
+        }}
+      >
+        All tags listed here are available over-the-counter for non-residents — no draw required. Always verify current availability and quota status at the official state agency website before purchasing.
       </div>
 
       {/* Filters */}

@@ -137,7 +137,7 @@ export default async function StateProfilePage({ params }: { params: Promise<{ s
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
           {[
             { label: "Species Available", value: bySpecies.size },
-            { label: "OTC Tags", value: hasOTC ? `${otcSpecies.length} species` : "Draw only" },
+            { label: "NR OTC Tags", value: hasOTC ? `${otcSpecies.length} species` : "Draw only" },
             { label: "NR Fee Range", value: minFee === maxFee ? `$${minFee.toLocaleString()}` : `$${minFee.toLocaleString()}–$${maxFee.toLocaleString()}` },
             { label: "Point System", value: pointSystems.map(p => POINT_SYSTEM_LABELS[p] ?? p).join(", ") },
           ].map(s => (
@@ -176,9 +176,12 @@ export default async function StateProfilePage({ params }: { params: Promise<{ s
                     {SPECIES_LABELS[d.species as SpeciesKey]}
                   </span>
                   {d.hasOTC && (
-                    <span className="ml-2 text-xs px-1.5 py-0.5 rounded"
-                      style={{ backgroundColor: "#1a3a1a", color: "#4ade80", border: "1px solid #2a5a2a" }}>
-                      OTC
+                    <span
+                      className="ml-2 text-xs px-1.5 py-0.5 rounded"
+                      title="Over-the-counter tag available for non-residents — no draw required"
+                      style={{ backgroundColor: "#1a3a1a", color: "#4ade80", border: "1px solid #2a5a2a" }}
+                    >
+                      NR OTC
                     </span>
                   )}
                   <div className="text-xs" style={{ color: "#6a7e6a" }}>

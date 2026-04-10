@@ -464,20 +464,25 @@ function DeadlineCard({ d, watched, onToggle, highlight, verification }: { d: De
             }}>OPEN NOW</span>
           )}
           {d.hasOTC && (
-            <span style={{
-              fontFamily: MONO,
-              fontSize: 10,
-              fontWeight: 500,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              padding: "2px 8px",
-              border: `1px solid ${FENCE}`,
-              color: DUST,
-              background: "transparent",
-              borderRadius: 0,
-              whiteSpace: "nowrap",
-              display: "inline-block",
-            }}>OTC</span>
+            <span
+              title="Over-the-counter tag available for non-residents — no draw required"
+              style={{
+                fontFamily: MONO,
+                fontSize: 10,
+                fontWeight: 500,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                padding: "2px 8px",
+                border: `1px solid ${FENCE}`,
+                color: DUST,
+                background: "transparent",
+                borderRadius: 0,
+                whiteSpace: "nowrap",
+                display: "inline-block",
+              }}
+            >
+              NR OTC
+            </span>
           )}
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontFamily: MONO, fontSize: 11, color: DUST, textTransform: "uppercase", letterSpacing: "0.12em" }}>

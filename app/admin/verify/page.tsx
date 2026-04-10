@@ -35,6 +35,17 @@ const ALL_SPECIES: SpeciesKey[] = [
 
 const MONTHS = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+// Rows whose hasOTC flag was changed in the most recent data audit.
+// Admin should re-verify these against the official source first.
+const RECENTLY_UPDATED = new Set<string>([
+  "or-elk",
+  "wa-elk",
+  "id-black_bear",
+  "or-black_bear",
+  "co-black_bear",
+  "ca-black_bear",
+]);
+
 const KNOWN_SOURCES: { state: string; url: string }[] = [
   { state: "Arizona",    url: "https://www.azgfd.com/hunting/draw/" },
   { state: "California", url: "https://wildlife.ca.gov/Licensing/Hunting" },
@@ -433,6 +444,26 @@ function VerificationRow({
             <span style={{ fontFamily: MONO, fontSize: 12, color: DUST, textTransform: "uppercase", letterSpacing: "0.08em" }}>
               {SPECIES_LABELS[row.species]}
             </span>
+            {RECENTLY_UPDATED.has(`${row.stateId}-${row.species}`) && (
+              <span
+                title="hasOTC was changed in the most recent data audit — verify against the source"
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 10,
+                  fontWeight: 500,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  padding: "2px 8px",
+                  border: `1px solid ${AMBER}`,
+                  color: AMBER,
+                  background: "transparent",
+                  borderRadius: 0,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                ⚠ Data updated — verify
+              </span>
+            )}
           </div>
           <p style={{ fontFamily: MONO, fontSize: 11, color: DUST, marginTop: 6, textTransform: "uppercase", letterSpacing: "0.1em" }}>
             Closes {MONTHS[row.closeMonth]} {row.closeDay} · NR ${row.feeNonresident.toLocaleString()} · {row.pointSystem}

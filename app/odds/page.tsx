@@ -203,7 +203,14 @@ export default function OddsPage() {
               <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 14 }}>
                 <span style={{ fontWeight: 800, fontSize: 15, color: "var(--text)" }}>{row.stateName}</span>
                 <span className="badge badge-muted">{POINT_SYSTEM_LABELS[row.pointSystem]}</span>
-                {row.hasOTC && <span className="badge badge-green">OTC</span>}
+                {row.hasOTC && (
+                  <span
+                    className="badge badge-green"
+                    title="Over-the-counter tag available for non-residents — no draw required"
+                  >
+                    NR OTC
+                  </span>
+                )}
                 <span style={{ marginLeft: "auto", fontSize: 13, fontWeight: 700, color: "var(--amber)" }}>
                   NR ${row.feeNonresident.toLocaleString()}
                 </span>
