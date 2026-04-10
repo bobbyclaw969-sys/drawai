@@ -21,84 +21,160 @@ const NAV_LINKS = [
   { href: "/plan", label: "Build Plan" },
 ];
 
-// ── Species SVGs ───────────────────────────────────────────────────────────
-const SpeciesSVG = ({ species }: { species: string }) => {
+// ── Species SVGs (clean recognizable silhouettes at 64x64) ────────────────
+const SpeciesSVG = ({ species, size = 36 }: { species: string; size?: number }) => {
   const props = {
-    viewBox: "0 0 40 40",
-    fill: "currentColor",
-    width: 28,
-    height: 28,
+    viewBox: "0 0 64 64",
+    width: size,
+    height: size,
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
   };
   switch (species) {
     case "elk":
       return (
         <svg {...props}>
-          <path d="M20 6c-.7 0-1.3.3-1.7.8l-1 1.7-3.2-.8c-.6-.1-1.2.3-1.3.9l-.4 3.3-3 1.1c-.6.2-.9.9-.6 1.5l1.4 2.8-2 2.8c-.4.5-.2 1.2.3 1.5l2.9 1.3.3 3.3c.1.6.6 1.1 1.3 1l3.2-.8 2.1 2.6c.4.5 1.1.5 1.5 0l2.1-2.6 3.2.8c.6.2 1.2-.3 1.3-1l.3-3.3 2.9-1.3c.5-.3.7-1 .3-1.5l-2-2.8 1.4-2.8c.3-.6 0-1.3-.6-1.5l-3-1.1-.4-3.3c-.1-.6-.7-1-1.3-.9l-3.2.8-1-1.7C21.3 6.3 20.7 6 20 6z" />
-          <path d="M13 8 L11 4 M11 4 L9 2 M11 4 L13 3" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M27 8 L29 4 M29 4 L31 2 M29 4 L27 3" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
+          {/* Massive antlers */}
+          <path d="M22 16 L14 6 M14 6 L8 8 M14 6 L10 12 M14 6 L18 10" />
+          <path d="M42 16 L50 6 M50 6 L56 8 M50 6 L54 12 M50 6 L46 10" />
+          {/* Head */}
+          <path d="M22 18 Q22 14 32 14 Q42 14 42 18 L42 28 Q42 32 38 32 L26 32 Q22 32 22 28 Z" />
+          {/* Snout */}
+          <path d="M28 32 L28 38 Q28 42 32 42 Q36 42 36 38 L36 32" />
+          {/* Eye */}
+          <circle cx="27" cy="22" r="1" fill="currentColor" />
+          <circle cx="37" cy="22" r="1" fill="currentColor" />
         </svg>
       );
     case "mule_deer":
       return (
         <svg {...props}>
-          <path d="M20 9c-1 0-1.8.5-2.3 1.2L16 13l-3-.7c-.7-.2-1.4.3-1.5 1l-.3 3-2.8 1c-.7.3-1 1-.7 1.7l1.2 2.5-1.5 2.4c-.4.6-.2 1.3.5 1.6l2.8 1 .3 3c.1.7.8 1.2 1.5 1l3-.7 2 2.3c.5.5 1.3.5 1.7 0l2-2.3 3 .7c.7.2 1.4-.3 1.5-1l.3-3 2.8-1c.7-.3.9-1 .5-1.6L30 22.5l1.2-2.5c.3-.7 0-1.4-.7-1.7l-2.8-1-.3-3c-.1-.7-.8-1.2-1.5-1L23 13l-1.7-2.8C20.8 9.5 20.5 9 20 9z" />
-          <path d="M14 10 L11 6 M11 6 L9 3 M13 7 L11 6" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M26 10 L29 6 M29 6 L31 3 M27 7 L29 6" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
+          {/* Forked antlers */}
+          <path d="M22 18 L18 8 M18 8 L14 4 M18 8 L22 10" />
+          <path d="M42 18 L46 8 M46 8 L50 4 M46 8 L42 10" />
+          {/* Head — narrower */}
+          <path d="M24 20 Q24 16 32 16 Q40 16 40 20 L40 30 Q40 34 36 34 L28 34 Q24 34 24 30 Z" />
+          {/* Snout */}
+          <path d="M28 34 L28 42 Q28 46 32 46 Q36 46 36 42 L36 34" />
+          {/* Big mule ears */}
+          <ellipse cx="20" cy="20" rx="3" ry="6" />
+          <ellipse cx="44" cy="20" rx="3" ry="6" />
+          <circle cx="28" cy="24" r="1" fill="currentColor" />
+          <circle cx="36" cy="24" r="1" fill="currentColor" />
         </svg>
       );
     case "whitetail":
       return (
         <svg {...props}>
-          <path d="M20 10c-.9 0-1.7.4-2.1 1.1L16.5 14l-2.7-.7c-.6-.1-1.3.3-1.4.9l-.3 2.8-2.6.9c-.6.3-.9.9-.6 1.5l1.1 2.2-1.4 2.2c-.4.6-.2 1.2.4 1.5l2.5.9.3 2.8c.1.7.8 1.1 1.4 1l2.7-.6 1.8 2.1c.4.5 1.2.5 1.6 0l1.8-2.1 2.7.6c.6.1 1.3-.3 1.4-1l.3-2.8 2.5-.9c.6-.3.8-1 .4-1.5l-1.4-2.2 1.1-2.2c.3-.6 0-1.2-.6-1.5l-2.6-.9-.3-2.8c-.1-.6-.8-1-1.4-.9L23.5 14l-1.4-2.9C21.7 10.4 20.9 10 20 10z" />
-          <path d="M15 11 L13 7 M13 7 L12 4 M13 7 L15 6" stroke="currentColor" fill="none" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M25 11 L27 7 M27 7 L28 4 M27 7 L25 6" stroke="currentColor" fill="none" strokeWidth="1.4" strokeLinecap="round" />
+          {/* Whitetail antlers — curved up */}
+          <path d="M22 16 Q18 8 14 6" />
+          <path d="M22 16 Q22 10 24 8" />
+          <path d="M42 16 Q46 8 50 6" />
+          <path d="M42 16 Q42 10 40 8" />
+          {/* Head */}
+          <path d="M24 18 Q24 14 32 14 Q40 14 40 18 L40 30 Q40 34 36 34 L28 34 Q24 34 24 30 Z" />
+          {/* Snout */}
+          <path d="M28 34 L28 42 Q28 46 32 46 Q36 46 36 42 L36 34" />
+          <circle cx="28" cy="22" r="1" fill="currentColor" />
+          <circle cx="36" cy="22" r="1" fill="currentColor" />
         </svg>
       );
     case "pronghorn":
       return (
         <svg {...props}>
-          <path d="M20 12c-1.1 0-2 .6-2.5 1.4L16 16h-3c-.8 0-1.5.7-1.5 1.5v1.2c0 .6.4 1.1 1 1.3L11 22c-.5.7-.2 1.6.5 2 .3.2.7.2 1 .1l2-.6v2.5c0 1.1.9 2 2 2h.8l.7 4h8l.7-4H27c1.1 0 2-.9 2-2v-2.5l2 .6c.3.1.7 0 1-.1.7-.4 1-1.3.5-2l-1.5-2c.6-.2 1-.7 1-1.3v-1.2c0-.8-.7-1.5-1.5-1.5H27l-1.5-2.6c-.5-.8-1.4-1.4-2.5-1.4h-3z" />
-          <path d="M17 12 L15 7 M15 7 L14 4" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M23 12 L25 7 M25 7 L26 4" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
+          {/* Pronghorn distinctive curved horns with prong */}
+          <path d="M22 16 Q20 6 24 4" />
+          <path d="M22 12 L18 10" />
+          <path d="M42 16 Q44 6 40 4" />
+          <path d="M42 12 L46 10" />
+          {/* Head */}
+          <path d="M24 18 Q24 14 32 14 Q40 14 40 18 L40 28 Q40 32 36 32 L28 32 Q24 32 24 28 Z" />
+          {/* Snout */}
+          <path d="M28 32 L28 40 Q28 44 32 44 Q36 44 36 40 L36 32" />
+          <circle cx="28" cy="22" r="1" fill="currentColor" />
+          <circle cx="36" cy="22" r="1" fill="currentColor" />
         </svg>
       );
     case "bighorn_sheep":
       return (
         <svg {...props}>
-          <path d="M20 11c-1.2 0-2.2.6-2.8 1.5L16 15l-2.8-.5c-.7-.1-1.3.4-1.4 1.1l-.2 2.9-2.7.8c-.6.2-1 .9-.7 1.5l1 2.3L8 25.5c-.4.6-.2 1.3.4 1.6l2.6.8.2 2.9c.1.7.7 1.1 1.4 1l2.8-.5 1.7 2.2c.4.5 1.1.6 1.6.2l.3-.2 1.7 2.2c.4.5 1.2.5 1.6 0l1.7-2.2 2.8.5c.7.1 1.3-.3 1.4-1l.2-2.9 2.6-.8c.6-.3.8-1 .4-1.6l-1.2-2.4 1-2.3c.3-.6-.1-1.3-.7-1.5l-2.7-.8-.2-2.9c-.1-.7-.7-1.2-1.4-1.1L24 15l-1.2-2.5C22.2 11.6 21.2 11 20 11z" />
-          <path d="M14 12 Q8 10 7 15 Q6 20 11 19" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" />
+          {/* Massive curling horns */}
+          <path d="M22 18 Q10 18 8 26 Q8 34 18 32" />
+          <path d="M42 18 Q54 18 56 26 Q56 34 46 32" />
+          {/* Head */}
+          <path d="M22 20 Q22 16 32 16 Q42 16 42 20 L42 30 Q42 34 38 34 L26 34 Q22 34 22 30 Z" />
+          {/* Snout */}
+          <path d="M28 34 L28 42 Q28 46 32 46 Q36 46 36 42 L36 34" />
+          <circle cx="27" cy="24" r="1" fill="currentColor" />
+          <circle cx="37" cy="24" r="1" fill="currentColor" />
         </svg>
       );
     case "mountain_goat":
       return (
         <svg {...props}>
-          <path d="M20 13c-1 0-1.8.5-2.3 1.2L16.5 17l-2.5-.4c-.7-.1-1.3.4-1.3 1.1l-.2 2.5-2.4.7c-.6.2-.9.8-.7 1.4l.9 2-1 2.1c-.3.6 0 1.2.6 1.5l2.4.7.2 2.5c.1.6.7 1 1.3 1l2.5-.4 1.5 1.9c.4.5 1.1.5 1.5 0l1.5-1.9 2.5.4c.6.1 1.3-.3 1.3-1l.2-2.5 2.4-.7c.6-.3.9-.9.6-1.5l-1-2.1.9-2c.2-.6-.1-1.2-.7-1.4l-2.4-.7-.2-2.5c-.1-.7-.7-1.2-1.3-1.1L23.5 17l-1.2-2.8C21.8 13.5 20.9 13 20 13z" />
-          <path d="M17 13 L16 10 M16 10 L15 8" stroke="currentColor" fill="none" strokeWidth="1.3" strokeLinecap="round" />
-          <path d="M23 13 L24 10 M24 10 L25 8" stroke="currentColor" fill="none" strokeWidth="1.3" strokeLinecap="round" />
+          {/* Short straight back-curved horns */}
+          <path d="M24 16 Q22 8 26 4" />
+          <path d="M40 16 Q42 8 38 4" />
+          {/* Head with beard */}
+          <path d="M24 18 Q24 14 32 14 Q40 14 40 18 L40 30 Q40 34 36 34 L28 34 Q24 34 24 30 Z" />
+          {/* Snout + beard */}
+          <path d="M28 34 L28 42 Q28 46 32 46 Q36 46 36 42 L36 34" />
+          <path d="M30 46 L29 52 M34 46 L35 52" />
+          <circle cx="28" cy="22" r="1" fill="currentColor" />
+          <circle cx="36" cy="22" r="1" fill="currentColor" />
         </svg>
       );
     case "moose":
       return (
         <svg {...props}>
-          <path d="M20 14c-.9 0-1.6.4-2 1.1L16.7 18l-2.4-.4c-.6-.1-1.2.3-1.3 1l-.2 2.2-2.1.6c-.5.2-.8.8-.6 1.3l.8 1.8-.9 1.9c-.3.6 0 1.2.6 1.4l2.1.6.2 2.2c.1.6.7 1 1.3.9l2.4-.4 1.3 1.7c.4.4 1 .4 1.4 0l1.3-1.7 2.4.4c.6.1 1.2-.3 1.3-.9l.2-2.2 2.1-.6c.6-.2.9-.8.6-1.4l-.9-1.9.8-1.8c.2-.5-.1-1.1-.6-1.3l-2.1-.6-.2-2.2c-.1-.6-.7-1-1.3-1L23.3 18l-1.3-2.9C21.6 14.4 20.9 14 20 14z" />
-          <path d="M13 15 L9 11 M9 11 L7 8 M9 11 L8 14 M9 11 L11 13" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M27 15 L31 11 M31 11 L33 8 M31 11 L32 14 M31 11 L29 13" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
+          {/* Wide palmate antlers */}
+          <path d="M20 14 L8 8 M20 14 L8 14 M20 14 L10 20 M20 14 L14 6" />
+          <path d="M44 14 L56 8 M44 14 L56 14 M44 14 L54 20 M44 14 L50 6" />
+          {/* Long moose head */}
+          <path d="M22 18 Q22 14 32 14 Q42 14 42 18 L42 28 Q42 32 38 32 L26 32 Q22 32 22 28 Z" />
+          {/* Long snout (moose signature) */}
+          <path d="M26 32 L26 46 Q26 52 32 52 Q38 52 38 46 L38 32" />
+          {/* Dewlap */}
+          <path d="M30 50 Q32 56 34 50" />
+          <circle cx="27" cy="22" r="1" fill="currentColor" />
+          <circle cx="37" cy="22" r="1" fill="currentColor" />
         </svg>
       );
     case "black_bear":
       return (
         <svg {...props}>
-          <path d="M20 10c-2.2 0-4 1.5-4.5 3.5H15c-.8 0-1.5.5-1.8 1.3L12 18l-2.5 .8c-.6.2-.9.8-.7 1.4l.8 2.2-1 2c-.3.7 0 1.4.7 1.7l2.5.7.2 2.3c.1.6.6 1.1 1.2 1l2.3-.4 1.5 2c.4.5 1.1.5 1.5 0l1.5-2 2.3.4c.6.1 1.2-.3 1.2-1l.2-2.3 2.5-.7c.7-.3 1-1 .7-1.7l-1-2 .8-2.2c.2-.6-.1-1.2-.7-1.4L25 18l-1.2-3.2c-.3-.8-1-1.3-1.8-1.3h-.5C21 11.5 20 10 19 10h1z" />
-          <circle cx="15" cy="11" r="2" />
-          <circle cx="25" cy="11" r="2" />
+          {/* Round bear ears */}
+          <circle cx="18" cy="14" r="5" />
+          <circle cx="46" cy="14" r="5" />
+          {/* Round head */}
+          <path d="M14 22 Q14 14 32 14 Q50 14 50 22 L50 38 Q50 46 32 46 Q14 46 14 38 Z" />
+          {/* Snout */}
+          <ellipse cx="32" cy="38" rx="6" ry="4" />
+          <circle cx="32" cy="36" r="1" fill="currentColor" />
+          {/* Eyes */}
+          <circle cx="24" cy="26" r="1.5" fill="currentColor" />
+          <circle cx="40" cy="26" r="1.5" fill="currentColor" />
         </svg>
       );
     case "bison":
       return (
         <svg {...props}>
-          <path d="M20 13c-1.5 0-2.8.8-3.5 2l-1 1.8-2.2-.3c-.7-.1-1.3.4-1.4 1.1l-.1 2-2.3.5c-.6.1-1 .7-.9 1.4l.5 2-1.2 1.9c-.4.6-.2 1.3.5 1.6l2.3.5 .1 2c.1.6.7 1.1 1.4 1l2.2-.3 1.4 1.7c.4.5 1.1.5 1.5.1l.2-.1.2.1c.4.4 1.1.4 1.5-.1l1.4-1.7 2.2.3c.7.1 1.3-.3 1.4-1l.1-2 2.3-.5c.7-.3.9-1 .5-1.6l-1.2-1.9.5-2c.1-.6-.3-1.3-.9-1.4l-2.3-.5-.1-2c-.1-.6-.7-1.2-1.4-1.1l-2.2.3-1-1.8C22.8 13.8 21.5 13 20 13z" />
-          <path d="M13 16 Q12 12 16 11 Q20 10 20 13" fill="currentColor" opacity="0.7" />
-          <path d="M15 14 L13 11 M25 14 L27 11" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" />
+          {/* Massive shoulder hump */}
+          <path d="M10 28 Q10 16 22 14 Q34 12 34 22" />
+          {/* Curved horns */}
+          <path d="M22 22 Q16 18 18 14" />
+          <path d="M42 22 Q48 18 46 14" />
+          {/* Head */}
+          <path d="M22 24 Q22 18 32 18 Q42 18 42 24 L42 36 Q42 42 36 42 L28 42 Q22 42 22 36 Z" />
+          {/* Snout */}
+          <path d="M28 42 L28 50 Q28 54 32 54 Q36 54 36 50 L36 42" />
+          {/* Beard */}
+          <path d="M30 54 L29 60 M34 54 L35 60" />
+          <circle cx="28" cy="28" r="1" fill="currentColor" />
+          <circle cx="36" cy="28" r="1" fill="currentColor" />
         </svg>
       );
     default:
@@ -359,36 +435,83 @@ export default function Home() {
         )}
       </nav>
 
-      {/* ── HERO with video ────────────────────────────────────────────── */}
+      {/* ── HERO ───────────────────────────────────────────────────────── */}
       <section className="relative" style={{ height: "100vh", minHeight: 640, overflow: "hidden" }}>
-        {/* Video background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ background: BARK }}>
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster=""
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          >
-            <source src="https://cdn.coverr.co/videos/coverr-a-massive-bull-elk-walks-through-the-trees-bugling/1080p.mp4" type="video/mp4" />
-            <source src="https://cdn.coverr.co/videos/coverr-a-massive-bull-elk-walks-through-the-trees-bugling/360p.mp4" type="video/mp4" />
-          </video>
-          {/* Gradient overlay */}
+        {/* Layered hero background — always works, no external dependencies */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ background: SOIL }}>
+          {/* Deep forest gradient base */}
           <div
             className="absolute inset-0"
             style={{
-              background: "linear-gradient(180deg, rgba(15,13,10,0.15) 0%, rgba(15,13,10,0.65) 60%, rgba(15,13,10,0.95) 100%)",
+              background: "radial-gradient(ellipse at 70% 30%, #2a1f12 0%, #1a1410 30%, #0F0D0A 70%)",
             }}
           />
-          {/* Amber tint */}
+
+          {/* Topographic line pattern (mountain ridges) */}
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="xMidYMid slice"
+            style={{ opacity: 0.55 }}
+          >
+            <defs>
+              <linearGradient id="topoFade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#D4852A" stopOpacity="0.22" />
+                <stop offset="60%" stopColor="#D4852A" stopOpacity="0.08" />
+                <stop offset="100%" stopColor="#D4852A" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            {/* Distant ridge */}
+            <path d="M0,520 L80,480 L180,510 L280,450 L380,490 L480,440 L580,470 L680,420 L780,460 L880,430 L980,470 L1080,440 L1180,480 L1280,450 L1380,470 L1440,460 L1440,900 L0,900 Z" fill="#1a1410" />
+            <path d="M0,520 L80,480 L180,510 L280,450 L380,490 L480,440 L580,470 L680,420 L780,460 L880,430 L980,470 L1080,440 L1180,480 L1280,450 L1380,470 L1440,460" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.4" />
+
+            {/* Mid ridge */}
+            <path d="M0,620 L100,580 L220,610 L340,550 L460,590 L580,540 L700,580 L820,520 L940,560 L1060,530 L1180,570 L1300,540 L1440,560 L1440,900 L0,900 Z" fill="#0f0c08" />
+            <path d="M0,620 L100,580 L220,610 L340,550 L460,590 L580,540 L700,580 L820,520 L940,560 L1060,530 L1180,570 L1300,540 L1440,560" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.5" />
+
+            {/* Front ridge — darkest */}
+            <path d="M0,750 L120,700 L240,730 L360,680 L480,720 L600,670 L720,710 L840,660 L960,700 L1080,650 L1200,690 L1320,650 L1440,680 L1440,900 L0,900 Z" fill="#070605" />
+            <path d="M0,750 L120,700 L240,730 L360,680 L480,720 L600,670 L720,710 L840,660 L960,700 L1080,650 L1200,690 L1320,650 L1440,680" fill="none" stroke="#D4852A" strokeWidth="1.5" strokeOpacity="0.35" />
+
+            {/* Sky topo lines */}
+            <g stroke="#D4852A" strokeOpacity="0.08" fill="none" strokeWidth="1">
+              <path d="M0,200 Q360,180 720,210 T1440,190" />
+              <path d="M0,250 Q360,230 720,260 T1440,240" />
+              <path d="M0,300 Q360,280 720,310 T1440,290" />
+              <path d="M0,350 Q360,330 720,360 T1440,340" />
+              <path d="M0,400 Q360,380 720,410 T1440,390" />
+            </g>
+          </svg>
+
+          {/* Amber sun glow orb — top right */}
+          <div
+            className="absolute"
+            style={{
+              top: "8%",
+              right: "12%",
+              width: 480,
+              height: 480,
+              background: "radial-gradient(circle, rgba(240, 160, 64, 0.25) 0%, rgba(212, 133, 42, 0.1) 35%, transparent 70%)",
+              filter: "blur(40px)",
+              animation: "ctaPulse 8s ease-in-out infinite",
+            }}
+          />
+
+          {/* Vignette */}
           <div
             className="absolute inset-0"
-            style={{ background: "rgba(212, 133, 42, 0.08)", mixBlendMode: "overlay" }}
+            style={{
+              background: "radial-gradient(ellipse at center, transparent 40%, rgba(15,13,10,0.85) 100%)",
+            }}
+          />
+
+          {/* Bottom fade to soil */}
+          <div
+            className="absolute inset-x-0 bottom-0"
+            style={{
+              height: "40%",
+              background: "linear-gradient(180deg, transparent 0%, rgba(15,13,10,0.95) 100%)",
+            }}
           />
         </div>
 
