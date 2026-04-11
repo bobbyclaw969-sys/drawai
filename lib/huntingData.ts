@@ -94,12 +94,12 @@ export const huntingData: StateSeasonData[] = [
   },
   {
     stateId: 'wy', stateName: 'Wyoming', species: 'elk', seasonType: 'any',
-    appOpenMonth: 1, appCloseMonth: 1, appCloseDay: 31,
+    appOpenMonth: 1, appCloseMonth: 2, appCloseDay: 2,
     feeNonresident: 692, feeResident: 63,
     pointSystem: 'preference', maxPointsEst: 25, nrQuotaPct: 16,
     hasOTC: false, oddsAtZeroPts: 0.15, oddsAt5Pts: 0.45, oddsAt10Pts: 0.75,
     oddsAt15Pts: 0.90, oddsAt20Pts: 0.98,
-    notes: 'NR application deadline is January 31. May 31 is the resident general season deadline — do not confuse. NR elk tag ~$692 (Type 1 general). 75% of tags go to highest-point applicants, 25% random — so even new applicants have a small chance. Complex Type 1/2/9 license structure. Preference points build annually. Some general areas have decent odds at 5-8 pts. Apply via wgfd.wyo.gov.',
+    notes: 'NR application deadline is February 2 (Jan 31 fell on a Saturday for 2026, rolled to Monday). May 31 is the resident general season deadline — do not confuse. NR elk tag ~$692 (Type 1 general). 75% of tags go to highest-point applicants, 25% random — so even new applicants have a small chance. Complex Type 1/2/9 license structure. Preference points build annually. Some general areas have decent odds at 5-8 pts. Apply via wgfd.wyo.gov.',
     difficulty: 'moderate',
   },
   {
