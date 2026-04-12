@@ -206,12 +206,12 @@ export const huntingData: StateSeasonData[] = [
   },
   {
     stateId: 'wy', stateName: 'Wyoming', species: 'mule_deer', seasonType: 'any',
-    appOpenMonth: 1, appCloseMonth: 5, appCloseDay: 31,
-    feeNonresident: 386, feeResident: 37,
+    appOpenMonth: 1, appCloseMonth: 6, appCloseDay: 1,
+    feeNonresident: 389, feeResident: 37,
     pointSystem: 'preference', maxPointsEst: 22, nrQuotaPct: 16,
     hasOTC: false, oddsAtZeroPts: 0.10, oddsAt5Pts: 0.35, oddsAt10Pts: 0.70,
     oddsAt15Pts: 0.92, oddsAt20Pts: 0.99,
-    notes: 'Desert and mountain mule deer. NR tag ~$386. Some areas have decent odds at 5-7 points. 75% preference / 25% random draw. Apply Jan 1–May 31 at wgfd.wyo.gov.',
+    notes: 'NR deer $374 license + $15 app fee = $389. Closes Jun 1. Some areas have decent odds at 5-7 points. 75% preference / 25% random draw. Source: wgfd.wyo.gov',
     difficulty: 'moderate',
   },
   {
@@ -278,12 +278,12 @@ export const huntingData: StateSeasonData[] = [
   // ─── PRONGHORN ─────────────────────────────────────────────────────────────
   {
     stateId: 'wy', stateName: 'Wyoming', species: 'pronghorn', seasonType: 'any',
-    appOpenMonth: 1, appCloseMonth: 5, appCloseDay: 31,
-    feeNonresident: 285, feeResident: 30,
+    appOpenMonth: 1, appCloseMonth: 6, appCloseDay: 1,
+    feeNonresident: 341, feeResident: 30,
     pointSystem: 'preference', maxPointsEst: 15, nrQuotaPct: 20,
     hasOTC: false, oddsAtZeroPts: 0.25, oddsAt5Pts: 0.65, oddsAt10Pts: 0.92,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'Best pronghorn state in the country. NR tag ~$285. Many units draw in 1–3 years. 75% preference / 25% random. Apply Jan 1–May 31 at wgfd.wyo.gov.',
+    notes: 'Best pronghorn state in the country. NR antelope $326 license + $15 app fee = $341. Closes Jun 1. Many units draw in 1–3 years. 75% preference / 25% random. Source: wgfd.wyo.gov',
     difficulty: 'moderate',
   },
   {
@@ -340,12 +340,12 @@ export const huntingData: StateSeasonData[] = [
   },
   {
     stateId: 'wy', stateName: 'Wyoming', species: 'bighorn_sheep', seasonType: 'any',
-    appOpenMonth: 1, appCloseMonth: 5, appCloseDay: 31,
-    feeNonresident: 2365, feeResident: 150,
+    appOpenMonth: 1, appCloseMonth: 4, appCloseDay: 30,
+    feeNonresident: 3017, feeResident: 150,
     pointSystem: 'preference', maxPointsEst: 28, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.005, oddsAt5Pts: 0.01, oddsAt10Pts: 0.04,
     oddsAt15Pts: 0.12, oddsAt20Pts: 0.30,
-    notes: 'Apply every year. Expect 20–25 year wait. NR tag ~$2,365. Pinnacle of western hunting. Apply Jan 1–May 31 at wgfd.wyo.gov.',
+    notes: 'NR ram license $3,002 + $15 app fee = $3,017. Closes Apr 30 (different from elk/deer Jun 1 deadline). Pinnacle of western hunting. Expect 20-25 year wait. Source: wgfd.wyo.gov',
     difficulty: 'nearly_impossible',
   },
   {
@@ -392,12 +392,12 @@ export const huntingData: StateSeasonData[] = [
   // ─── MOOSE ─────────────────────────────────────────────────────────────────
   {
     stateId: 'wy', stateName: 'Wyoming', species: 'moose', seasonType: 'any',
-    appOpenMonth: 1, appCloseMonth: 5, appCloseDay: 31,
-    feeNonresident: 2365, feeResident: 150,
+    appOpenMonth: 1, appCloseMonth: 4, appCloseDay: 30,
+    feeNonresident: 2767, feeResident: 150,
     pointSystem: 'preference', maxPointsEst: 25, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.01, oddsAt5Pts: 0.03, oddsAt10Pts: 0.10,
     oddsAt15Pts: 0.30, oddsAt20Pts: 0.65,
-    notes: 'Wyoming has excellent Shiras moose. NR tag ~$2,365. Expect 15–20 year wait for top units. Apply Jan 1–May 31 at wgfd.wyo.gov.',
+    notes: 'NR moose license $2,752 + $15 app fee = $2,767. Closes Apr 30. Excellent Shiras moose. Expect 15-20 year wait for top units. Source: wgfd.wyo.gov',
     difficulty: 'nearly_impossible',
   },
   {
@@ -413,11 +413,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'id', stateName: 'Idaho', species: 'moose', seasonType: 'any',
     appOpenMonth: 4, appCloseMonth: 4, appCloseDay: 30,
-    feeNonresident: 2156, feeResident: 13,
+    feeNonresident: 2858, feeResident: 13,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.01, oddsAt5Pts: 0.01, oddsAt10Pts: 0.01,
     oddsAt15Pts: 0.01, oddsAt20Pts: 0.01,
-    notes: 'Total NR cost when drawn: ~$2,156 (NR moose tag ~$2,101 + $55 NR hunting license). The $45 was the application fee only. Pure random lottery — Idaho does NOT use preference points for moose. Apply April 1–30 at idfg.idaho.gov. North Idaho and Selway units have good moose. // VERIFY: confirm 2026 NR moose tag at idfg.idaho.gov',
+    notes: 'NR moose ~$2,858 (tag + hunting license + app fee). Pure random lottery — no preference points. Apply Apr 1-30. North Idaho and Selway units have good moose. Source: idfg.idaho.gov',
     difficulty: 'nearly_impossible',
   },
   {
@@ -444,12 +444,12 @@ export const huntingData: StateSeasonData[] = [
   },
   {
     stateId: 'wy', stateName: 'Wyoming', species: 'mountain_goat', seasonType: 'any',
-    appOpenMonth: 1, appCloseMonth: 5, appCloseDay: 31,
-    feeNonresident: 2365, feeResident: 150,
+    appOpenMonth: 1, appCloseMonth: 4, appCloseDay: 30,
+    feeNonresident: 2767, feeResident: 150,
     pointSystem: 'preference', maxPointsEst: 28, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.003, oddsAt5Pts: 0.008, oddsAt10Pts: 0.025,
     oddsAt15Pts: 0.08, oddsAt20Pts: 0.25,
-    notes: 'Apply annually. Wind Rivers and Absaroka Range. NR tag ~$2,365. Exceptionally difficult tag to draw. Apply Jan 1–May 31 at wgfd.wyo.gov.',
+    notes: 'NR mountain goat $2,752 license + $15 app fee = $2,767. Closes Apr 30. Wind Rivers and Absaroka Range. Exceptionally difficult tag. Source: wgfd.wyo.gov',
     difficulty: 'nearly_impossible',
   },
   {
@@ -465,11 +465,11 @@ export const huntingData: StateSeasonData[] = [
   {
     stateId: 'id', stateName: 'Idaho', species: 'mountain_goat', seasonType: 'any',
     appOpenMonth: 4, appCloseMonth: 4, appCloseDay: 30,
-    feeNonresident: 2156, feeResident: 13,
+    feeNonresident: 2673, feeResident: 13,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.004, oddsAt5Pts: 0.004, oddsAt10Pts: 0.004,
     oddsAt15Pts: 0.004, oddsAt20Pts: 0.004,
-    notes: 'Total NR cost when drawn: ~$2,156 (NR mountain goat tag ~$2,101 + $55 NR hunting license). The $45 was the application fee only. Pure random lottery — no preference points. Apply April 1–30 at idfg.idaho.gov. Selway-Bitterroot unit is spectacular. // VERIFY: confirm 2026 NR goat tag at idfg.idaho.gov',
+    notes: 'NR mountain goat ~$2,673 (tag + hunting license + app fee). Pure random lottery — no preference points. Apply Apr 1-30. Selway-Bitterroot unit is spectacular. Source: idfg.idaho.gov',
     difficulty: 'nearly_impossible',
   },
 
