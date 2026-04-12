@@ -1,11 +1,11 @@
 {
-  "name": "Tag Hunter — Hunting Tag Strategy",
+  "name": "Tag Hunter",
   "short_name": "Tag Hunter",
-  "description": "Free AI concierge for western big game draw applications",
+  "description": "Free AI-powered western big game draw strategy",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f1a0f",
-  "theme_color": "#f59e0b",
+  "background_color": "#0F0D0A",
+  "theme_color": "#D4852A",
   "icons": [
     {
       "src": "/icon-192",

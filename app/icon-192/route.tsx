@@ -9,15 +9,18 @@ export function GET() {
         style={{
           width: 192,
           height: 192,
-          background: '#0f1a0f',
+          background: '#0F0D0A',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: 36,
-          fontSize: 110,
+          fontSize: 115,
+          fontFamily: 'serif',
+          fontWeight: 700,
+          color: '#D4852A',
+          lineHeight: 1,
         }}
       >
-        🎯
+        ◎
       </div>
     ),
     { width: 192, height: 192 }

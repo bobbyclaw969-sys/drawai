@@ -9,16 +9,18 @@ export function GET() {
         style={{
           width: 512,
           height: 512,
-          background: '#0f1a0f',
+          background: '#0F0D0A',
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: 96,
-          gap: 0,
+          fontSize: 307,
+          fontFamily: 'serif',
+          fontWeight: 700,
+          color: '#D4852A',
+          lineHeight: 1,
         }}
       >
-        <div style={{ fontSize: 300, lineHeight: 1 }}>🎯</div>
+        ◎
       </div>
     ),
     { width: 512, height: 512 }
