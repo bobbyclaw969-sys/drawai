@@ -114,12 +114,12 @@ export const huntingData: StateSeasonData[] = [
   },
   {
     stateId: 'id', stateName: 'Idaho', species: 'elk', seasonType: 'any',
-    appOpenMonth: 12, appCloseMonth: 1, appCloseDay: 15,
-    feeNonresident: 756, feeResident: 13,
+    appOpenMonth: 5, appCloseMonth: 6, appCloseDay: 5,
+    feeNonresident: 855, feeResident: 13,
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.35, oddsAt5Pts: 0.35, oddsAt10Pts: 0.35,
     oddsAt15Pts: 0.35, oddsAt20Pts: 0.35,
-    notes: 'Total NR cost: ~$756 (tag $541 + NR hunting license $185 + $30 conservation license). Two application rounds: Dec/Jan for first round, June for leftover tags. OTC ELIMINATED FOR NR IN 2026. Pure random lottery — Idaho does NOT use preference points. No points carry over. Verify at idfg.idaho.gov.',
+    notes: 'Controlled hunt application closes June 5. Total NR cost ~$855 ($651.75 tag + $185 license + $18 app fee). Note: Idaho moved NR general-season elk tags to a draw system for 2026 — no longer first-come OTC. Source: idfg.idaho.gov',
     difficulty: 'moderate',
   },
   {
@@ -129,7 +129,7 @@ export const huntingData: StateSeasonData[] = [
     pointSystem: 'weighted', maxPointsEst: 25, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.05, oddsAt5Pts: 0.18, oddsAt10Pts: 0.40,
     oddsAt15Pts: 0.70, oddsAt20Pts: 0.95,
-    notes: 'Limited-entry draw only for non-residents. General season (OTC) is restricted to Utah residents under current SB8 rules. NR quota is ~10% of limited-entry pool via weighted points draw. Apply Mar 19–Apr 23 at wildlife.utah.gov.',
+    notes: 'feeNonresident $849 = general-season elk (weighted points draw). Limited-entry bull elk is $1,950 NR — a separate, harder draw. Deadline in Application Guidebook PDF only — verify at wildlife.utah.gov before applying.',
     difficulty: 'hard',
   },
   {
