@@ -12,7 +12,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 
 const ALL_SPECIES: SpeciesKey[] = [
   "elk","mule_deer","whitetail","pronghorn","black_bear",
-  "bighorn_sheep","mountain_goat","moose","bison","mountain_lion",
+  "bighorn_sheep","mountain_goat","moose","bison",
 ];
 
 /* eslint-disable @typescript-eslint/no-unused-vars */

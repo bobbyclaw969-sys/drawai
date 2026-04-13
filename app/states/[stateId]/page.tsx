@@ -263,7 +263,7 @@ export default async function StateProfilePage({ params }: { params: Promise<{ s
               )}
 
               <p className="text-xs leading-relaxed" style={{ color: "#6a7e6a" }}>
-                {primary.notes}
+                {primary.notes?.replace(/\s*\/\/\s*VERIFY:.*$/i, "")}
               </p>
 
               {entries.length > 1 && (

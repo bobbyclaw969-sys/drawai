@@ -201,7 +201,7 @@ export const huntingData: StateSeasonData[] = [
     pointSystem: 'preference', maxPointsEst: 25, nrQuotaPct: 20,
     hasOTC: false, oddsAtZeroPts: 0.40, oddsAt5Pts: 0.70, oddsAt10Pts: 0.90,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'Total NR cost: ~$549 (NR mule deer tag ~$452 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only — tag fee is added on top when drawn. NR archery OTC eliminated west of I-25 in 2025. Premium units (GMU 2, 10, 201) still require many points. // VERIFY: confirm 2026 tag fees at cpw.state.co.us',
+    notes: 'Total NR cost: ~$549 (NR mule deer tag ~$452 + $86 NR small game license + $11 habitat stamp). NR qualifying license is $86 small game + $11 habitat stamp = $97. NR archery OTC eliminated west of I-25 in 2025. Premium units (GMU 2, 10, 201) still require many points. // VERIFY: confirm 2026 tag fees at cpw.state.co.us',
     difficulty: 'moderate',
   },
   {
@@ -293,7 +293,7 @@ export const huntingData: StateSeasonData[] = [
     pointSystem: 'preference', maxPointsEst: 12, nrQuotaPct: 20,
     hasOTC: false, oddsAtZeroPts: 0.30, oddsAt5Pts: 0.70, oddsAt10Pts: 0.99,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'Total NR cost: ~$549 (NR pronghorn tag ~$452 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only — tag fee is added when drawn. Eastern plains units draw quickly. Great starter pronghorn state. // VERIFY: confirm 2026 tag fees at cpw.state.co.us',
+    notes: 'Total NR cost: ~$549 (NR pronghorn tag ~$452 + $86 NR small game license + $11 habitat stamp). NR qualifying license is $86 small game + $11 habitat stamp = $97. Eastern plains units draw quickly. Great starter pronghorn state. // VERIFY: confirm 2026 tag fees at cpw.state.co.us',
     difficulty: 'moderate',
   },
   {
@@ -335,7 +335,7 @@ export const huntingData: StateSeasonData[] = [
     pointSystem: 'preference', maxPointsEst: 30, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.005, oddsAt5Pts: 0.01, oddsAt10Pts: 0.05,
     oddsAt15Pts: 0.15, oddsAt20Pts: 0.35,
-    notes: 'Total NR cost when drawn: ~$2,470 (NR bighorn sheep tag ~$2,373 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only. 20-30 year average wait. Apply every year without fail. The lifetime bucket-list hunt. // VERIFY: confirm 2026 NR sheep tag at cpw.state.co.us',
+    notes: 'Total NR cost when drawn: ~$2,470 (NR bighorn sheep tag ~$2,373 + $86 NR small game license + $11 habitat stamp). NR qualifying license is $86 small game + $11 habitat stamp = $97. 20-30 year average wait. Apply every year without fail. The lifetime bucket-list hunt. // VERIFY: confirm 2026 NR sheep tag at cpw.state.co.us',
     difficulty: 'nearly_impossible',
   },
   {
@@ -439,7 +439,7 @@ export const huntingData: StateSeasonData[] = [
     pointSystem: 'preference', maxPointsEst: 30, nrQuotaPct: 10,
     hasOTC: false, oddsAtZeroPts: 0.003, oddsAt5Pts: 0.008, oddsAt10Pts: 0.02,
     oddsAt15Pts: 0.08, oddsAt20Pts: 0.25,
-    notes: 'Total NR cost when drawn: ~$2,470 (NR mountain goat tag ~$2,373 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only. The ultimate mountain hunt. 20-30 year wait is realistic. Apply from day one. // VERIFY: confirm 2026 NR goat tag at cpw.state.co.us',
+    notes: 'Total NR cost when drawn: ~$2,470 (NR mountain goat tag ~$2,373 + $86 NR small game license + $11 habitat stamp). NR qualifying license is $86 small game + $11 habitat stamp = $97. The ultimate mountain hunt. 20-30 year wait is realistic. Apply from day one. // VERIFY: confirm 2026 NR goat tag at cpw.state.co.us',
     difficulty: 'nearly_impossible',
   },
   {
@@ -511,7 +511,7 @@ export const huntingData: StateSeasonData[] = [
     pointSystem: 'none', maxPointsEst: 0, nrQuotaPct: 20,
     hasOTC: true, oddsAtZeroPts: 0.99, oddsAt5Pts: 0.99, oddsAt10Pts: 0.99,
     oddsAt15Pts: 0.99, oddsAt20Pts: 0.99,
-    notes: 'Total NR OTC cost: ~$467 (NR bear tag ~$370 + $86 NR small game license + $11 habitat stamp). The $63 was the qualifying license + habitat stamp only. OTC by unit — some units have quotas that close mid-season. Verify unit-level availability at cpw.state.co.us before purchasing. // VERIFY: confirm 2026 NR bear tag at cpw.state.co.us',
+    notes: 'Total NR OTC cost: ~$467 (NR bear tag ~$370 + $86 NR small game license + $11 habitat stamp). NR qualifying license is $86 small game + $11 habitat stamp = $97. OTC by unit — some units have quotas that close mid-season. Verify unit-level availability at cpw.state.co.us before purchasing. // VERIFY: confirm 2026 NR bear tag at cpw.state.co.us',
     difficulty: 'easy',
   },
 

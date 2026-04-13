@@ -271,13 +271,13 @@ const EXAMPLE_PLANS = [
     text: "Built a 5-state antelope and deer portfolio for under $1,100/year in application fees.",
   },
   {
-    label: "IDAHO OTC · FIRST-TIME WESTERN HUNTER",
-    text: "Found a same-year OTC Idaho elk hunt for $650 while building Colorado preference points in parallel.",
+    label: "COLORADO OTC · FIRST-TIME WESTERN HUNTER",
+    text: "Grabbed a same-year Colorado OTC rifle elk tag for $935 while building preference points for premium units.",
   },
 ];
 
 const COMPARISON = [
-  ["AI-powered personalized strategy", true, false],
+  ["Multi-year AI strategy planner", true, false],
   ["Natural language hunt search", true, false],
   ["AI chat advisor (ask anything)", true, false],
   ["Unit-level draw odds data", true, true],

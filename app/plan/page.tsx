@@ -236,7 +236,7 @@ export default function PlanPage() {
             marginTop: 24,
           }}
         >
-          Free. No signup. Data never leaves your browser.
+          Free. No signup. Your profile stays on your device. AI requests use Anthropic&apos;s API.
         </p>
       </div>
     </div>

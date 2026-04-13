@@ -12,7 +12,7 @@ const NODES: Node[] = [
   {
     year: "2026",
     type: "APPLY",
-    text: "CO Unit 37 (9% NR odds at 8 pts) + ID OTC archery elk $696 fallback",
+    text: "CO Unit 37 (9% NR odds at 8 pts) + CO rifle elk OTC fallback ($935 NR)",
     position: "above",
   },
   {
