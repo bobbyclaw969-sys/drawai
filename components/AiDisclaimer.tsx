@@ -13,7 +13,7 @@ export default function AiDisclaimer() {
     }}>
       <span style={{ fontSize: "1rem", flexShrink: 0, marginTop: 1 }}>🤖</span>
       <p style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.6 }}>
-        <strong style={{ color: "var(--info)" }}>AI-generated — verify before acting.</strong>{" "}
+        <strong style={{ color: "var(--info)" }}>AI by Anthropic — verify before acting.</strong>{" "}
         Unit numbers, draw odds, fees, and deadlines are based on historical data and may not reflect
         current-year regulations. Always confirm at your state&apos;s official wildlife agency before
         submitting any application or making purchasing decisions.

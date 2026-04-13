@@ -131,8 +131,11 @@ export default async function StateProfilePage({ params }: { params: Promise<{ s
       {/* State overview */}
       <div className="rounded-xl p-5 mb-5" style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}>
         <h1 className="text-2xl font-bold mb-1" style={{ color: "#f59e0b" }}>{stateName}</h1>
-        <p className="text-sm mb-4" style={{ color: "#8a9e8a" }}>
+        <p className="text-sm mb-1" style={{ color: "#8a9e8a" }}>
           Non-resident hunting — draw tags, OTC options, fees & deadlines
+        </p>
+        <p className="text-xs mb-4" style={{ color: "#4a5a4a" }}>
+          Data last updated: April 2026
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
           {[

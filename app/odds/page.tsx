@@ -150,6 +150,9 @@ export default function OddsPage() {
         }}>
           Odds are estimated from historic state agency data. Verify current draw odds at your state&apos;s official wildlife agency website.
         </p>
+        <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 11, color: "var(--text-3)", marginTop: 6 }}>
+          Data last updated: April 2026
+        </p>
       </div>
 
       {/* Species selector */}

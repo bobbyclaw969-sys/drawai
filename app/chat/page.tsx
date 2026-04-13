@@ -607,7 +607,7 @@ export default function ChatPage() {
             letterSpacing: "0.02em",
           }}
         >
-          AI advisor provides general strategy guidance. Always verify regulations and fees at your state&apos;s official wildlife agency.
+          AI by Anthropic · Provides general strategy guidance. Always verify regulations and fees at your state&apos;s official wildlife agency.
         </p>
       </div>
     </div>
