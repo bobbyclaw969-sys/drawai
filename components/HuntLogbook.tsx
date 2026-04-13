@@ -36,6 +36,7 @@ export default function HuntLogbook() {
   });
 
   const reload = () => setLogs(loadLogbook());
+  // eslint-disable-next-line
   useEffect(() => { reload(); }, []);
 
   const handleSubmit = () => {
@@ -59,6 +60,7 @@ export default function HuntLogbook() {
 
   const totalHarvests = logs.filter(l => l.harvested).length;
   const totalDays = logs.reduce((s, l) => s + l.daysAfield, 0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const totalSpent = logs.reduce((s, l) => s + l.totalCost, 0);
 
   const availableStates = [...new Set(

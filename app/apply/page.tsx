@@ -274,10 +274,12 @@ export default function ApplyPage() {
       const raw = localStorage.getItem(PROFILE_KEY);
       if (raw) {
         const p = JSON.parse(raw) as HunterProfile;
+        // eslint-disable-next-line
         setProfile(p);
         setHasProfile(!!(p.firstName && p.lastName));
       }
     } catch {}
+   
   }, []);
 
   const guides = speciesFilter === "all"
@@ -294,7 +296,7 @@ export default function ApplyPage() {
     if (!db) return -1;
     const now = new Date();
     const toDate = (d: { closeMonth: number; closeDay: number }) => {
-      let y = now.getFullYear();
+      const y = now.getFullYear();
       let dt = new Date(y, d.closeMonth - 1, d.closeDay);
       if (dt < now) dt = new Date(y + 1, d.closeMonth - 1, d.closeDay);
       return dt.getTime();

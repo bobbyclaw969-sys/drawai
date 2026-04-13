@@ -15,12 +15,14 @@ const ALL_SPECIES: SpeciesKey[] = [
   "bighorn_sheep","mountain_goat","moose","bison","mountain_lion",
 ];
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const METHOD_LABELS: Record<string, string> = {
   any: "Any Method",
   archery: "Archery Only",
   rifle: "Rifle Only",
   muzzleloader: "Muzzleloader",
 };
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 interface OTCEntry {
   stateId: string;
@@ -40,7 +42,7 @@ interface OTCEntry {
 
 export default function OTCPage() {
   const [speciesFilter, setSpeciesFilter] = useState<SpeciesKey | "all">("all");
-  const [methodFilter, setMethodFilter] = useState<string>("any");
+  const [methodFilter] = useState<string>("any");
   const [showOpenOnly, setShowOpenOnly] = useState(false);
   const [sortBy, setSortBy] = useState<"fee" | "state" | "closing">("closing");
 

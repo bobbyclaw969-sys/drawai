@@ -12,6 +12,7 @@ const BONE = "#E8DFC8";
 const DUST = "#7A6E5F";
 const DANGER = "#C4513A";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DISPLAY = "var(--font-display), Georgia, serif";
 const MONO = "var(--font-dm-mono), monospace";
 

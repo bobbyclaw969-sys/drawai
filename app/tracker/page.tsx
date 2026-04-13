@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
 import { SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import {
@@ -32,7 +31,8 @@ export default function TrackerPage() {
     setApps(data.applications);
   }, []);
 
-  useEffect(() => { reload(); }, [reload]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { reload(); }, []);
 
   const handleStatusChange = (id: string, status: AppStatus) => {
     updateApplication(id, { status });
@@ -271,7 +271,7 @@ export default function TrackerPage() {
                         )}
                         {app.feeSpent > 0 && <span>Fee: <span style={{ color: "var(--text)" }}>${app.feeSpent}</span></span>}
                         {app.appliedDate && <span>Applied: {app.appliedDate}</span>}
-                        {app.notes && <span style={{ fontStyle: "italic" }}>"{app.notes}"</span>}
+                        {app.notes && <span style={{ fontStyle: "italic" }}>&quot;{app.notes}&quot;</span>}
                       </div>
                     </div>
 

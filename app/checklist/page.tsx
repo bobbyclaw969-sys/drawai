@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { huntingData, SPECIES_LABELS, SPECIES_EMOJI, STATE_NAMES } from "@/lib/huntingData";
+import { huntingData, SPECIES_LABELS, SPECIES_EMOJI } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { loadTracker, loadManualPoints, getMergedPoints, CURRENT_YEAR } from "@/lib/tracker";
 
@@ -59,7 +59,6 @@ export default function ChecklistPage() {
     const savedChecked = loadChecked();
 
     const now = new Date();
-    const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
 
     // Find what's already been applied for this year
@@ -81,7 +80,7 @@ export default function ChecklistPage() {
       if (daysUntil > 365) continue; // Skip if more than a year out
 
       // Only show windows that haven't passed this year
-      let closeDate = new Date(currentYear, d.appCloseMonth - 1, d.appCloseDay);
+      const closeDate = new Date(currentYear, d.appCloseMonth - 1, d.appCloseDay);
       if (closeDate < now) continue; // already passed this year, skip
 
       const myPoints = merged[d.stateId]?.[d.species as SpeciesKey] ?? 0;
@@ -111,7 +110,8 @@ export default function ChecklistPage() {
     setChecked(savedChecked);
   }, []);
 
-  useEffect(() => { buildChecklist(); }, [buildChecklist]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { buildChecklist(); }, []);
 
   const toggleCheck = (id: string) => {
     const next = { ...checked, [id]: !checked[id] };
@@ -123,8 +123,6 @@ export default function ChecklistPage() {
   const pending = items.filter(it => !it.checked);
   const done = items.filter(it => it.checked);
   const totalPending = pending.reduce((s, it) => s + it.feeNonresident, 0);
-  const displayed = showAll ? items : items.filter(it => !it.checked || it.notes === "Logged in tracker");
-
   const urgentCount = pending.filter(it => it.daysUntil <= 30).length;
 
   return (

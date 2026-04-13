@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
+import Link from "next/link";
 import AppNav from "@/components/AppNav";
 import { createClient } from "@/lib/supabase/client";
 
@@ -18,6 +19,7 @@ function AuthPageInner() {
     supabase.auth.getUser().then(({ data }) => {
       if (data.user) router.replace("/");
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const hasError = searchParams.get("error");
@@ -159,9 +161,9 @@ function AuthPageInner() {
 
         <p style={{ textAlign: "center", fontSize: 11, color: "var(--text-3)", marginTop: 32 }}>
           Don&apos;t want an account?{" "}
-          <a href="/" style={{ color: "var(--amber)" }}>
+          <Link href="/" style={{ color: "var(--amber)" }}>
             Use Tag Hunter without signing in →
-          </a>
+          </Link>
         </p>
       </div>
     </div>

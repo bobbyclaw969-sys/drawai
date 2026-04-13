@@ -25,7 +25,7 @@ async function notifyTeam(input: {
 }): Promise<void> {
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) {
-    // TODO: configure RESEND_API_KEY in Vercel env to enable email notifications
+    console.warn("RESEND_API_KEY not set — feedback email notifications are disabled. Set this in Vercel environment variables.");
     return;
   }
   try {

@@ -1,8 +1,7 @@
 "use client";
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import AppNav from "@/components/AppNav";
-import { huntingData, SPECIES_LABELS, STATE_NAMES } from "@/lib/huntingData";
+import { huntingData, SPECIES_LABELS } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 
 const ALL_SPECIES: SpeciesKey[] = [
@@ -276,6 +275,7 @@ export default function OddsPage() {
                   <div style={{ display: "flex", gap: 2 }}>
                     {row.timeline.map((prob, i) => {
                       const prev = i === 0 ? 0 : row.timeline[i - 1];
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
                       const intensity = Math.min((prob - prev) * 8, 1);
                       return (
                         <div

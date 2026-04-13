@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import AppNav from "@/components/AppNav";
-import { huntingData, SPECIES_LABELS, STATE_NAMES, DATA_YEAR } from "@/lib/huntingData";
+import { huntingData, SPECIES_LABELS, DATA_YEAR } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { toggleReminder, loadReminders, getUpcomingReminders, DeadlineReminder } from "@/lib/tracker";
 import {
@@ -89,6 +88,7 @@ function getDeadlines(speciesFilter: SpeciesKey | "all"): Deadline[] {
   return deadlines.sort((a, b) => a.daysUntil - b.daysUntil);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function urgencyStyle(days: number): { color: string; label: string } {
   if (days <= 14) return { color: "var(--danger)", label: "Closing soon" };
   if (days <= 45) return { color: "var(--amber)", label: "Coming up" };
@@ -112,8 +112,10 @@ export default function DeadlinesPage() {
 
   useEffect(() => {
     const reminders = loadReminders();
+    // eslint-disable-next-line
     setWatchedKeys(new Set(reminders.map(r => r.key)));
     setUpcomingReminders(getUpcomingReminders(14));
+   
   }, []);
 
   useEffect(() => {

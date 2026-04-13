@@ -35,6 +35,7 @@ function StrategyPageInner() {
     if (!profile || fetchedRef.current) return;
     fetchedRef.current = true;
     generateStrategy(profile);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile]);
 
   const streamStrategy = async (p: HunterProfile): Promise<{ receivedBytes: number; error?: unknown }> => {

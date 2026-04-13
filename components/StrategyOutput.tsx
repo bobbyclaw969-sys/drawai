@@ -77,7 +77,7 @@ export default function StrategyOutput({ text, loading }: Props) {
   const [msgIndex, setMsgIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Cycle loading messages
+  // Cycle loading messages — setState is intentional (reset on stop)
   useEffect(() => {
     if (loading && !text) {
       intervalRef.current = setInterval(() => {
@@ -85,6 +85,7 @@ export default function StrategyOutput({ text, loading }: Props) {
       }, 2200);
     } else {
       if (intervalRef.current) clearInterval(intervalRef.current);
+      // eslint-disable-next-line
       setMsgIndex(0);
     }
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };

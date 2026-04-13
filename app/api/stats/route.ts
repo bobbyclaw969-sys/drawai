@@ -13,13 +13,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const stats = await getStats();
-  if (!stats) {
-    return NextResponse.json({ error: "Analytics unavailable" }, { status: 503 });
-  }
+  try {
+    const stats = await getStats();
+    if (!stats) {
+      return NextResponse.json({ error: "Analytics unavailable" }, { status: 503 });
+    }
 
-  return NextResponse.json({
-    ...stats,
-    generatedAt: new Date().toISOString(),
-  });
+    return NextResponse.json({
+      ...stats,
+      generatedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("Stats endpoint error:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }

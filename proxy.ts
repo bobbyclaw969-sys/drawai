@@ -22,7 +22,7 @@ function isAllowedOrigin(origin: string | null): boolean {
 }
 
 export function proxy(request: NextRequest) {
-  const { pathname, origin: requestOrigin } = request.nextUrl;
+  const { pathname } = request.nextUrl;
   const incomingOrigin = request.headers.get("origin");
 
   // ── API route protection ──────────────────────────────────────────────────

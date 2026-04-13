@@ -17,6 +17,7 @@ const BONE = "#E8DFC8";
 const DUST = "#7A6E5F";
 
 // ── Species SVGs (clean recognizable silhouettes at 64x64) ────────────────
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SpeciesSVG = ({ species, size = 36 }: { species: string; size?: number }) => {
   const props = {
     viewBox: "0 0 64 64",

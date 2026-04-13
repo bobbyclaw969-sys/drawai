@@ -15,7 +15,6 @@ const AMBER = "#D4852A";
 const GLOW  = "#F0A040";
 const BONE  = "#E8DFC8";
 const DUST  = "#7A6E5F";
-const PINE  = "#4A7C59";
 
 const FONT_DISPLAY = "var(--font-display), Georgia, serif";
 const FONT_MONO    = "var(--font-dm-mono), monospace";

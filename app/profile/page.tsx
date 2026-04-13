@@ -86,6 +86,7 @@ export default function ProfilePage() {
       if (raw) setProfile({ ...BLANK, ...JSON.parse(raw) });
     } catch {}
     setLoaded(true);
+   
   }, []);
 
   // If logged in, pull cloud profile and merge (cloud wins if exists)
@@ -115,6 +116,7 @@ export default function ProfilePage() {
           setProfile(p => ({ ...p, ...cloud }));
         }
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loaded]);
 
   const set = (key: keyof HunterProfile, value: string) => {

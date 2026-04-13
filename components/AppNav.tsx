@@ -29,7 +29,7 @@ export default function AppNav() {
   const { user, signOut, loading } = useAuth();
   const isAdmin = useMemo(
     () => !!user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase()),
-    [user?.email],
+    [user],
   );
 
   useEffect(() => {
@@ -40,6 +40,7 @@ export default function AppNav() {
 
   // Close mobile menu whenever the route changes
   useEffect(() => {
+    // eslint-disable-next-line
     setOpen(false);
   }, [pathname]);
 

@@ -2,9 +2,7 @@ import Link from "next/link";
 import AppNav from "@/components/AppNav";
 
 const SOIL = "#0F0D0A";
-const FENCE = "#2E2A24";
 const AMBER = "#D4852A";
-const GLOW = "#F0A040";
 const BONE = "#E8DFC8";
 const DUST = "#7A6E5F";
 const DISPLAY = "var(--font-display), Georgia, serif";

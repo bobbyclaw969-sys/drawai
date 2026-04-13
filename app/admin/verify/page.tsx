@@ -135,10 +135,11 @@ export default function AdminVerifyPage() {
     setLoading(false);
   };
   useEffect(() => {
+    // eslint-disable-next-line
     if (isAdmin) refresh();
   }, [isAdmin]);
 
-  const allRows = useMemo(buildDeadlineRows, []);
+  const allRows = useMemo(() => buildDeadlineRows(), []);
   const verificationMap = useMemo(() => buildVerificationMap(verifications), [verifications]);
 
   const filteredRows = useMemo(

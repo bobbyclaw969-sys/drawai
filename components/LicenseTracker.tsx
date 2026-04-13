@@ -42,6 +42,7 @@ export default function LicenseTracker() {
     setExpiring(getExpiringLicenses(60));
   };
 
+  // eslint-disable-next-line
   useEffect(() => { reload(); }, []);
 
   const handleAdd = () => {
