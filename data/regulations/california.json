@@ -1,0 +1,134 @@
+{
+  "state": "California",
+  "abbreviation": "CA",
+  "officialUrl": "https://wildlife.ca.gov",
+  "applicationPortal": "https://www.ca.wildlifelicense.com",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-02-15",
+        "closes": "2026-03-15",
+        "timezone": "America/Los_Angeles",
+        "notes": "Tule elk are unique to California; Roosevelt elk in northwest zones. Very few NR tags issued — residents and NR compete equally in most zones."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 48,
+          "applicationFee": null,
+          "tagIfDrawn": 1487,
+          "totalEstimate": 1535,
+          "notes": "Total NR cost when drawn: ~$1,535 (NR elk tag ~$1,487 + $48 NR hunting license)."
+        },
+        "resident": {
+          "tagIfDrawn": null,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "notes": "Premium zones require many points. NR quota ~10%."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-06-01",
+        "closes": "2026-07-10",
+        "timezone": "America/Los_Angeles",
+        "notes": "Zone X and most premium zones require points. A-zone is general with OTC for residents but draw for NR."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 48,
+          "tagIfDrawn": 300,
+          "totalEstimate": 348,
+          "notes": "Total NR cost when drawn: ~$348 (NR deer tag ~$300 + $48 NR hunting license). Zones A and X most coveted."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference", "notes": "Preference points by zone. NR must draw most zones." },
+      "otc": { "available": false, "notes": "A-zone is general/OTC for residents but draw-only for NR." }
+    },
+    {
+      "name": "Pronghorn",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-02-15",
+        "closes": "2026-03-15",
+        "timezone": "America/Los_Angeles",
+        "notes": "Northeastern CA (Modoc / Lassen counties). Underrated opportunity but residents have better odds."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 48,
+          "tagIfDrawn": 300,
+          "totalEstimate": 348,
+          "notes": "Total NR cost when drawn: ~$348 (NR pronghorn tag ~$300 + $48 NR hunting license)."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-02-15",
+        "closes": "2026-03-15",
+        "timezone": "America/Los_Angeles",
+        "notes": "Desert bighorn in southern CA. Sierra Nevada bighorn extremely rare — typically a 15–25 year commitment."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 48,
+          "tagIfDrawn": 1500,
+          "totalEstimate": 1548,
+          "notes": "Total NR cost when drawn: ~$1,548 (NR bighorn sheep tag ~$1,500 + $48 NR hunting license). Apply annually for points."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference", "notes": "Long-haul build — 15–25 years typical." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Black Bear",
+      "drawSystem": "none",
+      "applicationWindow": {
+        "opens": "2026-07-01",
+        "closes": "2026-08-31",
+        "timezone": "America/Los_Angeles",
+        "notes": "OTC purchase window. State-wide quota applies — season closes when quota is reached, sometimes mid-season. Check current quota status at wildlife.ca.gov before purchasing."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 16,
+          "tagIfDrawn": 282,
+          "totalEstimate": 298,
+          "notes": "NR tag ~$282 + $16 NR license = ~$298 total. Sierra Nevada and Coast Ranges hold large bear populations."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": {
+        "available": true,
+        "notes": "OTC for NR with state-wide quota. Season can close mid-year when the quota is reached — verify current status before buying."
+      }
+    }
+  ]
+}

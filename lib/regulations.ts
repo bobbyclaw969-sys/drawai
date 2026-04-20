@@ -10,6 +10,8 @@ import nevada from '@/data/regulations/nevada.json';
 import utah from '@/data/regulations/utah.json';
 import oregon from '@/data/regulations/oregon.json';
 import washington from '@/data/regulations/washington.json';
+import california from '@/data/regulations/california.json';
+import southDakota from '@/data/regulations/south-dakota.json';
 
 import pennsylvania from '@/data/regulations/pennsylvania.json';
 import ohio from '@/data/regulations/ohio.json';
@@ -28,12 +30,14 @@ import kansas from '@/data/regulations/kansas.json';
 // whitetail-focused. Sorted alphabetically inside each group.
 export const allRegulations: StateRegulations[] = [
   arizona,
+  california,
   colorado,
   idaho,
   montana,
   nevada,
   newMexico,
   oregon,
+  southDakota,
   utah,
   washington,
   wyoming,

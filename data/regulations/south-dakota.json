@@ -1,0 +1,42 @@
+{
+  "state": "South Dakota",
+  "abbreviation": "SD",
+  "officialUrl": "https://gfp.sd.gov",
+  "applicationPortal": "https://gfp.sd.gov/buy-license",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "none",
+      "applicationWindow": {
+        "opens": null,
+        "closes": null,
+        "notes": "South Dakota elk hunting is residents-only. There is no application path, no point system, and no OTC option for non-residents. Verified at gfp.sd.gov."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": null,
+          "applicationFee": null,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Non-residents are NOT eligible for South Dakota elk tags. Do not include SD elk in NR hunting plans."
+        },
+        "resident": {
+          "tagIfDrawn": 10,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "none",
+        "notes": "No NR point system — non-residents cannot apply."
+      },
+      "otc": {
+        "available": false,
+        "notes": "No NR OTC. Residents-only species in South Dakota."
+      }
+    }
+  ]
+}
