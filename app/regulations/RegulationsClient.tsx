@@ -167,6 +167,33 @@ function StatusBadge({ status }: { status: WindowStatus | null }) {
   return <span className="badge badge-red">CLOSED</span>;
 }
 
+function VerificationStamp({ species }: { species: SpeciesRegulations }) {
+  const verified = !!species.verifiedDate;
+  if (verified) {
+    return (
+      <span
+        className="badge badge-green"
+        title={`Cross-checked against ${species.sourceUrl ?? "official agency"} on ${species.verifiedDate}`}
+      >
+        ✓ VERIFIED
+      </span>
+    );
+  }
+  return (
+    <span
+      className="badge"
+      title="Compiled from secondary sources — confirm every value at the official state agency before applying."
+      style={{
+        background: "var(--amber-glow)",
+        color: "var(--amber)",
+        border: "1px solid var(--amber-glow-strong)",
+      }}
+    >
+      ⚠ ESTIMATED
+    </span>
+  );
+}
+
 function ResultCard({
   state,
   species,
@@ -198,7 +225,8 @@ function ResultCard({
             {state.abbreviation} · {state.officialUrl.replace(/^https?:\/\//, "")}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 justify-end">
+          <VerificationStamp species={species} />
           <span
             className="text-xs px-2 py-1 rounded uppercase tracking-wider"
             style={{
@@ -440,12 +468,40 @@ function ResultCard({
 
       {/* FOOTER */}
       <footer className="pt-4 mt-2 flex flex-wrap items-center justify-between gap-3" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="text-xs" style={{ color: "var(--text-3)" }}>
-          Data last updated {state.lastUpdated ?? "April 2026"}. Always verify at{" "}
-          <a href={state.officialUrl} target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "var(--amber)" }}>
-            {state.officialUrl.replace(/^https?:\/\//, "")}
-          </a>
-          .
+        <div className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>
+          {species.verifiedDate ? (
+            <>
+              Cross-checked on {formatDate(species.verifiedDate)}
+              {species.sourceUrl && (
+                <>
+                  {" "}against{" "}
+                  <a
+                    href={species.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                    style={{ color: "var(--amber)" }}
+                  >
+                    {species.sourceUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                  </a>
+                </>
+              )}
+              . Always confirm current rules at{" "}
+              <a href={state.officialUrl} target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "var(--amber)" }}>
+                {state.officialUrl.replace(/^https?:\/\//, "")}
+              </a>
+              {" "}before applying.
+            </>
+          ) : (
+            <>
+              <span style={{ color: "var(--amber)", fontWeight: 600 }}>Not independently verified.</span>{" "}
+              Compiled from secondary sources — confirm every fee, deadline, and rule at{" "}
+              <a href={state.officialUrl} target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "var(--amber)" }}>
+                {state.officialUrl.replace(/^https?:\/\//, "")}
+              </a>
+              {" "}before applying or buying tags.
+            </>
+          )}
         </div>
         <div className="flex gap-2">
           <Link
@@ -503,6 +559,48 @@ export default function RegulationsClient() {
         <p style={{ fontSize: 13, color: "var(--text-2)", marginTop: 4 }}>
           Application deadlines, fees, draw systems, and OTC availability for non-resident hunters.
         </p>
+      </div>
+
+      {/* Trust banner */}
+      <div
+        className="mb-5 p-4"
+        style={{
+          background: "var(--card)",
+          borderLeft: "4px solid var(--amber)",
+          borderTop: "1px solid var(--border)",
+          borderRight: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
+          fontFamily: "var(--font-dm-mono), monospace",
+          fontSize: 12,
+          color: "var(--text-2)",
+          lineHeight: 1.7,
+        }}
+      >
+        <div style={{ color: "var(--text)", fontWeight: 600, marginBottom: 6 }}>
+          Tag Hunter is your best free starting point — not a final source.
+        </div>
+        Every fee, deadline, and rule on this page is a starting point for your research. Always confirm against the official state agency before you apply or buy a tag. Entries marked{" "}
+        <span
+          className="badge badge-green"
+          style={{ display: "inline-block", verticalAlign: "middle", margin: "0 2px" }}
+        >
+          ✓ VERIFIED
+        </span>
+        {" "}have been cross-checked against an official source on the date shown. Entries marked{" "}
+        <span
+          className="badge"
+          style={{
+            display: "inline-block",
+            verticalAlign: "middle",
+            margin: "0 2px",
+            background: "var(--amber-glow)",
+            color: "var(--amber)",
+            border: "1px solid var(--amber-glow-strong)",
+          }}
+        >
+          ⚠ ESTIMATED
+        </span>
+        {" "}were compiled from secondary sources and may have errors.
       </div>
 
       {/* Controls */}

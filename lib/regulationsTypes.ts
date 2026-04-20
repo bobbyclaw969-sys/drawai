@@ -96,6 +96,12 @@ export interface SpeciesRegulations {
   pointSystem: PointSystem;
   otc?: OTC;
   seasons?: Seasons;
+  // Verification: presence of verifiedDate means this species's fees,
+  // deadlines, and rules were cross-checked against an official agency
+  // source (sourceUrl) on that date. Absence means the entry is a best
+  // effort from secondary sources and should be flagged as ESTIMATED.
+  verifiedDate?: string | null;
+  sourceUrl?: string | null;
 }
 
 export interface StateRegulations {
