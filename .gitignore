@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/.next
+
+# local data-verification artifacts (run via `npm run verify-data`)
+/scripts/verification-report.*
