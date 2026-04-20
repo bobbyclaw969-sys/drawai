@@ -6,8 +6,8 @@ Generated: 2026-04-20  ·  Source: `data/regulations/*.json`  ·  Regenerate: `n
 
 - States covered: **24**
 - Species entries: **76**
-- ✓ Verified: **1** (1%)
-- ⚠ Estimated: **75** (99%)
+- ✓ Verified: **3** (4%)
+- ⚠ Estimated: **73** (96%)
 - States with an ESTIMATED entry whose next deadline is within 60 days: **8**
 
 ## 🔥 Priority Queue
@@ -16,7 +16,7 @@ States with an upcoming application deadline within 60 days that still have ESTI
 
 | Rank | State | Verified / Total | Next deadline | Days | What's due |
 | ---: | --- | :---: | --- | ---: | --- |
-| 1 | Utah | 0/4 | Apr 23, 2026 | 3 | Elk primary draw closes |
+| 1 | Utah | 2/4 | Apr 23, 2026 | 3 | Elk primary draw closes |
 | 2 | Idaho | 0/5 | Apr 30, 2026 | 10 | Moose primary draw closes |
 | 3 | Wyoming | 0/6 | Apr 30, 2026 | 10 | Moose primary draw closes |
 | 4 | Montana | 0/8 | May 1, 2026 | 11 | Pronghorn primary draw closes |
@@ -49,7 +49,7 @@ States with an upcoming application deadline within 60 days that still have ESTI
 | Pennsylvania | 1 | 0/1 | 2026-04 | — | — |
 | South Dakota | 1 | 0/1 | 2026-04 | — | — |
 | Texas | 1 | 0/1 | 2026-04 | — | — |
-| Utah | 4 | 0/4 | 2026-04 | Apr 23, 2026 (Elk) | 🔥🔥 this week |
+| Utah | 4 | 2/4 | 2026-04 | Apr 23, 2026 (Elk) | 🔥🔥 this week |
 | Washington | 5 | 0/5 | 2026-04 | Jun 15, 2026 (Elk) | ⚠️ < 60d |
 | Wisconsin | 1 | 0/1 | 2026-04 | — | — |
 | Wyoming | 6 | 0/6 | 2026-04 | Apr 30, 2026 (Moose) | 🔥🔥 this week |
@@ -120,8 +120,8 @@ Every species, every state. Sorted by state, then by next deadline (soonest firs
 | Pennsylvania | Whitetail Deer | ⚠ ESTIMATED | — | — | — | — |
 | South Dakota | Elk | ⚠ ESTIMATED | — | — | — | — |
 | Texas | Whitetail Deer | ⚠ ESTIMATED | — | — | — | — |
-| Utah | Elk | ⚠ ESTIMATED | — | — | Apr 23, 2026 · primary draw closes | 3 |
-| Utah | Mule Deer | ⚠ ESTIMATED | — | — | Apr 23, 2026 · primary draw closes | 3 |
+| Utah | Elk | ✓ VERIFIED | 2026-04-20 | [link](https://wildlife.utah.gov/guidebooks/biggameapp.pdf) | Apr 23, 2026 · primary draw closes | 3 |
+| Utah | Mule Deer | ✓ VERIFIED | 2026-04-20 | [link](https://wildlife.utah.gov/guidebooks/biggameapp.pdf) | Apr 23, 2026 · primary draw closes | 3 |
 | Utah | Moose | ⚠ ESTIMATED | — | — | Apr 23, 2026 · primary draw closes | 3 |
 | Utah | Bison | ⚠ ESTIMATED | — | — | Apr 23, 2026 · primary draw closes | 3 |
 | Washington | Elk | ⚠ ESTIMATED | — | — | Jun 15, 2026 · primary draw closes | 56 |

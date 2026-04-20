@@ -8,70 +8,99 @@
     {
       "name": "Elk",
       "drawSystem": "hybrid",
+      "verifiedDate": "2026-04-20",
+      "sourceUrl": "https://wildlife.utah.gov/guidebooks/biggameapp.pdf",
       "applicationWindow": {
-        "opens": "2026-03-01",
+        "opens": "2026-03-19",
         "closes": "2026-04-23",
         "timezone": "America/Denver",
-        "notes": "Big game (deer, elk, pronghorn, sheep, goat, moose, bison) shares the Apr 23 deadline. 2026: NEW application vendor (utahdraws.com), different interface. Mandatory hunt reporting with fines for non-compliance."
+        "notes": "11 PM MDT cutoff. Big game (deer, elk, pronghorn, sheep, goat, moose, bison) shares the Apr 23 deadline. 2026: NEW application vendor — Aspira at utahdraws.com (replaces old system). Mandatory harvest reporting with fines for general-season deer/elk hunters starting 2026."
       },
-      "secondaryDraw": { "closes": "2026-06-23", "notes": "Antlerless & points-only deadline." },
+      "secondaryDraw": {
+        "closes": "2026-06-23",
+        "notes": "Antlerless application window Jun 9–23, also a second-chance window to buy bonus/preference points if you missed the main draw. Antlerless results emailed by Jul 8."
+      },
       "resultsDate": "2026-05-31",
       "paymentDeadline": null,
       "fees": {
         "nr": {
           "qualifyingLicense": 147,
           "applicationFee": 21,
-          "tagIfDrawn": 558,
-          "totalEstimate": 726,
-          "notes": "General any-bull elk ~$558. Spike elk ~$328. Limited-entry elk ~$813. Hunting license $147. App fee $21/species. 2.2% processing fee on all transactions. Significant NR fee increases effective Sep 2025."
+          "preferencePointOnly": 15,
+          "tagIfDrawn": 849,
+          "totalEstimate": 1017,
+          "notes": "NR fees increased significantly Sep 2025: general-season elk $613 → $849 (any-bull or spike units, same fee). Limited-entry elk $1,050 → $1,950. NR hunting license $147. App fee $21/species. Bonus/preference point-only purchase $15/species. 2.2% processing fee on all transactions."
         },
         "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
       "pointSystem": {
         "type": "hybrid",
-        "notes": "Limited-entry/OIAL uses bonus points. General-season uses preference points. 5-year wait after a successful limited-entry deer/elk draw."
+        "costPerPoint": { "nr": 15, "resident": null },
+        "notes": "Bonus points used for limited-entry and once-in-a-lifetime species. Preference points used for general-season hunts. 5-year wait after a successful limited-entry elk draw before you can apply again. Second chance to buy points runs Jun 9–23 (antlerless application window)."
       },
       "otc": {
         "available": true,
         "onSaleDate": "2026-07-09",
-        "nrFee": 558,
-        "notes": "General any-bull elk: 15,000-tag NR-eligible quota goes on sale Jul 9 (effectively OTC — first-come-first-served, did NOT sell out in 2024 or 2025). Spike bull on sale Jul 16 (15,000 quota). General archery elk permits on sale Jul 7."
+        "nrFee": 849,
+        "seasons": ["General Archery", "Any-Bull (rifle)", "Spike (rifle)", "Muzzleloader"],
+        "notes": "General-season elk is effectively OTC (first-come-first-served, not a draw). General archery elk permits on sale Jul 7. Any-bull general elk on sale Jul 9 (15,000-tag NR-eligible quota — did NOT sell out in 2024 or 2025). Spike general elk on sale Jul 16 (15,000 quota). Private-lands cow elk + leftover antlerless on sale Jul 28. E-tagging via the Utah Hunting and Fishing app."
+      },
+      "seasons": {
+        "archery": { "start": "2026-08-15", "end": "2026-09-16", "notes": "General-season any-bull units." },
+        "muzzleloader": { "start": "2026-10-28", "end": "2026-11-05" },
+        "1stRifle": { "start": "2026-10-03", "end": "2026-10-09", "notes": "Early any-legal-weapon — general any-bull units." },
+        "2ndRifle": { "start": "2026-10-10", "end": "2026-10-16", "notes": "Late any-legal-weapon — general any-bull units. Spike units run Oct 3–15 (combined window)." }
       }
     },
     {
       "name": "Mule Deer",
       "drawSystem": "hybrid",
+      "verifiedDate": "2026-04-20",
+      "sourceUrl": "https://wildlife.utah.gov/guidebooks/biggameapp.pdf",
       "applicationWindow": {
-        "opens": "2026-03-01",
+        "opens": "2026-03-19",
         "closes": "2026-04-23",
-        "timezone": "America/Denver"
+        "timezone": "America/Denver",
+        "notes": "11 PM MDT cutoff. Shares the Apr 23 big game deadline. New vendor (Aspira/utahdraws.com) starting 2026. Mandatory harvest reporting with fines starting 2026."
       },
-      "secondaryDraw": { "closes": "2026-06-23", "notes": "Antlerless deadline." },
+      "secondaryDraw": {
+        "closes": "2026-06-23",
+        "notes": "Antlerless window Jun 9–23, also second chance to buy points. Antlerless results by Jul 8."
+      },
       "resultsDate": "2026-05-31",
       "paymentDeadline": null,
       "fees": {
         "nr": {
           "qualifyingLicense": 147,
           "applicationFee": 21,
-          "tagIfDrawn": 328,
-          "totalEstimate": 496,
-          "notes": "General deer ~$328. Limited-entry deer ~$563. Trophy potential exceptional but NR quota is small (~10%)."
+          "preferencePointOnly": 15,
+          "tagIfDrawn": 599,
+          "totalEstimate": 767,
+          "notes": "NR fees increased Sep 2025: general-season deer $418 → $599. Limited-entry deer $670 → $1,070. NR hunting license $147. App fee $21/species. 2.2% processing fee. CWD testing required for the Ogden unit general-season any-legal-weapon hunt."
         },
-        "resident": { "tagIfDrawn": 40, "totalEstimate": null }
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
       "pointSystem": {
         "type": "hybrid",
-        "notes": "Limited-entry uses bonus, general uses preference. 5-year wait after successful limited-entry draw."
+        "costPerPoint": { "nr": 15, "resident": null },
+        "notes": "Bonus points for limited-entry; preference points for general-season. 5-year wait after a successful limited-entry deer draw before re-applying. Second-chance points purchase runs Jun 9–23."
       },
-      "otc": { "available": false }
+      "otc": { "available": false },
+      "seasons": {
+        "archery": { "start": "2026-08-15", "end": "2026-09-11", "notes": "General-season. Extended archery in some areas runs Sep 12 – Nov 30." },
+        "muzzleloader": { "start": "2026-09-23", "end": "2026-10-01" },
+        "1stRifle": { "start": "2026-10-07", "end": "2026-10-11", "notes": "Early any-legal-weapon." },
+        "2ndRifle": { "start": "2026-10-17", "end": "2026-10-25", "notes": "Any-legal-weapon (general rifle)." }
+      }
     },
     {
       "name": "Moose",
       "drawSystem": "bonus",
       "applicationWindow": {
-        "opens": "2026-03-01",
+        "opens": "2026-03-19",
         "closes": "2026-04-23",
-        "timezone": "America/Denver"
+        "timezone": "America/Denver",
+        "notes": "11 PM MDT cutoff. Once-in-a-lifetime species — verify the OIAL list at wildlife.utah.gov before applying."
       },
       "resultsDate": "2026-05-31",
       "paymentDeadline": null,
@@ -79,15 +108,17 @@
         "nr": {
           "qualifyingLicense": 147,
           "applicationFee": 21,
-          "tagIfDrawn": 1500,
+          "preferencePointOnly": 15,
+          "tagIfDrawn": null,
           "totalEstimate": null,
-          "notes": "Once-in-a-lifetime species (regardless of harvest)."
+          "notes": "Tag-if-drawn price NOT independently verified for 2026 — confirm at wildlife.utah.gov/guidebooks/biggameapp.pdf before applying. NR hunting license $147, app fee $21, point-only $15."
         },
         "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
       "pointSystem": {
         "type": "bonus",
-        "notes": "OIAL — once drawn, cannot apply again regardless of success."
+        "costPerPoint": { "nr": 15, "resident": null },
+        "notes": "OIAL — once you draw, you cannot apply for moose again regardless of harvest success. Second-chance points purchase runs Jun 9–23."
       },
       "otc": { "available": false }
     },
@@ -95,9 +126,10 @@
       "name": "Bison",
       "drawSystem": "bonus",
       "applicationWindow": {
-        "opens": "2026-03-01",
+        "opens": "2026-03-19",
         "closes": "2026-04-23",
-        "timezone": "America/Denver"
+        "timezone": "America/Denver",
+        "notes": "11 PM MDT cutoff. Once-in-a-lifetime species. Henry Mountains and Antelope Island herds."
       },
       "resultsDate": "2026-05-31",
       "paymentDeadline": null,
@@ -105,13 +137,18 @@
         "nr": {
           "qualifyingLicense": 147,
           "applicationFee": 21,
-          "tagIfDrawn": 2500,
+          "preferencePointOnly": 15,
+          "tagIfDrawn": null,
           "totalEstimate": null,
-          "notes": "Henry Mountains and Antelope Island. Once-in-a-lifetime."
+          "notes": "Tag-if-drawn price NOT independently verified for 2026 — confirm at wildlife.utah.gov/guidebooks/biggameapp.pdf before applying."
         },
         "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
-      "pointSystem": { "type": "bonus", "notes": "OIAL." },
+      "pointSystem": {
+        "type": "bonus",
+        "costPerPoint": { "nr": 15, "resident": null },
+        "notes": "OIAL — once drawn, cannot apply again."
+      },
       "otc": { "available": false }
     }
   ]
