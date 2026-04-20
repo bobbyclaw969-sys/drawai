@@ -5,6 +5,7 @@ import AppNav from "@/components/AppNav";
 import { huntingData, SPECIES_LABELS } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import DataFreshnessWarning from "@/components/DataFreshnessWarning";
+import { getOTCDetails } from "@/lib/otcDetails";
 
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const CURRENT_MONTH = new Date().getMonth() + 1;
@@ -241,6 +242,9 @@ export default function OTCPage() {
 }
 
 function OTCCard({ entry, open }: { entry: OTCEntry; open: boolean }) {
+  const details = getOTCDetails(entry.stateId, entry.species);
+  const displayedFee = details?.feeBreakdown?.total ?? entry.feeNonresident;
+
   return (
     <div className="rounded-xl p-4" style={{
       backgroundColor: open ? "var(--success-bg)" : "var(--card)",
@@ -266,7 +270,8 @@ function OTCCard({ entry, open }: { entry: OTCEntry; open: boolean }) {
 
           <div className="flex flex-wrap gap-4 text-xs mb-2">
             <span style={{ color: "var(--text-2)" }}>
-              NR: <span className="font-bold" style={{ color: "var(--amber)" }}>${entry.feeNonresident.toLocaleString()}</span>
+              NR: <span className="font-bold" style={{ color: "var(--amber)" }}>${displayedFee.toLocaleString()}</span>
+              {details?.feeBreakdown && <span style={{ color: "var(--text-3)" }}> total</span>}
             </span>
             <span style={{ color: "var(--text-2)" }}>
               Resident: <span style={{ color: "var(--text-2)" }}>${entry.feeResident.toLocaleString()}</span>
@@ -287,6 +292,93 @@ function OTCCard({ entry, open }: { entry: OTCEntry; open: boolean }) {
           <p className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>
             {entry.notes.length > 200 ? entry.notes.slice(0, 200) + "…" : entry.notes}
           </p>
+
+          {details && (
+            <details className="mt-3 group">
+              <summary
+                className="cursor-pointer text-xs font-semibold uppercase tracking-wider select-none"
+                style={{ color: "var(--amber)" }}
+              >
+                Tag details, valid units & fees
+              </summary>
+              <div className="mt-3 space-y-3 text-xs" style={{ color: "var(--text-2)" }}>
+                {details.seasonDates && details.seasonDates.length > 0 && (
+                  <div>
+                    <div className="font-semibold mb-1" style={{ color: "var(--text)" }}>Season dates</div>
+                    <ul className="space-y-0.5">
+                      {details.seasonDates.map(s => (
+                        <li key={s.name}>
+                          <span style={{ color: "var(--text-3)" }}>{s.name}:</span>{" "}
+                          <span style={{ color: "var(--text)" }}>{s.dates}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {details.feeBreakdown && (
+                  <div>
+                    <div className="font-semibold mb-1" style={{ color: "var(--text)" }}>NR fee breakdown</div>
+                    <ul className="space-y-0.5">
+                      {details.feeBreakdown.parts.map(p => (
+                        <li key={p.label}>
+                          <span style={{ color: "var(--text-3)" }}>{p.label}:</span>{" "}
+                          <span style={{ color: "var(--text)" }}>~${p.amount.toLocaleString()}</span>
+                        </li>
+                      ))}
+                      <li className="pt-1 mt-1" style={{ borderTop: "1px solid var(--border)" }}>
+                        <span style={{ color: "var(--text-2)" }}>Total:</span>{" "}
+                        <span className="font-bold" style={{ color: "var(--amber)" }}>
+                          ~${details.feeBreakdown.total.toLocaleString()}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {details.validGmus && details.validGmus.length > 0 && (
+                  <div>
+                    <div className="font-semibold mb-1" style={{ color: "var(--text)" }}>
+                      Valid GMUs ({details.validGmus.length})
+                    </div>
+                    <div
+                      className="font-mono text-xs leading-relaxed p-2 rounded"
+                      style={{
+                        backgroundColor: "var(--bg-elevated)",
+                        border: "1px solid var(--border)",
+                        color: "var(--text)",
+                      }}
+                    >
+                      {details.validGmus.join(", ")}
+                    </div>
+                    {details.validGmusNote && (
+                      <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>
+                        {details.validGmusNote}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {details.buyInfo && (
+                  <p className="leading-relaxed" style={{ color: "var(--text-3)" }}>
+                    {details.buyInfo}
+                  </p>
+                )}
+
+                {details.officialUrl && (
+                  <a
+                    href={details.officialUrl.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block font-medium underline"
+                    style={{ color: "var(--amber)" }}
+                  >
+                    {details.officialUrl.label}
+                  </a>
+                )}
+              </div>
+            </details>
+          )}
         </div>
 
         <div className="flex flex-col gap-2 flex-shrink-0 items-end">

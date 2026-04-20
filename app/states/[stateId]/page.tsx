@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { huntingData, SPECIES_LABELS, SPECIES_EMOJI, STATE_NAMES } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
+import { getOTCDetails } from "@/lib/otcDetails";
 import { notFound } from "next/navigation";
 
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -215,6 +216,7 @@ export default async function StateProfilePage({ params }: { params: Promise<{ s
         {[...bySpecies.entries()].map(([species, entries]) => {
           const primary = entries[0];
           const diffColor = DIFFICULTY_COLORS[primary.difficulty] ?? "#8a9e8a";
+          const otcDetails = entries.some(e => e.hasOTC) ? getOTCDetails(stateId, species) : undefined;
           return (
             <div key={species} className="rounded-xl p-4"
               style={{ backgroundColor: "#162016", border: "1px solid #2a3a2a" }}>
@@ -275,6 +277,93 @@ export default async function StateProfilePage({ params }: { params: Promise<{ s
                     Also: {entries.slice(1).map(e => e.seasonType).join(", ")} seasons available
                   </span>
                 </div>
+              )}
+
+              {otcDetails && (
+                <details className="mt-3 pt-3 border-t" style={{ borderColor: "#1a2a1a" }}>
+                  <summary
+                    className="cursor-pointer text-xs font-semibold uppercase tracking-wider select-none"
+                    style={{ color: "#f59e0b" }}
+                  >
+                    OTC tag details, valid units & fees
+                  </summary>
+                  <div className="mt-3 space-y-3 text-xs" style={{ color: "#8a9e8a" }}>
+                    {otcDetails.seasonDates && otcDetails.seasonDates.length > 0 && (
+                      <div>
+                        <div className="font-semibold mb-1" style={{ color: "#e8f0e8" }}>Season dates</div>
+                        <ul className="space-y-0.5">
+                          {otcDetails.seasonDates.map(s => (
+                            <li key={s.name}>
+                              <span style={{ color: "#6a7e6a" }}>{s.name}:</span>{" "}
+                              <span style={{ color: "#e8f0e8" }}>{s.dates}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {otcDetails.feeBreakdown && (
+                      <div>
+                        <div className="font-semibold mb-1" style={{ color: "#e8f0e8" }}>NR fee breakdown</div>
+                        <ul className="space-y-0.5">
+                          {otcDetails.feeBreakdown.parts.map(p => (
+                            <li key={p.label}>
+                              <span style={{ color: "#6a7e6a" }}>{p.label}:</span>{" "}
+                              <span style={{ color: "#e8f0e8" }}>~${p.amount.toLocaleString()}</span>
+                            </li>
+                          ))}
+                          <li className="pt-1 mt-1" style={{ borderTop: "1px solid #1a2a1a" }}>
+                            <span style={{ color: "#8a9e8a" }}>Total:</span>{" "}
+                            <span className="font-bold" style={{ color: "#f59e0b" }}>
+                              ~${otcDetails.feeBreakdown.total.toLocaleString()}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+
+                    {otcDetails.validGmus && otcDetails.validGmus.length > 0 && (
+                      <div>
+                        <div className="font-semibold mb-1" style={{ color: "#e8f0e8" }}>
+                          Valid GMUs ({otcDetails.validGmus.length})
+                        </div>
+                        <div
+                          className="font-mono text-xs leading-relaxed p-2 rounded"
+                          style={{
+                            backgroundColor: "#0f1a0f",
+                            border: "1px solid #2a3a2a",
+                            color: "#e8f0e8",
+                          }}
+                        >
+                          {otcDetails.validGmus.join(", ")}
+                        </div>
+                        {otcDetails.validGmusNote && (
+                          <p className="mt-2 text-xs leading-relaxed" style={{ color: "#6a7e6a" }}>
+                            {otcDetails.validGmusNote}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {otcDetails.buyInfo && (
+                      <p className="leading-relaxed" style={{ color: "#6a7e6a" }}>
+                        {otcDetails.buyInfo}
+                      </p>
+                    )}
+
+                    {otcDetails.officialUrl && (
+                      <a
+                        href={otcDetails.officialUrl.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block font-medium underline"
+                        style={{ color: "#f59e0b" }}
+                      >
+                        {otcDetails.officialUrl.label}
+                      </a>
+                    )}
+                  </div>
+                </details>
               )}
             </div>
           );
