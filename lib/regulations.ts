@@ -11,17 +11,44 @@ import utah from '@/data/regulations/utah.json';
 import oregon from '@/data/regulations/oregon.json';
 import washington from '@/data/regulations/washington.json';
 
+import pennsylvania from '@/data/regulations/pennsylvania.json';
+import ohio from '@/data/regulations/ohio.json';
+import illinois from '@/data/regulations/illinois.json';
+import georgia from '@/data/regulations/georgia.json';
+import michigan from '@/data/regulations/michigan.json';
+import wisconsin from '@/data/regulations/wisconsin.json';
+import kentucky from '@/data/regulations/kentucky.json';
+import minnesota from '@/data/regulations/minnesota.json';
+import mississippi from '@/data/regulations/mississippi.json';
+import texas from '@/data/regulations/texas.json';
+import iowa from '@/data/regulations/iowa.json';
+import kansas from '@/data/regulations/kansas.json';
+
+// Western (preference / bonus / random — multi-species), then eastern
+// whitetail-focused. Sorted alphabetically inside each group.
 export const allRegulations: StateRegulations[] = [
-  colorado,
-  wyoming,
-  montana,
-  idaho,
   arizona,
-  newMexico,
+  colorado,
+  idaho,
+  montana,
   nevada,
-  utah,
+  newMexico,
   oregon,
+  utah,
   washington,
+  wyoming,
+  georgia,
+  illinois,
+  iowa,
+  kansas,
+  kentucky,
+  michigan,
+  minnesota,
+  mississippi,
+  ohio,
+  pennsylvania,
+  texas,
+  wisconsin,
 ] as StateRegulations[];
 
 export function getStateBy(abbr: string): StateRegulations | undefined {

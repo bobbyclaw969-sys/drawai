@@ -1,0 +1,33 @@
+{
+  "state": "Iowa",
+  "abbreviation": "IA",
+  "officialUrl": "https://iowadnr.gov",
+  "applicationPortal": "https://iowadnr.gov/Hunting",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": null,
+        "closes": null,
+        "notes": "NR archery deer is one of the most competitive whitetail draws in the US. Verify exact 2026 deadline at iowadnr.gov."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 602,
+          "totalEstimate": 602,
+          "notes": "NR archery deer ~$602 if drawn. Typical 3+ year wait for an NR bow tag. Iowa whitetails are world-class — one of the top trophy states."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "notes": "Iowa uses a preference point system for NR deer. Build points annually."
+      },
+      "otc": { "available": false, "notes": "NR deer is draw-only — not OTC." }
+    }
+  ]
+}

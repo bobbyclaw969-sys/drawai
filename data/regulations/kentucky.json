@@ -1,0 +1,26 @@
+{
+  "state": "Kentucky",
+  "abbreviation": "KY",
+  "officialUrl": "https://fw.ky.gov",
+  "applicationPortal": "https://app.fw.ky.gov",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC — no draw application required." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 185,
+          "totalEstimate": 185,
+          "notes": "OTC NR deer ~$185. Trophy destination — western KY genetics are exceptional."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true }
+    }
+  ]
+}

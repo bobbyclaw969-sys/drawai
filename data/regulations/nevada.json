@@ -3,36 +3,148 @@
   "abbreviation": "NV",
   "officialUrl": "https://ndow.org",
   "applicationPortal": "https://ndowlicensing.com",
-  "lastUpdated": "2026-04-20",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
       "drawSystem": "bonus",
       "applicationWindow": {
-        "opens": "2025-12-01",
-        "closes": "2026-02-15",
+        "opens": "2026-04-01",
+        "closes": "2026-05-07",
+        "timezone": "America/Los_Angeles",
+        "notes": "Main big-game draw window. Historically deadline first week of May. Bonus points squared in draw — 3 pts = 9 chances + 1 for current year = 10."
+      },
+      "secondaryDraw": {
+        "closes": "2026-06-15",
+        "notes": "Second Draw mid-June — open to all, no points. Leftover first-come ~early-mid July."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 142,
+          "applicationFee": null,
+          "preferencePointOnly": null,
+          "tagIfDrawn": 1200,
+          "totalEstimate": null,
+          "notes": "NR hunting license ~$142. Elk tag ~$1,200 if drawn. Top units (Areas 111, 231) take 10–20+ years."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "bonus",
+        "costPerPoint": { "nr": null, "resident": null },
+        "notes": "Squared bonus points. Bonus point only ranges ~$10–$150 per species."
+      },
+      "otc": { "available": false, "notes": "No NR OTC big game in Nevada." }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-05-07",
         "timezone": "America/Los_Angeles"
       },
       "resultsDate": null,
       "paymentDeadline": null,
       "fees": {
         "nr": {
-          "qualifyingLicense": null,
-          "habitatStamp": null,
-          "applicationFee": 15,
-          "tagIfDrawn": null,
+          "qualifyingLicense": 142,
+          "tagIfDrawn": 252,
           "totalEstimate": null,
-          "notes": "Application fee $15. Tag cost if drawn varies significantly by unit — verify at ndow.org."
+          "notes": "Some of the best desert mule deer in North America. Worth applying annually for points."
         },
-        "resident": {
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus", "notes": "Squared bonus points." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Pronghorn",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-05-07",
+        "timezone": "America/Los_Angeles"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 142,
+          "tagIfDrawn": 252,
+          "totalEstimate": null
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus", "notes": "Squared bonus points." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-05-07",
+        "timezone": "America/Los_Angeles"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 142,
+          "tagIfDrawn": 1500,
+          "totalEstimate": null,
+          "notes": "Desert, California, and Rocky Mountain bighorn subspecies — Nevada offers all three."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-05-07",
+        "timezone": "America/Los_Angeles",
+        "notes": "Newer moose draw — population growing in NE Nevada."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 142,
           "tagIfDrawn": null,
           "totalEstimate": null
-        }
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
-      "pointSystem": {
-        "type": "bonus",
-        "notes": "Bonus points squared. Few NR tags issued. Worth applying annually for points."
+      "pointSystem": { "type": "bonus" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mountain Goat",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-05-07",
+        "timezone": "America/Los_Angeles"
       },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 142,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Very few NV goat tags issued each year."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus" },
       "otc": { "available": false }
     }
   ]

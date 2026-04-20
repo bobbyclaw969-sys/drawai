@@ -3,37 +3,117 @@
   "abbreviation": "WA",
   "officialUrl": "https://wdfw.wa.gov",
   "applicationPortal": "https://fishhunt.dfw.wa.gov",
-  "lastUpdated": "2026-04-20",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
       "drawSystem": "preference",
       "applicationWindow": {
-        "opens": "2025-12-01",
-        "closes": "2026-03-31",
+        "opens": "2026-05-01",
+        "closes": "2026-06-15",
+        "timezone": "America/Los_Angeles",
+        "notes": "Special-permit applications typically May–Jun. Results typically mid-July. WA does NOT require a license to apply or accrue points (unique among western states)."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 100,
+          "applicationFee": null,
+          "tagIfDrawn": 686,
+          "totalEstimate": 786,
+          "notes": "NR elk tag ~$686. Some general-season elk available by permit. Modern firearm elk is limited."
+        },
+        "resident": { "tagIfDrawn": 50, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "notes": "Preference points for special permits (deer, elk, goat, moose, sheep, turkey). License NOT required to accrue points."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-05-01",
+        "closes": "2026-06-15",
         "timezone": "America/Los_Angeles"
       },
       "resultsDate": null,
       "paymentDeadline": null,
       "fees": {
         "nr": {
-          "qualifyingLicense": null,
-          "habitatStamp": null,
-          "applicationFee": null,
-          "tagIfDrawn": 686,
-          "totalEstimate": 686,
-          "notes": "NR full package ~$686. Special permit branched bull (east side) requires 8–15 pts via Dec–Mar draw."
+          "qualifyingLicense": 100,
+          "tagIfDrawn": 497,
+          "totalEstimate": 597,
+          "notes": "Some general deer seasons available without a special permit."
         },
-        "resident": {
-          "tagIfDrawn": 50,
-          "totalEstimate": null
-        }
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
-      "pointSystem": {
-        "type": "preference",
-        "notes": "NR elk access primarily via special permit draw. General season OTC availability for NR is limited — verify at wdfw.wa.gov."
+      "pointSystem": { "type": "preference" },
+      "otc": { "available": true, "notes": "Some general-season deer hunts available without special permit." }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-05-01",
+        "closes": "2026-06-15",
+        "timezone": "America/Los_Angeles"
       },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 100,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Once-in-a-lifetime species in WA."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference", "notes": "OIAL — moose, sheep, mountain goat are once-in-a-lifetime in Washington." },
       "otc": { "available": false }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-05-01",
+        "closes": "2026-06-15",
+        "timezone": "America/Los_Angeles"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 100,
+          "tagIfDrawn": null,
+          "totalEstimate": null
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference", "notes": "OIAL." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Black Bear",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "Black bear is OTC for NR — no draw application required." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 100,
+          "tagIfDrawn": 264,
+          "totalEstimate": 364,
+          "notes": "OTC NR bear tag ~$264. Spring + fall seasons."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true, "notes": "OTC for NR. Spring and fall seasons. ~$264 NR." }
     }
   ]
 }

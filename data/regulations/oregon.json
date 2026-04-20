@@ -1,39 +1,157 @@
 {
   "state": "Oregon",
   "abbreviation": "OR",
-  "officialUrl": "https://dfw.state.or.us",
+  "officialUrl": "https://myodfw.com",
   "applicationPortal": "https://odfw.huntfishoregon.com",
-  "lastUpdated": "2026-04-20",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
       "drawSystem": "preference",
       "applicationWindow": {
-        "opens": "2025-12-01",
-        "closes": "2026-01-15",
+        "opens": "2026-04-15",
+        "closes": "2026-05-15",
+        "timezone": "America/Los_Angeles",
+        "notes": "11:59 PM PT deadline. Main controlled hunt window for deer/elk/pronghorn/sheep/goat/bear. 2026 fee increases across the board."
+      },
+      "secondaryDraw": { "closes": "2026-07-03", "notes": "Leftover sales begin Jul 3+." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 193,
+          "applicationFee": 10,
+          "tagIfDrawn": 660,
+          "totalEstimate": 863,
+          "notes": "2026 increases: NR hunting license $193 (up from $172). Elk tag $660 (up from $588). App fee $10 (up from $8). Roosevelt Elk available OTC for NR in western/coastal units; Rocky Mountain Elk via controlled draw in eastern Oregon."
+        },
+        "resident": { "tagIfDrawn": 52, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "notes": "Preference points for controlled hunts. 5% NR cap per unit on most hunts."
+      },
+      "otc": {
+        "available": true,
+        "notes": "Roosevelt Elk OTC for NR in western/coastal units (general season). Rocky Mountain Elk in eastern Oregon is draw-only."
+      }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-04-15",
+        "closes": "2026-05-15",
+        "timezone": "America/Los_Angeles",
+        "notes": "2026: All eastern deer units RENAMED and restructured to align with herd movements."
+      },
+      "secondaryDraw": { "closes": "2026-07-03", "notes": "Leftover sales." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 193,
+          "applicationFee": 10,
+          "tagIfDrawn": 500,
+          "totalEstimate": 703,
+          "notes": "2026 increases: deer tag $500 (up from $443.50). Some general western deer seasons OTC."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference" },
+      "otc": { "available": true, "notes": "General western Oregon deer seasons available OTC for NR — verify current units." }
+    },
+    {
+      "name": "Pronghorn",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-04-15",
+        "closes": "2026-05-15",
         "timezone": "America/Los_Angeles"
       },
       "resultsDate": null,
       "paymentDeadline": null,
       "fees": {
         "nr": {
-          "qualifyingLicense": null,
-          "habitatStamp": null,
-          "applicationFee": null,
-          "tagIfDrawn": 669,
-          "totalEstimate": 669,
-          "notes": "NR elk tag ~$669. Despite 'general' designation, NR tags allocated via draw. 5% non-resident cap per unit."
-        },
-        "resident": {
-          "tagIfDrawn": 52,
+          "qualifyingLicense": 193,
+          "applicationFee": 10,
+          "tagIfDrawn": null,
           "totalEstimate": null
-        }
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
-      "pointSystem": {
-        "type": "preference",
-        "notes": "Best OTC-style coastal Roosevelt units (when available): Sixes, Tioga, Chetco, Trask, Siuslaw, Saddle Mountain. Verify current allocation at dfw.state.or.us."
+      "pointSystem": { "type": "preference" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-04-15",
+        "closes": "2026-05-15",
+        "timezone": "America/Los_Angeles"
       },
-      "otc": { "available": false, "notes": "NR access is draw-only. Roosevelt elk hunts are coveted." }
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 193,
+          "applicationFee": 10,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Once-in-a-lifetime species. Very few NR tags."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-04-15",
+        "closes": "2026-05-15",
+        "timezone": "America/Los_Angeles"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 193,
+          "applicationFee": 10,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Very limited Oregon moose hunts."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Black Bear",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-01-15",
+        "closes": "2026-02-10",
+        "timezone": "America/Los_Angeles",
+        "notes": "Spring bear (controlled) deadline. Results ~Feb 20."
+      },
+      "resultsDate": "2026-02-20",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 193,
+          "applicationFee": 10,
+          "tagIfDrawn": 155,
+          "totalEstimate": 358,
+          "notes": "OTC fall bear tag for NR ~$155 (separate from controlled spring draw)."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "preference", "notes": "Controlled spring bear uses preference points; fall bear is OTC." },
+      "otc": { "available": true, "notes": "Fall black bear OTC for NR ~$155." }
     }
   ]
 }

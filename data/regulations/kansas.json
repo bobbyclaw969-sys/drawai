@@ -1,0 +1,33 @@
+{
+  "state": "Kansas",
+  "abbreviation": "KS",
+  "officialUrl": "https://ksoutdoors.com",
+  "applicationPortal": "https://gooutdoorskansas.com",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": null,
+        "closes": null,
+        "notes": "Limited NR permits per unit. Verify exact 2026 deadline at ksoutdoors.com."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 442,
+          "totalEstimate": 442,
+          "notes": "NR deer ~$442 if drawn. Top trophy state — competitive draw, especially for the most popular units."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "random",
+        "notes": "Kansas allocates NR permits per unit; verify whether your target unit uses pure random or weighted draw."
+      },
+      "otc": { "available": false, "notes": "NR deer permits are draw-only." }
+    }
+  ]
+}

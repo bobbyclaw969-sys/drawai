@@ -2,38 +2,116 @@
   "state": "Utah",
   "abbreviation": "UT",
   "officialUrl": "https://wildlife.utah.gov",
-  "applicationPortal": "https://wildlife.utah.gov/dwr/licenses",
-  "lastUpdated": "2026-04-20",
+  "applicationPortal": "https://utahdraws.com",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
-      "drawSystem": "weighted",
+      "drawSystem": "hybrid",
       "applicationWindow": {
-        "opens": "2026-03-19",
+        "opens": "2026-03-01",
         "closes": "2026-04-23",
         "timezone": "America/Denver",
-        "notes": "Verify exact 2026 deadline in the Utah Application Guidebook PDF before applying."
+        "notes": "Big game (deer, elk, pronghorn, sheep, goat, moose, bison) shares the Apr 23 deadline. 2026: NEW application vendor (utahdraws.com), different interface. Mandatory hunt reporting with fines for non-compliance."
       },
-      "resultsDate": null,
+      "secondaryDraw": { "closes": "2026-06-23", "notes": "Antlerless & points-only deadline." },
+      "resultsDate": "2026-05-31",
       "paymentDeadline": null,
       "fees": {
         "nr": {
-          "qualifyingLicense": null,
-          "habitatStamp": null,
-          "applicationFee": null,
-          "tagIfDrawn": 849,
-          "totalEstimate": 849,
-          "notes": "General-season elk ~$849 (weighted-points draw). Limited-entry bull elk is ~$1,950 NR — separate, harder draw."
+          "qualifyingLicense": 147,
+          "applicationFee": 21,
+          "tagIfDrawn": 558,
+          "totalEstimate": 726,
+          "notes": "General any-bull elk ~$558. Spike elk ~$328. Limited-entry elk ~$813. Hunting license $147. App fee $21/species. 2.2% processing fee on all transactions. Significant NR fee increases effective Sep 2025."
         },
-        "resident": {
-          "tagIfDrawn": 52,
-          "totalEstimate": null
-        }
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
       "pointSystem": {
-        "type": "weighted",
-        "notes": "Weighted draw — chance scales with points. Very small NR quota (10%)."
+        "type": "hybrid",
+        "notes": "Limited-entry/OIAL uses bonus points. General-season uses preference points. 5-year wait after a successful limited-entry deer/elk draw."
       },
+      "otc": {
+        "available": true,
+        "onSaleDate": "2026-07-09",
+        "nrFee": 558,
+        "notes": "General any-bull elk: 15,000-tag NR-eligible quota goes on sale Jul 9 (effectively OTC — first-come-first-served, did NOT sell out in 2024 or 2025). Spike bull on sale Jul 16 (15,000 quota). General archery elk permits on sale Jul 7."
+      }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "hybrid",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-23",
+        "timezone": "America/Denver"
+      },
+      "secondaryDraw": { "closes": "2026-06-23", "notes": "Antlerless deadline." },
+      "resultsDate": "2026-05-31",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 147,
+          "applicationFee": 21,
+          "tagIfDrawn": 328,
+          "totalEstimate": 496,
+          "notes": "General deer ~$328. Limited-entry deer ~$563. Trophy potential exceptional but NR quota is small (~10%)."
+        },
+        "resident": { "tagIfDrawn": 40, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "hybrid",
+        "notes": "Limited-entry uses bonus, general uses preference. 5-year wait after successful limited-entry draw."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-23",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": "2026-05-31",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 147,
+          "applicationFee": 21,
+          "tagIfDrawn": 1500,
+          "totalEstimate": null,
+          "notes": "Once-in-a-lifetime species (regardless of harvest)."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "bonus",
+        "notes": "OIAL — once drawn, cannot apply again regardless of success."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bison",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-23",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": "2026-05-31",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 147,
+          "applicationFee": 21,
+          "tagIfDrawn": 2500,
+          "totalEstimate": null,
+          "notes": "Henry Mountains and Antelope Island. Once-in-a-lifetime."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus", "notes": "OIAL." },
       "otc": { "available": false }
     }
   ]

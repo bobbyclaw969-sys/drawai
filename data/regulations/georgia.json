@@ -1,0 +1,26 @@
+{
+  "state": "Georgia",
+  "abbreviation": "GA",
+  "officialUrl": "https://georgiawildlife.com",
+  "applicationPortal": "https://gooutdoorsgeorgia.com",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC — no draw application required." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 100,
+          "totalEstimate": 100,
+          "notes": "OTC NR ~$100. Up to 10 deer per season — one of the most generous bag limits in the US. Very long season."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true, "notes": "Long season, generous bag limit." }
+    }
+  ]
+}

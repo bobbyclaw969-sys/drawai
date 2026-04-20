@@ -1,0 +1,26 @@
+{
+  "state": "Mississippi",
+  "abbreviation": "MS",
+  "officialUrl": "https://mdwfp.com",
+  "applicationPortal": "https://mdwfp.com/license",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC for NR." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 250,
+          "totalEstimate": 250,
+          "notes": "OTC NR ~$250. One of the most deer-dense states in the country — Delta and eastern MS are standouts."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true }
+    }
+  ]
+}

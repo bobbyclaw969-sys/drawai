@@ -2,20 +2,24 @@
   "state": "Idaho",
   "abbreviation": "ID",
   "officialUrl": "https://idfg.idaho.gov",
-  "applicationPortal": "https://idfg.idaho.gov/licenses",
-  "lastUpdated": "2026-04-20",
+  "applicationPortal": "https://gooutdoorsidaho.com",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
       "drawSystem": "random",
       "applicationWindow": {
-        "opens": "2026-05-01",
-        "closes": "2026-06-05",
+        "opens": "2026-02-05",
+        "closes": "2026-02-15",
         "timezone": "America/Boise",
-        "notes": "Controlled hunt application window. Idaho moved NR general-season elk to a draw system for 2026 — first draw ran Dec 2025, second draw Feb 2026."
+        "notes": "Second NR general-elk draw period for 2026 (first ran Dec 5–15, 2025). Tag claim deadline Mar 20. First year of NR general elk draw replacing the old OTC first-come system — 40,000+ apps in the first round."
+      },
+      "secondaryDraw": {
+        "closes": "2026-06-05",
+        "notes": "Controlled elk hunts run May 1 – Jun 5. Results early July."
       },
       "resultsDate": null,
-      "paymentDeadline": null,
+      "paymentDeadline": "2026-03-20",
       "fees": {
         "nr": {
           "qualifyingLicense": 185,
@@ -23,21 +27,107 @@
           "applicationFee": 18,
           "tagIfDrawn": 651.75,
           "totalEstimate": 855,
-          "notes": "NR hunting license $185 (non-refundable, must buy before applying) + $651.75 elk tag if drawn + $18 application fee."
+          "notes": "NR hunting license $185 (non-refundable, must buy before applying). Elk tag $651.75 if drawn. Controlled-hunt app fee $18 (no app fee on the NR general draw for 2026 — may change in future years). Archery permit $81.75 if applicable."
         },
-        "resident": {
-          "tagIfDrawn": 13,
-          "totalEstimate": null
-        }
+        "resident": { "tagIfDrawn": 13, "totalEstimate": null }
       },
       "pointSystem": {
         "type": "random",
-        "notes": "No point system — pure lottery. Equal chance every year."
+        "notes": "Pure random — Idaho has no preference or bonus point system. Equal odds every year."
       },
       "otc": {
         "available": false,
-        "notes": "OTC NR general-season elk tags eliminated for 2026. Returned/unclaimed tags may release on monthly dates throughout the year."
+        "notes": "OTC NR general-elk eliminated for 2026 — now draw. Returned/unclaimed tags may release on monthly dates throughout the year."
       }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-02-05",
+        "closes": "2026-02-15",
+        "timezone": "America/Boise",
+        "notes": "Second NR general-deer draw period. Tag claim deadline Mar 20. Controlled hunts run May 1 – Jun 5."
+      },
+      "secondaryDraw": { "closes": "2026-06-05", "notes": "Controlled deer hunt window." },
+      "resultsDate": null,
+      "paymentDeadline": "2026-03-20",
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 185,
+          "applicationFee": 18,
+          "tagIfDrawn": 351.75,
+          "totalEstimate": 555,
+          "notes": "NR hunting license $185 + deer tag $351.75 if drawn. Controlled hunt app fee $18."
+        },
+        "resident": { "tagIfDrawn": 24, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "random", "notes": "No point system — pure lottery." },
+      "otc": { "available": false, "notes": "OTC NR general-deer eliminated for 2026." }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-04-30",
+        "timezone": "America/Boise",
+        "notes": "Big 3 (moose/sheep/goat) — must choose between Big 3 OR elk/deer/antelope for controlled hunts. Results late May."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 185,
+          "applicationFee": null,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Big-3 application fees higher than the standard $18; verify exact tag prices at idfg.idaho.gov."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "random", "notes": "Pure lottery — no points." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mountain Goat",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-04-30",
+        "timezone": "America/Boise"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 185,
+          "applicationFee": null,
+          "tagIfDrawn": null,
+          "totalEstimate": null
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "random" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Black Bear",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "Most bear is OTC. Spring controlled bear draw results ~Feb 27." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 185,
+          "tagIfDrawn": 186,
+          "totalEstimate": 371,
+          "notes": "NR bear tag ~$186 (~$171 tag + ~$15 license portion) plus the $185 NR hunting license. Spring + fall seasons."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true, "notes": "OTC bear tag for NR. Spring and fall seasons. Wolf is also OTC." }
     }
   ]
 }

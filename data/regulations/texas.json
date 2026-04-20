@@ -1,0 +1,29 @@
+{
+  "state": "Texas",
+  "abbreviation": "TX",
+  "officialUrl": "https://tpwd.texas.gov",
+  "applicationPortal": "https://tpwd.texas.gov/business/licenses",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC for NR. Season opens Nov 1 statewide." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 68,
+          "totalEstimate": 68,
+          "notes": "OTC NR deer ~$68 — among the cheapest. 90%+ of hunting is on private ranches; access (lease, day-hunt) is the real cost. Rio Grande and Hill Country genetics."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": {
+        "available": true,
+        "notes": "Statewide season opens Nov 1. Best hunting is private — plan for lease or day-hunt access fees."
+      }
+    }
+  ]
+}

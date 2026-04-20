@@ -2,32 +2,29 @@
   "state": "Montana",
   "abbreviation": "MT",
   "officialUrl": "https://fwp.mt.gov",
-  "applicationPortal": "https://myfwp.mt.gov",
-  "lastUpdated": "2026-04-20",
+  "applicationPortal": "https://ols.fwp.mt.gov",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
-      "drawSystem": "random",
+      "drawSystem": "preference",
       "applicationWindow": {
         "opens": "2026-03-01",
         "closes": "2026-04-01",
         "timezone": "America/Denver",
-        "notes": "Big Game Combo / Elk Combo NR draw window."
+        "notes": "11:45 PM MST deadline. Big Game Combo (elk + deer) or Elk Combo. Max 3 preference points; 75% to highest, 25% random among 0-pt applicants."
       },
-      "secondaryDraw": {
-        "closes": "2026-06-01",
-        "notes": "Alternates list available May 1 – June 1."
-      },
-      "resultsDate": null,
+      "resultsDate": "2026-04-15",
       "paymentDeadline": null,
       "fees": {
         "nr": {
-          "qualifyingLicense": 53,
-          "habitatStamp": null,
-          "applicationFee": 20,
-          "tagIfDrawn": 1059,
-          "totalEstimate": 1112,
-          "notes": "NR combo license $1,059 + $53 conservation license. The $20 was the application fee only. No OTC for non-residents."
+          "qualifyingLicense": 50,
+          "habitatStamp": 10,
+          "applicationFee": 5,
+          "preferencePointOnly": 100,
+          "tagIfDrawn": 1112,
+          "totalEstimate": 1177,
+          "notes": "Elk Combo $1,112 (elk + fishing + upland bird). Big Game Combo $1,312 includes deer too. Base hunting license increased $15 → $50 in 2026. Conservation license $10. AISPP $15 if needed."
         },
         "resident": {
           "tagIfDrawn": 10,
@@ -35,11 +32,181 @@
         }
       },
       "pointSystem": {
-        "type": "random",
-        "costPerPoint": { "nr": null, "resident": null },
-        "notes": "No preference points — pure lottery."
+        "type": "preference",
+        "costPerPoint": { "nr": 100, "resident": null },
+        "maxPoints": 3,
+        "notes": "Max 3 preference points for combo license. Special elk permits use bonus points (squared)."
+      },
+      "otc": { "available": false, "notes": "No NR OTC elk — all draw." }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-01",
+        "timezone": "America/Denver",
+        "notes": "Same deadline as elk. 2026 change: deer limit reduced from 8 to 3 per year (including B tags)."
+      },
+      "secondaryDraw": { "closes": "2026-06-01", "notes": "Deer B (antlerless) draw deadline." },
+      "resultsDate": "2026-04-15",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 50,
+          "habitatStamp": 10,
+          "applicationFee": 5,
+          "preferencePointOnly": 100,
+          "tagIfDrawn": 760,
+          "totalEstimate": 825,
+          "notes": "Deer Combo $760 (deer + fishing + upland bird). Big Game Combo $1,312 includes elk. Deer B antlerless ~$80."
+        },
+        "resident": { "tagIfDrawn": 10, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": 100, "resident": null },
+        "maxPoints": 3
       },
       "otc": { "available": false }
+    },
+    {
+      "name": "Pronghorn",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-04-01",
+        "closes": "2026-05-01",
+        "timezone": "America/Denver",
+        "notes": "Antelope draw (900-20). Random lottery — no point system on the antelope draw."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 50,
+          "habitatStamp": 10,
+          "applicationFee": 5,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Verify NR antelope license at fwp.mt.gov. Eastern Montana units have good odds."
+        },
+        "resident": { "tagIfDrawn": 10, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "random",
+        "notes": "No preference points for antelope — pure lottery."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-01",
+        "timezone": "America/Denver",
+        "notes": "Squared bonus points."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": 50,
+          "tagIfDrawn": 1250,
+          "totalEstimate": null,
+          "notes": "Moose tag ~$1,250 NR if drawn. Application fee $50."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "bonus",
+        "notes": "Squared bonus points for moose/sheep/goat/bison."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-01",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": 50,
+          "tagIfDrawn": 1250,
+          "totalEstimate": null,
+          "notes": "World-class sheep. Squared bonus points."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus", "notes": "Squared bonus points." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mountain Goat",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-01",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": 50,
+          "tagIfDrawn": 1250,
+          "totalEstimate": null
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus", "notes": "Squared bonus points." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bison",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-01",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": 50,
+          "tagIfDrawn": 1250,
+          "totalEstimate": null,
+          "notes": "Limited Montana bison hunt near Yellowstone. Once-in-a-lifetime."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "bonus", "notes": "Squared bonus points." },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Black Bear",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "Most bear hunting via license — limited draw permits in Region 5 (2 new BMUs) with Apr 1 deadline." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 50,
+          "habitatStamp": 10,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Bear license available with combo packages. Verify draw vs general bear unit at fwp.mt.gov."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true, "notes": "Most BMUs are general license. Two new draw BMUs in Region 5 added 2026 (Apr 1 deadline). Spring and fall seasons." }
     }
   ]
 }

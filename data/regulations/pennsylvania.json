@@ -1,0 +1,34 @@
+{
+  "state": "Pennsylvania",
+  "abbreviation": "PA",
+  "officialUrl": "https://pgc.pa.gov",
+  "applicationPortal": "https://huntfish.pa.gov",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": {
+        "opens": null,
+        "closes": null,
+        "notes": "OTC — no draw application required."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "tagIfDrawn": 27,
+          "totalEstimate": 27,
+          "notes": "One of the cheapest NR deer licenses in the US (~$27). Antlerless tags purchased separately by WMU."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": {
+        "available": true,
+        "notes": "Archery early Sep – mid-Nov, then late Dec – mid-Jan. Rifle late Nov – early Dec. Heavy public-land hunting tradition."
+      }
+    }
+  ]
+}

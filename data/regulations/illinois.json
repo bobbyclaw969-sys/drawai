@@ -1,0 +1,33 @@
+{
+  "state": "Illinois",
+  "abbreviation": "IL",
+  "officialUrl": "https://dnr.illinois.gov",
+  "applicationPortal": "https://dnr.illinois.gov/hunting",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": null,
+        "closes": null,
+        "notes": "Archery deer is OTC for NR. Firearm deer permits allocated via lottery/draw for some seasons."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 150,
+          "totalEstimate": 150,
+          "notes": "NR archery combo ~$150. One of the top trophy whitetail states — Pike, Adams, and Brown counties produce world-class bucks."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "random", "notes": "Firearm permits via lottery; archery is OTC." },
+      "otc": {
+        "available": true,
+        "notes": "Archery OTC; firearm seasons are draw."
+      }
+    }
+  ]
+}

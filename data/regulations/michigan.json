@@ -1,0 +1,26 @@
+{
+  "state": "Michigan",
+  "abbreviation": "MI",
+  "officialUrl": "https://michigan.gov/dnr",
+  "applicationPortal": "https://www.michigan.gov/dnr/buy-and-apply",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC for NR." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 155,
+          "totalEstimate": 155,
+          "notes": "OTC NR deer ~$155. Upper Peninsula offers excellent trophy hunting; Lower Peninsula has higher densities."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "state": "Wisconsin",
+  "abbreviation": "WI",
+  "officialUrl": "https://dnr.wisconsin.gov",
+  "applicationPortal": "https://gowild.wi.gov",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC archery and firearm." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 160,
+          "totalEstimate": 160,
+          "notes": "OTC NR deer ~$160. Be aware of CWD management zones — different rules apply."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true, "notes": "OTC archery + firearm. Mind CWD management zones." }
+    }
+  ]
+}

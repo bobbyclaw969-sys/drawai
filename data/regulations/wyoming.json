@@ -2,8 +2,8 @@
   "state": "Wyoming",
   "abbreviation": "WY",
   "officialUrl": "https://wgfd.wyo.gov",
-  "applicationPortal": "https://wgfd.wyo.gov/Apply-or-Buy",
-  "lastUpdated": "2026-04-20",
+  "applicationPortal": "https://wgfd.wyo.gov/licenses-applications",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
@@ -12,19 +12,23 @@
         "opens": "2026-01-02",
         "closes": "2026-02-02",
         "timezone": "America/Denver",
-        "notes": "Jan 31 fell on a Saturday for 2026, deadline rolled to Monday Feb 2. Do not confuse with the May 31 resident general-season deadline."
+        "notes": "11:59 PM MT deadline. 75% preference / 25% random allocation. NR capped at 16% of tags."
       },
-      "resultsDate": null,
+      "secondaryDraw": {
+        "closes": "2026-06-26",
+        "notes": "Leftover draw runs ~Jun 22–26; results ~Jul 8."
+      },
+      "resultsDate": "2026-05-21",
       "paymentDeadline": null,
       "fees": {
         "nr": {
           "qualifyingLicense": null,
-          "habitatStamp": null,
-          "applicationFee": null,
-          "preferencePointOnly": null,
+          "habitatStamp": 21.50,
+          "applicationFee": 15,
+          "preferencePointOnly": 52,
           "tagIfDrawn": 692,
-          "totalEstimate": 692,
-          "notes": "NR Type 1 general elk tag ~$692. Type 1/2/9 license structure is complex; verify your hunt area's license type at wgfd.wyo.gov."
+          "totalEstimate": 728.50,
+          "notes": "Regular NR elk license ~$692. Special-license pool ~$1,950 for higher draw odds. Conservation stamp $21.50. Archery permit $72 if applicable. 2.5% processing fee on all transactions."
         },
         "resident": {
           "tagIfDrawn": 63,
@@ -33,9 +37,160 @@
       },
       "pointSystem": {
         "type": "preference",
-        "costPerPoint": { "nr": null, "resident": null },
+        "costPerPoint": { "nr": 52, "resident": null },
+        "maxPoints": 20,
         "expirationYears": null,
-        "notes": "75% of NR tags go to highest-point applicants, 25% allocated random — even new applicants have a small chance. Some general areas draw at 5–8 points."
+        "notes": "Points lost if you draw your first choice OR fail to apply/buy a point for 2 consecutive years. Points NOT auto-awarded on unsuccessful draw — must purchase in the Jul 1–Nov 2 window. 75% preference / 25% random."
+      },
+      "otc": { "available": false, "notes": "No NR OTC elk. Type 8 unlimited cow/calf NR licenses exist in select units via draw." }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-05-01",
+        "closes": "2026-06-01",
+        "timezone": "America/Denver",
+        "notes": "Region-based general tags. 75% preference / 25% random."
+      },
+      "resultsDate": "2026-06-18",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": 21.50,
+          "applicationFee": 15,
+          "preferencePointOnly": 41,
+          "tagIfDrawn": 341,
+          "totalEstimate": 377.50,
+          "notes": "Regular NR deer ~$341. Special pool ~$1,597. Conservation stamp $21.50."
+        },
+        "resident": {
+          "tagIfDrawn": 37,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": 41, "resident": null },
+        "expirationYears": null,
+        "notes": "Same expiration rule as elk: lose points after 2 consecutive years inactive. Some areas draw at 5–7 points."
+      },
+      "otc": { "available": false, "notes": "No NR OTC deer." }
+    },
+    {
+      "name": "Pronghorn",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-05-01",
+        "closes": "2026-06-01",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": "2026-06-18",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": 21.50,
+          "applicationFee": 15,
+          "preferencePointOnly": 31,
+          "tagIfDrawn": 326,
+          "totalEstimate": 362.50,
+          "notes": "Regular NR antelope $326. Special pool $582. Best pronghorn state in the country — many units draw at 0–3 points."
+        },
+        "resident": {
+          "tagIfDrawn": 30,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": 31, "resident": null },
+        "expirationYears": null
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-01-02",
+        "closes": "2026-04-30",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": "2026-05-21",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": 15,
+          "habitatStamp": 21.50,
+          "preferencePointOnly": 150,
+          "tagIfDrawn": 2548,
+          "totalEstimate": null,
+          "notes": "Once-in-multiple-years draw. NR allocation 10%."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": 150, "resident": null },
+        "maxPoints": 31,
+        "notes": "5-year wait after a successful moose draw before eligible to apply again. 75% preference / 25% random. Up to 31 points held heading into 2026."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-01-02",
+        "closes": "2026-04-30",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": "2026-05-21",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": 15,
+          "habitatStamp": 21.50,
+          "preferencePointOnly": 150,
+          "tagIfDrawn": 3732,
+          "totalEstimate": null,
+          "notes": "Once-in-a-lifetime quality. NR allocation 10%."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": 150, "resident": null },
+        "maxPoints": 31,
+        "notes": "5-year wait after a successful sheep draw before eligible again. 75% preference / 25% random."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mountain Goat",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-01-02",
+        "closes": "2026-04-30",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": "2026-05-21",
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": 15,
+          "habitatStamp": 21.50,
+          "tagIfDrawn": 3732,
+          "totalEstimate": null,
+          "notes": "Pure random — no point system for goats. NR allocation 10%."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "random",
+        "notes": "No bonus or preference points for mountain goat — pure lottery every year."
       },
       "otc": { "available": false }
     }

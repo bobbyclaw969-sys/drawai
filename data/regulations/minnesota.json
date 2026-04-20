@@ -1,0 +1,26 @@
+{
+  "state": "Minnesota",
+  "abbreviation": "MN",
+  "officialUrl": "https://dnr.state.mn.us",
+  "applicationPortal": "https://www.dnr.state.mn.us/licenses",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC for NR." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 165,
+          "totalEstimate": 165,
+          "notes": "OTC NR deer ~$165. Strong agricultural-zone hunting and a long archery season."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true }
+    }
+  ]
+}

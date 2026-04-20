@@ -3,37 +3,160 @@
   "abbreviation": "NM",
   "officialUrl": "https://wildlife.state.nm.us",
   "applicationPortal": "https://onlinesales.wildlife.state.nm.us",
-  "lastUpdated": "2026-04-20",
+  "lastUpdated": "2026-04",
   "species": [
     {
       "name": "Elk",
       "drawSystem": "random",
       "applicationWindow": {
-        "opens": "2026-01-01",
-        "closes": "2026-03-20",
+        "opens": "2026-02-15",
+        "closes": "2026-03-18",
+        "timezone": "America/Denver",
+        "notes": "5 PM MT deadline. Pure random — no points. NR allocation: minimum 84% resident; up to 6% NR public + 10% NR outfitter-guided pool. NM charges full tag cost at application — refunded (less app fee) if unsuccessful."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 94,
+          "applicationFee": 8,
+          "tagIfDrawn": 998,
+          "totalEstimate": 1100,
+          "notes": "2026 fee increases: game hunting license $94 (up from $69), elk tag $998 (up from $773). Apply with a licensed outfitter to access the 10% outfitter-guided NR pool (separate from the 6% public NR pool)."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "random",
+        "notes": "NO point system — pure lottery. 3 hunt choices per species; NM processes 1st → 2nd → 3rd before moving to the next applicant, so all 3 choices are real."
+      },
+      "otc": {
+        "available": true,
+        "notes": "OTC elk tags available for some units — check NMDGF for current list. Must complete harvest reporting every year to stay eligible."
+      }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-02-15",
+        "closes": "2026-03-18",
         "timezone": "America/Denver"
       },
       "resultsDate": null,
       "paymentDeadline": null,
       "fees": {
         "nr": {
-          "qualifyingLicense": null,
-          "habitatStamp": null,
-          "applicationFee": null,
-          "tagIfDrawn": null,
-          "totalEstimate": 155,
-          "notes": "NR fee ~$155 (license + app). Tag cost if drawn varies — verify current 2026 fees at wildlife.state.nm.us."
+          "qualifyingLicense": 94,
+          "applicationFee": 8,
+          "tagIfDrawn": 623,
+          "totalEstimate": 725,
+          "notes": "2026 increases: deer tag $623 (up from $368)."
         },
-        "resident": {
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "random" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Pronghorn",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-02-15",
+        "closes": "2026-03-18",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 94,
+          "applicationFee": 8,
+          "tagIfDrawn": 415,
+          "totalEstimate": 517,
+          "notes": "Private-land authorization tags are a separate, pricier option."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "random" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-02-15",
+        "closes": "2026-03-18",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 94,
+          "applicationFee": 8,
+          "tagIfDrawn": 3176,
+          "totalEstimate": null,
+          "notes": "Pure random — your odds are the same with 0 points as with 30. Apply every year."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "random" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Black Bear",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-01-10",
+        "closes": "2026-02-11",
+        "timezone": "America/Denver",
+        "notes": "5 PM MT deadline. Bear & turkey share an earlier deadline than the main draw."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 94,
+          "applicationFee": 8,
           "tagIfDrawn": null,
           "totalEstimate": null
-        }
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
-      "pointSystem": {
-        "type": "random",
-        "notes": "No point system — pure lottery. Apply for 3–5 unit/weapon combos per application."
+      "pointSystem": { "type": "random" },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mountain Lion",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 94,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Mountain lion typically over-the-counter in NM."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
       },
-      "otc": { "available": false, "notes": "Very low NR quota (6%). Long wait for premium units." }
+      "pointSystem": { "type": "none" },
+      "otc": { "available": true, "notes": "Mountain lion tags generally OTC — verify season and units at wildlife.state.nm.us." }
+    },
+    {
+      "name": "Moose",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "No huntable moose population in New Mexico." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": { "tagIfDrawn": null, "totalEstimate": null, "notes": "Not available — no huntable moose population in NM." },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": { "available": false }
     }
   ]
 }

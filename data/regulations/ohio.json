@@ -1,0 +1,29 @@
+{
+  "state": "Ohio",
+  "abbreviation": "OH",
+  "officialUrl": "https://ohiodnr.gov",
+  "applicationPortal": "https://wildohio.gov",
+  "lastUpdated": "2026-04",
+  "species": [
+    {
+      "name": "Whitetail Deer",
+      "drawSystem": "none",
+      "applicationWindow": { "opens": null, "closes": null, "notes": "OTC — no draw." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": 96,
+          "totalEstimate": 96,
+          "notes": "OTC NR deer license ~$96. Long archery season Oct 1 – Feb."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": { "type": "none" },
+      "otc": {
+        "available": true,
+        "notes": "90%+ private land — access is the main challenge. Long archery window."
+      }
+    }
+  ]
+}
