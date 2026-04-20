@@ -1,0 +1,40 @@
+{
+  "state": "Utah",
+  "abbreviation": "UT",
+  "officialUrl": "https://wildlife.utah.gov",
+  "applicationPortal": "https://wildlife.utah.gov/dwr/licenses",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "weighted",
+      "applicationWindow": {
+        "opens": "2026-03-19",
+        "closes": "2026-04-23",
+        "timezone": "America/Denver",
+        "notes": "Verify exact 2026 deadline in the Utah Application Guidebook PDF before applying."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": null,
+          "applicationFee": null,
+          "tagIfDrawn": 849,
+          "totalEstimate": 849,
+          "notes": "General-season elk ~$849 (weighted-points draw). Limited-entry bull elk is ~$1,950 NR — separate, harder draw."
+        },
+        "resident": {
+          "tagIfDrawn": 52,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "weighted",
+        "notes": "Weighted draw — chance scales with points. Very small NR quota (10%)."
+      },
+      "otc": { "available": false }
+    }
+  ]
+}

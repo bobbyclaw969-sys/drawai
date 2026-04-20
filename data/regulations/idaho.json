@@ -1,0 +1,43 @@
+{
+  "state": "Idaho",
+  "abbreviation": "ID",
+  "officialUrl": "https://idfg.idaho.gov",
+  "applicationPortal": "https://idfg.idaho.gov/licenses",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-05-01",
+        "closes": "2026-06-05",
+        "timezone": "America/Boise",
+        "notes": "Controlled hunt application window. Idaho moved NR general-season elk to a draw system for 2026 — first draw ran Dec 2025, second draw Feb 2026."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 185,
+          "habitatStamp": null,
+          "applicationFee": 18,
+          "tagIfDrawn": 651.75,
+          "totalEstimate": 855,
+          "notes": "NR hunting license $185 (non-refundable, must buy before applying) + $651.75 elk tag if drawn + $18 application fee."
+        },
+        "resident": {
+          "tagIfDrawn": 13,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "random",
+        "notes": "No point system — pure lottery. Equal chance every year."
+      },
+      "otc": {
+        "available": false,
+        "notes": "OTC NR general-season elk tags eliminated for 2026. Returned/unclaimed tags may release on monthly dates throughout the year."
+      }
+    }
+  ]
+}

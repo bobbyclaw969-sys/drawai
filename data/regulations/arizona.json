@@ -1,0 +1,42 @@
+{
+  "state": "Arizona",
+  "abbreviation": "AZ",
+  "officialUrl": "https://azgfd.com",
+  "applicationPortal": "https://draw.azgfd.com",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2026-01-01",
+        "closes": "2026-02-12",
+        "timezone": "America/Phoenix"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 160,
+          "habitatStamp": null,
+          "applicationFee": 15,
+          "tagIfDrawn": null,
+          "totalEstimate": 175,
+          "notes": "NR hunting license $160 + $15 app fee. Tag cost if drawn varies by hunt code — verify at azgfd.com. Non-permit OTC elk tags exist for specific management/conflict units (~$650 NR)."
+        },
+        "resident": {
+          "tagIfDrawn": null,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "bonus",
+        "notes": "Bonus points. 80% of tags via bonus draw, 10% pure random, 10% max-points pool. World-class units take 10–20 years."
+      },
+      "otc": {
+        "available": true,
+        "notes": "Limited non-permit OTC elk tags for management/conflict units only — unit-specific. Verify availability at azgfd.com."
+      }
+    }
+  ]
+}

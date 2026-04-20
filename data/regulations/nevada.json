@@ -1,0 +1,39 @@
+{
+  "state": "Nevada",
+  "abbreviation": "NV",
+  "officialUrl": "https://ndow.org",
+  "applicationPortal": "https://ndowlicensing.com",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "bonus",
+      "applicationWindow": {
+        "opens": "2025-12-01",
+        "closes": "2026-02-15",
+        "timezone": "America/Los_Angeles"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": null,
+          "applicationFee": 15,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Application fee $15. Tag cost if drawn varies significantly by unit — verify at ndow.org."
+        },
+        "resident": {
+          "tagIfDrawn": null,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "bonus",
+        "notes": "Bonus points squared. Few NR tags issued. Worth applying annually for points."
+      },
+      "otc": { "available": false }
+    }
+  ]
+}

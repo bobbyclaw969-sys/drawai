@@ -1,0 +1,39 @@
+{
+  "state": "New Mexico",
+  "abbreviation": "NM",
+  "officialUrl": "https://wildlife.state.nm.us",
+  "applicationPortal": "https://onlinesales.wildlife.state.nm.us",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-01-01",
+        "closes": "2026-03-20",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": null,
+          "applicationFee": null,
+          "tagIfDrawn": null,
+          "totalEstimate": 155,
+          "notes": "NR fee ~$155 (license + app). Tag cost if drawn varies — verify current 2026 fees at wildlife.state.nm.us."
+        },
+        "resident": {
+          "tagIfDrawn": null,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "random",
+        "notes": "No point system — pure lottery. Apply for 3–5 unit/weapon combos per application."
+      },
+      "otc": { "available": false, "notes": "Very low NR quota (6%). Long wait for premium units." }
+    }
+  ]
+}

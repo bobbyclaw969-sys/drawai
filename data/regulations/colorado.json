@@ -1,0 +1,225 @@
+{
+  "state": "Colorado",
+  "abbreviation": "CO",
+  "officialUrl": "https://cpw.state.co.us",
+  "applicationPortal": "https://cpwshop.com",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-07",
+        "timezone": "America/Denver",
+        "notes": "Primary draw deadline. Confirm exact cutoff time with CPW."
+      },
+      "secondaryDraw": {
+        "closes": "2026-06-30",
+        "notes": "Leftover and reissue tags. No preference points used or awarded."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 105,
+          "habitatStamp": 13,
+          "applicationFee": null,
+          "preferencePointOnly": null,
+          "tagIfDrawn": 845,
+          "totalEstimate": 963,
+          "notes": "Total assumes elk license + small game qualifying license + habitat stamp. Verify exact 2026 fees at cpw.state.co.us."
+        },
+        "resident": {
+          "qualifyingLicense": null,
+          "habitatStamp": 13,
+          "applicationFee": null,
+          "tagIfDrawn": 61,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": null, "resident": null },
+        "maxPoints": null,
+        "expirationYears": 10,
+        "notes": "Points expire after 10 consecutive years of not applying. Starting 2028, Colorado switches deer/elk/bear/pronghorn/turkey to a 50/50 preference + random hybrid — high-point holders should evaluate burning points in 2026–2027."
+      },
+      "otc": {
+        "available": true,
+        "seasons": ["2nd Rifle", "3rd Rifle"],
+        "seasonDates": {
+          "2ndRifle": { "start": "2026-10-17", "end": "2026-10-25" },
+          "3rdRifle": { "start": "2026-10-31", "end": "2026-11-08" }
+        },
+        "validGMUs": [3, 4, 5, 11, 12, 13, 14, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 41, 42, 43, 44, 45, 47, 52, 53, 62, 63, 64, 65, 70, 71, 72, 73, 77, 78, 79, 80, 81, 82, 131, 211, 231, 301, 441, 471, 511, 521, 581, 591, 711],
+        "excludedGMUs": [54, 55, 551],
+        "restrictions": "Bull only. 4-point antler restriction in most units.",
+        "onSaleDate": "2026-08-05",
+        "nrFee": 845,
+        "notes": "GMUs 54/55/551 moved to limited draw for 2026. GMUs 11, 12, 13, 23, 24, 131, 211, 231 returned to unlimited OTC for 2026. Always confirm against the 2026 CPW Big Game Brochure (page ~40)."
+      },
+      "seasons": {
+        "archery": {
+          "start": "2026-08-29",
+          "end": "2026-09-27",
+          "notes": "NR archery elk west of I-25 is now draw-only (2025 change). Some eastern GMUs still OTC."
+        },
+        "muzzleloader": { "start": "2026-09-12", "end": "2026-09-20" },
+        "1stRifle": { "start": "2026-10-10", "end": "2026-10-14", "notes": "Draw only" },
+        "2ndRifle": { "start": "2026-10-17", "end": "2026-10-25" },
+        "3rdRifle": { "start": "2026-10-31", "end": "2026-11-08" },
+        "4thRifle": { "start": "2026-11-11", "end": "2026-11-15", "notes": "Draw only" }
+      }
+    },
+    {
+      "name": "Mule Deer",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-07",
+        "timezone": "America/Denver"
+      },
+      "secondaryDraw": { "closes": "2026-06-30", "notes": "Leftover/reissue tags, no points used." },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 86,
+          "habitatStamp": 11,
+          "applicationFee": null,
+          "tagIfDrawn": 452,
+          "totalEstimate": 549,
+          "notes": "Total: NR mule deer tag + small game qualifying license + habitat stamp."
+        },
+        "resident": {
+          "qualifyingLicense": null,
+          "habitatStamp": 11,
+          "tagIfDrawn": 8,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": null, "resident": null },
+        "expirationYears": 10,
+        "notes": "Premium units (GMU 2, 10, 201) require many points. 2028 50/50 hybrid change applies to mule deer."
+      },
+      "otc": { "available": false, "notes": "NR archery mule deer OTC eliminated west of I-25 in 2025." },
+      "seasons": {
+        "archery": { "start": "2026-08-29", "end": "2026-09-27" },
+        "muzzleloader": { "start": "2026-09-12", "end": "2026-09-20" },
+        "1stRifle": { "start": "2026-10-10", "end": "2026-10-14" },
+        "2ndRifle": { "start": "2026-10-17", "end": "2026-10-25" },
+        "3rdRifle": { "start": "2026-10-31", "end": "2026-11-08" },
+        "4thRifle": { "start": "2026-11-11", "end": "2026-11-15" }
+      }
+    },
+    {
+      "name": "Pronghorn",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-07",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 86,
+          "habitatStamp": 11,
+          "tagIfDrawn": 452,
+          "totalEstimate": 549,
+          "notes": "Eastern plains units draw quickly — good starter pronghorn state."
+        },
+        "resident": { "tagIfDrawn": 8, "habitatStamp": 11, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "expirationYears": 10,
+        "notes": "Most eastern plains units draw at 0–2 points. 2028 50/50 hybrid change applies to pronghorn."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Black Bear",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-07",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 86,
+          "habitatStamp": 11,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Bear can be added as a concurrent OTC tag with an OTC elk license in many units."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "expirationYears": 10,
+        "notes": "2028 50/50 hybrid change applies to bear."
+      },
+      "otc": {
+        "available": true,
+        "notes": "OTC bear tag available as concurrent add-on with OTC elk license — verify per unit at cpw.state.co.us."
+      }
+    },
+    {
+      "name": "Bighorn Sheep",
+      "drawSystem": "weighted",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-07",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "applicationFee": null,
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Once-in-a-lifetime species. NR quota is single-digit per year. Verify current 2026 fees at cpw.state.co.us."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "weighted",
+        "notes": "Weighted draw — more points = more chances, but never guaranteed. Many hunters apply 15+ years."
+      },
+      "otc": { "available": false }
+    },
+    {
+      "name": "Mountain Goat",
+      "drawSystem": "weighted",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-07",
+        "timezone": "America/Denver"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "tagIfDrawn": null,
+          "totalEstimate": null,
+          "notes": "Once-in-a-lifetime species. Single-digit NR quota. Verify current 2026 fees at cpw.state.co.us."
+        },
+        "resident": { "tagIfDrawn": null, "totalEstimate": null }
+      },
+      "pointSystem": {
+        "type": "weighted",
+        "notes": "Weighted draw. 15+ year wait typical."
+      },
+      "otc": { "available": false }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "state": "Oregon",
+  "abbreviation": "OR",
+  "officialUrl": "https://dfw.state.or.us",
+  "applicationPortal": "https://odfw.huntfishoregon.com",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2025-12-01",
+        "closes": "2026-01-15",
+        "timezone": "America/Los_Angeles"
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": null,
+          "applicationFee": null,
+          "tagIfDrawn": 669,
+          "totalEstimate": 669,
+          "notes": "NR elk tag ~$669. Despite 'general' designation, NR tags allocated via draw. 5% non-resident cap per unit."
+        },
+        "resident": {
+          "tagIfDrawn": 52,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "notes": "Best OTC-style coastal Roosevelt units (when available): Sixes, Tioga, Chetco, Trask, Siuslaw, Saddle Mountain. Verify current allocation at dfw.state.or.us."
+      },
+      "otc": { "available": false, "notes": "NR access is draw-only. Roosevelt elk hunts are coveted." }
+    }
+  ]
+}

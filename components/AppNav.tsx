@@ -5,9 +5,10 @@ import { useState, useEffect, useMemo } from "react";
 import { useAuth } from "@/lib/useAuth";
 
 const NAV_LINKS = [
-  { href: "/find",      label: "Find My Hunt" },
-  { href: "/chat",      label: "AI Advisor" },
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/find",        label: "Find My Hunt" },
+  { href: "/chat",        label: "AI Advisor" },
+  { href: "/regulations", label: "Regulations" },
+  { href: "/dashboard",   label: "Dashboard" },
 ];
 
 const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "")

@@ -1,0 +1,45 @@
+{
+  "state": "Montana",
+  "abbreviation": "MT",
+  "officialUrl": "https://fwp.mt.gov",
+  "applicationPortal": "https://myfwp.mt.gov",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "random",
+      "applicationWindow": {
+        "opens": "2026-03-01",
+        "closes": "2026-04-01",
+        "timezone": "America/Denver",
+        "notes": "Big Game Combo / Elk Combo NR draw window."
+      },
+      "secondaryDraw": {
+        "closes": "2026-06-01",
+        "notes": "Alternates list available May 1 – June 1."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": 53,
+          "habitatStamp": null,
+          "applicationFee": 20,
+          "tagIfDrawn": 1059,
+          "totalEstimate": 1112,
+          "notes": "NR combo license $1,059 + $53 conservation license. The $20 was the application fee only. No OTC for non-residents."
+        },
+        "resident": {
+          "tagIfDrawn": 10,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "random",
+        "costPerPoint": { "nr": null, "resident": null },
+        "notes": "No preference points — pure lottery."
+      },
+      "otc": { "available": false }
+    }
+  ]
+}

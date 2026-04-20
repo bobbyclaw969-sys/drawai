@@ -1,0 +1,43 @@
+{
+  "state": "Wyoming",
+  "abbreviation": "WY",
+  "officialUrl": "https://wgfd.wyo.gov",
+  "applicationPortal": "https://wgfd.wyo.gov/Apply-or-Buy",
+  "lastUpdated": "2026-04-20",
+  "species": [
+    {
+      "name": "Elk",
+      "drawSystem": "preference",
+      "applicationWindow": {
+        "opens": "2026-01-02",
+        "closes": "2026-02-02",
+        "timezone": "America/Denver",
+        "notes": "Jan 31 fell on a Saturday for 2026, deadline rolled to Monday Feb 2. Do not confuse with the May 31 resident general-season deadline."
+      },
+      "resultsDate": null,
+      "paymentDeadline": null,
+      "fees": {
+        "nr": {
+          "qualifyingLicense": null,
+          "habitatStamp": null,
+          "applicationFee": null,
+          "preferencePointOnly": null,
+          "tagIfDrawn": 692,
+          "totalEstimate": 692,
+          "notes": "NR Type 1 general elk tag ~$692. Type 1/2/9 license structure is complex; verify your hunt area's license type at wgfd.wyo.gov."
+        },
+        "resident": {
+          "tagIfDrawn": 63,
+          "totalEstimate": null
+        }
+      },
+      "pointSystem": {
+        "type": "preference",
+        "costPerPoint": { "nr": null, "resident": null },
+        "expirationYears": null,
+        "notes": "75% of NR tags go to highest-point applicants, 25% allocated random — even new applicants have a small chance. Some general areas draw at 5–8 points."
+      },
+      "otc": { "available": false }
+    }
+  ]
+}
