@@ -7,6 +7,14 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   window_start TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+ALTER TABLE rate_limits ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "service role only" ON rate_limits;
+CREATE POLICY "service role only"
+  ON rate_limits
+  FOR ALL
+  USING (auth.role() = 'service_role');
+
 CREATE OR REPLACE FUNCTION check_rate_limit(
   p_key       TEXT,
   p_limit     INTEGER,
