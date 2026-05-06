@@ -109,14 +109,32 @@ export default function AdminVerifyPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
 
-  const adminEmails = useMemo(
-    () => (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "")
-      .split(",")
-      .map(e => e.trim().toLowerCase())
-      .filter(Boolean),
-    [],
-  );
-  const isAdmin = !!user?.email && adminEmails.includes(user.email.toLowerCase());
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminCheckLoading, setAdminCheckLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.email) {
+      setIsAdmin(false);
+      setAdminCheckLoading(false);
+      return;
+    }
+    let cancelled = false;
+    fetch("/api/admin/check", { credentials: "include" })
+      .then(r => (r.ok ? r.json() : { isAdmin: false }))
+      .then(d => {
+        if (!cancelled) {
+          setIsAdmin(!!d.isAdmin);
+          setAdminCheckLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setIsAdmin(false);
+          setAdminCheckLoading(false);
+        }
+      });
+    return () => { cancelled = true; };
+  }, [user?.email]);
 
   const [verifications, setVerifications] = useState<DeadlineVerification[]>([]);
   const [loading, setLoading] = useState(true);
@@ -154,7 +172,7 @@ export default function AdminVerifyPage() {
   const lastVerified = verifications[0]?.verified_at;
 
   // ── Auth gates ──
-  if (authLoading) {
+  if (authLoading || adminCheckLoading) {
     return (
       <div style={{ background: SOIL, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MONO, color: DUST, fontSize: 14 }}>
         Loading…

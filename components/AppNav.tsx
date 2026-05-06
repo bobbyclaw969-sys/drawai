@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/useAuth";
 
 const NAV_LINKS = [
@@ -10,11 +10,6 @@ const NAV_LINKS = [
   { href: "/regulations", label: "Regulations" },
   { href: "/dashboard",   label: "Dashboard" },
 ];
-
-const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "")
-  .split(",")
-  .map(e => e.trim().toLowerCase())
-  .filter(Boolean);
 
 const SOIL = "#0F0D0A";
 const FENCE = "#2E2A24";
@@ -28,10 +23,20 @@ export default function AppNav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { user, signOut, loading } = useAuth();
-  const isAdmin = useMemo(
-    () => !!user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase()),
-    [user],
-  );
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user?.email) {
+      setIsAdmin(false);
+      return;
+    }
+    let cancelled = false;
+    fetch("/api/admin/check", { credentials: "include" })
+      .then(r => (r.ok ? r.json() : { isAdmin: false }))
+      .then(d => { if (!cancelled) setIsAdmin(!!d.isAdmin); })
+      .catch(() => { if (!cancelled) setIsAdmin(false); });
+    return () => { cancelled = true; };
+  }, [user?.email]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);

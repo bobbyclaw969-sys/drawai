@@ -21,9 +21,23 @@ function isAllowedOrigin(origin: string | null): boolean {
   }
 }
 
-export function proxy(request: NextRequest) {
+/** Resolve effective origin from either Origin or Referer header. */
+function effectiveOrigin(req: NextRequest): string | null {
+  const origin = req.headers.get("origin");
+  if (origin) return origin;
+  const referer = req.headers.get("referer");
+  if (!referer) return null;
+  try {
+    return new URL(referer).origin;
+  } catch {
+    return null;
+  }
+}
+
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const incomingOrigin = request.headers.get("origin");
+  const effective = effectiveOrigin(request);
 
   // ── API route protection ──────────────────────────────────────────────────
   if (pathname.startsWith("/api/")) {
@@ -44,9 +58,10 @@ export function proxy(request: NextRequest) {
       });
     }
 
-    // Reject cross-origin mutating requests from unknown origins (CSRF protection)
+    // CSRF: mutating requests must have a trusted origin/referer.
+    // Missing-origin requests (curl, scripts) are blocked.
     const isMutating = request.method === "POST" || request.method === "DELETE" || request.method === "PUT" || request.method === "PATCH";
-    if (isMutating && incomingOrigin && !isAllowedOrigin(incomingOrigin)) {
+    if (isMutating && !isAllowedOrigin(effective)) {
       return new Response("Forbidden", { status: 403 });
     }
 
