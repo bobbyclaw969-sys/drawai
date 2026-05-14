@@ -14,12 +14,12 @@ const DUST = "#7A6E5F";
 export const metadata: Metadata = {
   title: "Tag Hunter vs. TINE, GoHUNT, Eastmans, DHG — Honest Comparison",
   description:
-    "How Tag Hunter stacks up against TINE Hunt, GoHUNT INSIDER, Eastmans MRS, and Data Hunt Guide. Free, AI-personalized draw strategy. Honest credit where competitors win.",
+    "How Tag Hunter stacks up against TINE Hunt, GoHUNT INSIDER, Eastmans MRS, and Data Hunt Guide. AI-personalized draw strategy, free during open beta. Honest credit where competitors win.",
   alternates: { canonical: "https://taghunter.us/vs" },
   openGraph: {
     title: "Tag Hunter vs. TINE, GoHUNT, Eastmans, DHG",
     description:
-      "Free, AI-personalized western draw strategy. Honest comparison against TINE Hunt, GoHUNT INSIDER, Eastmans MRS, and Data Hunt Guide.",
+      "AI-personalized western draw strategy, free during open beta. Honest comparison against TINE Hunt, GoHUNT INSIDER, Eastmans MRS, and Data Hunt Guide.",
     url: "https://taghunter.us/vs",
     siteName: "Tag Hunter",
     type: "website",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tag Hunter vs. TINE, GoHUNT, Eastmans, DHG",
     description:
-      "Free, AI-personalized western draw strategy. Honest comparison vs. the rest of the category.",
+      "AI-personalized western draw strategy, free during open beta. Honest comparison vs. the rest of the category.",
   },
 };
 
@@ -52,7 +52,7 @@ const COMPETITORS = [
   {
     key: "taghunter",
     name: "Tag Hunter",
-    blurb: "Free · AI-first · shipped today",
+    blurb: "Free in open beta · AI-first · live today",
     highlight: true,
   },
   {
@@ -64,19 +64,19 @@ const COMPETITORS = [
   {
     key: "gohunt",
     name: "GoHUNT INSIDER",
-    blurb: "Incumbent · paid yearly",
+    blurb: "Incumbent · ~$149/yr",
     highlight: false,
   },
   {
     key: "eastmans",
     name: "Eastmans MRS",
-    blurb: "Old-school · magazine roots",
+    blurb: "Old-school · ~$50/yr",
     highlight: false,
   },
   {
     key: "dhg",
     name: "Data Hunt Guide",
-    blurb: "In-field intel · ML heat maps",
+    blurb: "In-field intel · ~$99/yr",
     highlight: false,
   },
 ] as const;
@@ -89,11 +89,21 @@ const MATRIX: { feature: string; cells: Record<CompetitorKey, CellValue> }[] = [
   {
     feature: "Price",
     cells: {
-      taghunter: text("Free · optional $299 lifetime Founder"),
+      taghunter: text("Free — currently in open beta"),
       tine: tbd("Pre-launch via Kickstarter"),
-      gohunt: text("~$249/yr (verify on site)"),
-      eastmans: text("~$300/yr (verify on site)"),
-      dhg: text("Per-unit data packs (varies)"),
+      gohunt: text("~$149/yr (verify on site)"),
+      eastmans: text("~$50/yr (verify on site)"),
+      dhg: text("~$99/yr (verify on site)"),
+    },
+  },
+  {
+    feature: "Available today",
+    cells: {
+      taghunter: yes("Live in open beta — use it now"),
+      tine: no("Pre-launch Kickstarter — not yet shipped"),
+      gohunt: yes("Available now"),
+      eastmans: yes("Available now"),
+      dhg: yes("Available now"),
     },
   },
   {
@@ -270,12 +280,12 @@ const HONEST_CREDIT = [
   {
     name: "GoHUNT INSIDER",
     line:
-      "The most polished filter UX in the category. If you want a mature, well-funded product with editorial unit profiles, they earned that spot. We're cheaper, AI-personalized, and open about our data sources.",
+      "The most polished filter UX in the category. If you want a mature, well-funded product with editorial unit profiles, they earned that spot. We're AI-personalized, open about our data sources, and free during open beta.",
   },
   {
     name: "Eastmans MRS",
     line:
-      "Magazine-tier brand and a decades-deep research database. If you're brand-loyal to print-era hunting media, that's real. We're newer, faster, and free.",
+      "Magazine-tier brand and a decades-deep research database. If you're brand-loyal to print-era hunting media, that's real. We're newer, faster, and free during open beta.",
   },
   {
     name: "TINE Hunt",
@@ -732,8 +742,8 @@ export default function VsPage() {
         >
           {[
             {
-              h: "$0 for the strategy layer",
-              b: "Every other planning product in this matrix is a recurring subscription. We don't charge for the AI plan. Founder lifetime is $299 once — optional, not gated.",
+              h: "Free during open beta",
+              b: "Every other planning product in this matrix is a recurring subscription. We're free while we're in open beta — the whole AI plan, no paywall, no credit card, no gated tiers.",
             },
             {
               h: "AI-personalized, not rules-based",
