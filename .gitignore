@@ -43,3 +43,7 @@ public/.next
 
 # local data-verification artifacts (run via `npm run verify-data`)
 /scripts/verification-report.*
+
+# Dolt database files (added by bd init)
+.dolt/
+*.db

@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "drawai",
+  "project_id": "303bb388-cb71-4b20-879c-bac3be39184a"
+}
