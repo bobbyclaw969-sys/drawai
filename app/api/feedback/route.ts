@@ -6,6 +6,8 @@ import { logError } from "@/lib/errorLog";
 
 export const maxDuration = 15;
 
+const BOBBY_EMAIL = "bsurfin87@gmail.com";
+
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,92 +16,137 @@ function getSupabase() {
 }
 
 /**
- * Notify the team via Resend on every feedback submission.
- * Fails silently if RESEND_API_KEY is not set — submission still succeeds.
+ * Notify Bobby via Resend on every feedback submission.
+ * Fails silently if RESEND_API_KEY is not set.
  */
-async function notifyTeam(input: {
-  category: string;
+async function notifyBobby(input: {
+  sentiment: string;
   message: string;
   email: string;
+  source: string;
+  anonId: string;
   referer: string;
 }): Promise<void> {
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) {
-    console.warn("RESEND_API_KEY not set — feedback email notifications are disabled. Set this in Vercel environment variables.");
+    console.warn("RESEND_API_KEY not set — feedback email notifications disabled.");
     return;
   }
   try {
     const resend = new Resend(resendKey);
-    const fromName = input.email || "Anonymous";
+    const fromUser = input.email || `anon:${input.anonId.slice(0, 8)}`;
     const body = [
-      `From: ${fromName}`,
-      `Category: ${input.category}`,
-      `Page: ${input.referer || "(not captured)"}`,
-      `Time: ${new Date().toISOString()}`,
+      `Sentiment: ${input.sentiment.toUpperCase()}`,
+      `From:      ${fromUser}`,
+      `Source:    ${input.source}`,
+      `Page:      ${input.referer || "(not captured)"}`,
+      `Time:      ${new Date().toISOString()}`,
       ``,
       `Message:`,
-      input.message,
+      input.message || "(no message — just a thumbs click)",
     ].join("\n");
     await resend.emails.send({
-      from: "Tag Hunter Feedback <team@f21.ai>",
-      to: "team@f21.ai",
+      from: "TagHunter Feedback <team@f21.ai>",
+      to: BOBBY_EMAIL,
       replyTo: input.email || undefined,
-      subject: `New Tag Hunter Feedback — ${input.category}`,
+      subject: `TagHunter feedback: ${input.sentiment}`,
       text: body,
     });
   } catch (err) {
-    // Never let notification failure block the submission
     console.warn("Feedback notification failed:", err);
     void logError("api/feedback[notify]", err);
   }
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req);
-    const rl = await rateLimit(`feedback:${ip}`, 5, 60 * 60_000);
+    const rl = await rateLimit(`feedback:${ip}`, 10, 60 * 60_000);
     if (!rl.allowed) {
       return NextResponse.json(
-        { error: "Too many submissions. Please wait before sending more feedback." },
+        { error: "Too many submissions. Slow down and try again in a bit." },
         { status: 429, headers: { "Retry-After": String(Math.ceil(rl.retryAfterMs / 1000)) } },
       );
     }
 
-    const body = await req.json() as {
-      category?: string;
+    const body = (await req.json()) as {
+      anon_id?: string;
+      sentiment?: string;
       message?: string;
       email?: string;
+      source?: string;
+      // legacy fallback — keep old form working
+      category?: string;
     };
 
     const message = (body.message ?? "").trim();
-    if (!message || message.length < 5) {
-      return NextResponse.json({ error: "Please provide a message (at least 5 characters)." }, { status: 400 });
-    }
-    if (message.length > 5000) {
-      return NextResponse.json({ error: "Message too long (max 5000 characters)." }, { status: 400 });
-    }
+    const sentiment = (() => {
+      const s = (body.sentiment ?? "").toLowerCase();
+      if (s === "positive" || s === "negative" || s === "neutral") return s;
+      // Legacy form: treat "bug"/"data" as negative, everything else neutral
+      if (body.category === "bug" || body.category === "data") return "negative";
+      return "neutral";
+    })();
 
-    const category = ["bug", "feature", "general", "data"].includes(body.category ?? "")
-      ? body.category
-      : "general";
+    // Require message UNLESS this is a positive click-through log
+    const isPositiveClickThrough = sentiment === "positive" && message.startsWith("[clicked through to");
+    if (!isPositiveClickThrough) {
+      if (message.length < 5) {
+        return NextResponse.json(
+          { error: "Tell us a little more — at least a sentence." },
+          { status: 400 },
+        );
+      }
+      if (message.length > 5000) {
+        return NextResponse.json({ error: "Message too long (max 5000 chars)." }, { status: 400 });
+      }
+    }
 
     const email = (body.email ?? "").trim().toLowerCase();
+    if (email && !EMAIL_RE.test(email)) {
+      return NextResponse.json({ error: "That email doesn't look right." }, { status: 400 });
+    }
+
+    const anonId = (body.anon_id ?? "").trim() || `ip:${ip.slice(0, 12)}`;
+    const source = (body.source ?? "feedback_page").slice(0, 80);
 
     const supabase = getSupabase();
+
+    // ── Idempotency: same anon_id + same sentiment within 60s = dedupe ─
+    const sixtySecondsAgo = new Date(Date.now() - 60_000).toISOString();
+    const { data: recent } = await supabase
+      .from("feedback")
+      .select("id, message")
+      .eq("anon_id", anonId)
+      .eq("sentiment", sentiment)
+      .gte("created_at", sixtySecondsAgo)
+      .limit(1);
+    if (recent && recent.length > 0) {
+      return NextResponse.json({ ok: true, deduped: true });
+    }
+
     const { error: insertError } = await supabase.from("feedback").insert({
-      category,
-      message,
+      anon_id: anonId,
+      sentiment,
+      message: message || null,
       email: email || null,
+      source,
+      // keep legacy column populated for the admin dashboard, if it reads `category`
+      category: sentiment === "negative" ? "bug" : "general",
       ip_hash: ip.slice(0, 8),
     });
 
     if (insertError) throw insertError;
 
-    // Fire-and-forget email notification — never blocks the response
-    void notifyTeam({
-      category: category ?? "general",
+    // Fire-and-forget — never blocks the response
+    void notifyBobby({
+      sentiment,
       message,
       email,
+      source,
+      anonId,
       referer: req.headers.get("referer") ?? "",
     });
 
@@ -107,6 +154,6 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("Feedback error:", err);
     void logError("api/feedback", err);
-    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+    return NextResponse.json({ error: "Something broke on our end. Try again." }, { status: 500 });
   }
 }
