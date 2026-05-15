@@ -4,12 +4,12 @@ import type { NextConfig } from "next";
 // frame-ancestors 'none' is the modern replacement for X-Frame-Options: DENY.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.posthog.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https:",
   "font-src 'self' data: https://fonts.gstatic.com",
-  // Supabase for auth + data; accounts.google.com for Google OAuth
-  "connect-src 'self' https://tynbozzvqztyqapdfkna.supabase.co https://accounts.google.com",
+  // Supabase for auth + data; accounts.google.com for Google OAuth; PostHog for analytics
+  "connect-src 'self' https://tynbozzvqztyqapdfkna.supabase.co https://accounts.google.com https://*.posthog.com https://*.i.posthog.com",
   "frame-src 'none'",
   "frame-ancestors 'none'",
   "object-src 'none'",

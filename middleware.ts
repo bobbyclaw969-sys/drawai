@@ -79,6 +79,21 @@ export function middleware(request: NextRequest) {
 
   const response = NextResponse.next();
 
+  // ── Anonymous user ID cookie (server-side fallback for analytics) ─────────
+  // Mirrors `th_anon_id` in lib/posthog.ts. Setting it server-side guarantees
+  // every visitor has a stable ID even before client JS runs, so the very first
+  // hit can be attributed correctly. Skipped for API routes (no benefit there).
+  if (!pathname.startsWith("/api/") && !request.cookies.get("th_anon_id")) {
+    const anonId = crypto.randomUUID();
+    response.cookies.set("th_anon_id", anonId, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365 * 2, // 2 years
+      sameSite: "lax",
+      secure: request.nextUrl.protocol === "https:",
+      httpOnly: false, // client JS needs to read this to sync with localStorage
+    });
+  }
+
   // ── Security headers ──────────────────────────────────────────────────────
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");

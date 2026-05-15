@@ -3,6 +3,7 @@ import { huntingData, SPECIES_LABELS, SPECIES_EMOJI, STATE_NAMES } from "@/lib/h
 import { SpeciesKey } from "@/lib/types";
 import { getOTCDetails } from "@/lib/otcDetails";
 import { notFound } from "next/navigation";
+import UnitViewedTracker from "@/components/UnitViewedTracker";
 
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -110,6 +111,7 @@ export default async function StateProfilePage({ params }: { params: Promise<{ s
 
   return (
     <main className="min-h-screen px-4 py-8 max-w-4xl mx-auto">
+      <UnitViewedTracker state={stateId} unitId={stateId} />
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">

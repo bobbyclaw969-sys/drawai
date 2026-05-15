@@ -6,6 +6,7 @@ import AiDisclaimer from "@/components/AiDisclaimer";
 import { SPECIES_LABELS, ALL_STATES, STATE_NAMES } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { FindProfile } from "@/app/api/find/route";
+import { track } from "@/lib/posthog";
 
 // ── Design tokens ─────────────────────────────────────────────────────────
 const SOIL  = "#0F0D0A";
@@ -91,7 +92,9 @@ export default function FindPage() {
   const update = (u: Partial<FindProfile>) => setProfile(p => ({ ...p, ...u }));
   const toggleSpecies = (s: SpeciesKey) => {
     const cur = profile.species ?? [];
-    update({ species: cur.includes(s) ? cur.filter(x => x !== s) : [...cur, s] });
+    const adding = !cur.includes(s);
+    update({ species: adding ? [...cur, s] : cur.filter(x => x !== s) });
+    if (adding) track("species_selected", { species_slug: s });
   };
   const toggleState = (s: string) => {
     const cur = profile.states ?? [];

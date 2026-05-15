@@ -4,6 +4,7 @@ import AppNav from "@/components/AppNav";
 import { huntingData, SPECIES_LABELS, DATA_YEAR } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
 import { toggleReminder, loadReminders, getUpcomingReminders, DeadlineReminder } from "@/lib/tracker";
+import { track } from "@/lib/posthog";
 import {
   DeadlineVerification, getAllVerifications, buildVerificationMap,
 } from "@/lib/verifications";
@@ -144,6 +145,9 @@ export default function DeadlinesPage() {
       closeDay: d.closeDay,
     };
     const nowWatching = toggleReminder(reminder);
+    if (nowWatching) {
+      track("deadline_alert_set", { state: d.stateId, species_slug: d.species });
+    }
     setWatchedKeys(prev => {
       const next = new Set(prev);
       if (nowWatching) next.add(key);

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { track, identify } from "@/lib/posthog";
 
 export default function WaitlistForm({ source = "homepage" }: { source?: string }) {
   const [email, setEmail] = useState("");
@@ -19,6 +20,8 @@ export default function WaitlistForm({ source = "homepage" }: { source?: string 
       });
       const data = await res.json();
       if (!res.ok) { setErrorMsg(data.error ?? "Something went wrong."); setState("error"); return; }
+      track("email_captured", { source });
+      identify(email.trim());
       if (data.alreadyRegistered) { setState("already"); return; }
       setPosition(data.position);
       setState("done");

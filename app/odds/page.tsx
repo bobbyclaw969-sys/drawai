@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import AppNav from "@/components/AppNav";
 import { huntingData, SPECIES_LABELS } from "@/lib/huntingData";
 import { SpeciesKey } from "@/lib/types";
+import { track } from "@/lib/posthog";
 
 const ALL_SPECIES: SpeciesKey[] = [
   "elk", "mule_deer", "pronghorn", "whitetail",
@@ -229,7 +230,11 @@ export default function OddsPage() {
                   <div style={{ fontSize: 11, color: "var(--text-3)", marginBottom: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>My Points</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <button
-                      onClick={() => setMyPoints(p => ({ ...p, [row.stateId]: Math.max(0, (p[row.stateId] ?? 0) - 1) }))}
+                      onClick={() => {
+                        const next = Math.max(0, (myPoints[row.stateId] ?? 0) - 1);
+                        setMyPoints(p => ({ ...p, [row.stateId]: next }));
+                        track("draw_odds_calculated", { state: row.stateId, species_slug: row.species, points: next });
+                      }}
                       disabled={noPoints}
                       style={{ width: 26, height: 26, borderRadius: 6, background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text)", fontSize: 14, fontWeight: 700, cursor: noPoints ? "not-allowed" : "pointer", opacity: noPoints ? 0.4 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
                     >−</button>
@@ -237,7 +242,11 @@ export default function OddsPage() {
                       {noPoints ? "—" : (myPoints[row.stateId] ?? 0)}
                     </span>
                     <button
-                      onClick={() => setMyPoints(p => ({ ...p, [row.stateId]: (p[row.stateId] ?? 0) + 1 }))}
+                      onClick={() => {
+                        const next = (myPoints[row.stateId] ?? 0) + 1;
+                        setMyPoints(p => ({ ...p, [row.stateId]: next }));
+                        track("draw_odds_calculated", { state: row.stateId, species_slug: row.species, points: next });
+                      }}
                       disabled={noPoints}
                       style={{ width: 26, height: 26, borderRadius: 6, background: "var(--bg-elevated)", border: "1px solid var(--border)", color: "var(--text)", fontSize: 14, fontWeight: 700, cursor: noPoints ? "not-allowed" : "pointer", opacity: noPoints ? 0.4 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
                     >+</button>

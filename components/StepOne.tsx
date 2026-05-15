@@ -2,6 +2,7 @@
 import { useState, CSSProperties } from "react";
 import { HunterProfile, SpeciesKey, HuntType, Goal, PlanningYears } from "@/lib/types";
 import { SPECIES_LABELS, ALL_STATES, STATE_NAMES } from "@/lib/huntingData";
+import { track } from "@/lib/posthog";
 
 // ── Design tokens ───────────────────────────────────────────────────────────
 const SOIL = "#0F0D0A";
@@ -66,7 +67,9 @@ export default function StepOne({ profile, onChange, onNext }: Props) {
 
   const toggleSpecies = (s: SpeciesKey) => {
     const cur = profile.species ?? [];
-    onChange({ species: cur.includes(s) ? cur.filter(x => x !== s) : [...cur, s] });
+    const adding = !cur.includes(s);
+    onChange({ species: adding ? [...cur, s] : cur.filter(x => x !== s) });
+    if (adding) track("species_selected", { species_slug: s });
   };
 
   const errors = {
