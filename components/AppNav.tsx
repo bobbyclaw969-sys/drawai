@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/useAuth";
 
 const NAV_LINKS = [
   { href: "/find",        label: "Find My Hunt" },
+  { href: "/optimizer",   label: "Optimizer" },
   { href: "/chat",        label: "AI Advisor" },
   { href: "/regulations", label: "Regulations" },
   { href: "/dashboard",   label: "Dashboard" },
