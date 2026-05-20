@@ -8,7 +8,8 @@ const STATS_TOKEN = process.env.STATS_TOKEN;
 if (!STATS_TOKEN) console.warn("STATS_TOKEN env var not set — /api/stats will reject all requests");
 
 export async function GET(req: NextRequest) {
-  const token = req.nextUrl.searchParams.get("token");
+  const auth = req.headers.get("authorization");
+  const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null;
   if (!STATS_TOKEN || token !== STATS_TOKEN) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

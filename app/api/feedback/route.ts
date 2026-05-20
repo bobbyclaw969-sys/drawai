@@ -6,7 +6,7 @@ import { logError } from "@/lib/errorLog";
 
 export const maxDuration = 15;
 
-const BOBBY_EMAIL = "bsurfin87@gmail.com";
+const FEEDBACK_RECIPIENT_EMAIL = process.env.FEEDBACK_RECIPIENT_EMAIL || "bsurfin87@gmail.com";
 
 function getSupabase() {
   return createClient(
@@ -47,7 +47,7 @@ async function notifyBobby(input: {
     ].join("\n");
     await resend.emails.send({
       from: "TagHunter Feedback <team@f21.ai>",
-      to: BOBBY_EMAIL,
+      to: FEEDBACK_RECIPIENT_EMAIL,
       replyTo: input.email || undefined,
       subject: `TagHunter feedback: ${input.sentiment}`,
       text: body,
