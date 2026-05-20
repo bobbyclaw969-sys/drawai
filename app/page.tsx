@@ -1092,6 +1092,8 @@ export default function Home() {
             <Link href="/terms" style={{ color: DUST }}>Terms</Link>
             <span>·</span>
             <Link href="/privacy" style={{ color: DUST }}>Privacy</Link>
+            <span>·</span>
+            <Link href="/data-delete" style={{ color: DUST }}>Delete my data</Link>
           </div>
 
           <div className="md:text-right" style={{ fontFamily: "var(--font-dm-mono), monospace", color: DUST, fontSize: 13 }}>
