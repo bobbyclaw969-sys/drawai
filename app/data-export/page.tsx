@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import AppNav from "@/components/AppNav";
+import { track } from "@/lib/posthog";
 
 const SOIL = "#0F0D0A";
 const BARK = "#1A1712";
@@ -33,6 +34,7 @@ export default function DataExportPage() {
         return;
       }
       setStatus("sent");
+      track("data_export_requested", { surface: "data_export_page" });
     } catch {
       setErrorMsg("Network hiccup. Try again.");
       setStatus("error");

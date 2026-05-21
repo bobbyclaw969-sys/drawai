@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import AppNav from "@/components/AppNav";
+import { track } from "@/lib/posthog";
 
 const SOIL = "#0F0D0A";
 const BARK = "#1A1712";
@@ -29,6 +30,15 @@ export default function FounderPage() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const startedRef = useRef(false);
+
+  const onEmailChange = (v: string) => {
+    if (!startedRef.current && v.length > 0) {
+      startedRef.current = true;
+      track("signup_started", { surface: "founder_page" });
+    }
+    setEmail(v);
+  };
 
   const submit = async () => {
     if (status === "sending") return;
@@ -47,6 +57,7 @@ export default function FounderPage() {
         return;
       }
       setStatus("sent");
+      track("signup_completed", { surface: "founder_page" });
     } catch {
       setErrorMsg("Network hiccup. Try again.");
       setStatus("error");
@@ -134,7 +145,7 @@ export default function FounderPage() {
               <input
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => onEmailChange(e.target.value)}
                 placeholder="you@example.com"
                 style={{
                   flex: "1 1 220px",

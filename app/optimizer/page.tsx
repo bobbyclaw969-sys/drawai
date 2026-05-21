@@ -10,7 +10,7 @@
  * This is the defensive moat feature: TINE / DHG / GoHUNT can't replicate
  * this without years of regulatory data ingestion across all 25+ states.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import AppNav from "@/components/AppNav";
 import { huntingData, SPECIES_LABELS, ALL_STATES, STATE_NAMES } from "@/lib/huntingData";
@@ -55,6 +55,14 @@ export default function OptimizerPage() {
   ]);
   const [goal, setGoal] = useState<"hunt_often" | "balance" | "one_trophy">("balance");
   const [computed, setComputed] = useState(false);
+  const inputsStartedRef = useRef(false);
+
+  // Fire optimizer_viewed once per mount.
+  useEffect(() => {
+    track("optimizer_viewed", {
+      referrer: typeof document !== "undefined" ? document.referrer || null : null,
+    });
+  }, []);
 
   // Restore persisted inputs
   useEffect(() => {
@@ -62,6 +70,9 @@ export default function OptimizerPage() {
       const raw = localStorage.getItem(POINTS_STORAGE);
       if (raw) {
         const parsed = JSON.parse(raw) as Record<string, number>;
+        // Reading persisted state on mount is the documented Next.js pattern
+        // for SSR-safe hydration of client-only state.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (parsed && typeof parsed === "object") setPoints(parsed);
       }
     } catch { /* ignore */ }
@@ -71,6 +82,13 @@ export default function OptimizerPage() {
   useEffect(() => {
     try { localStorage.setItem(POINTS_STORAGE, JSON.stringify(points)); } catch { /* ignore */ }
   }, [points]);
+
+  /** Fire optimizer_inputs_started at most once per page load. */
+  const noteInputChange = (field_name: string) => {
+    if (inputsStartedRef.current) return;
+    inputsStartedRef.current = true;
+    track("optimizer_inputs_started", { field_name });
+  };
 
   const result = useMemo(
     () => runOptimizer(huntingData, {
@@ -85,6 +103,7 @@ export default function OptimizerPage() {
   );
 
   const setPointFor = (stateId: string, species: SpeciesKey, n: number) => {
+    noteInputChange("points");
     const key = `${stateId.toLowerCase()}:${species}`;
     setPoints(prev => {
       const next = { ...prev };
@@ -95,6 +114,7 @@ export default function OptimizerPage() {
   };
 
   const toggleSpecies = (s: SpeciesKey) => {
+    noteInputChange("species");
     setSpeciesSelected(prev =>
       prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s],
     );
@@ -102,12 +122,67 @@ export default function OptimizerPage() {
 
   const compute = () => {
     setComputed(true);
-    track("optimizer_run", {
+    track("optimizer_run_clicked", {
       points_count: Object.keys(points).length,
       budget,
-      horizon: horizonYears,
+      state_count: Object.keys(points).reduce((acc, k) => {
+        const state = k.split(":")[0];
+        return acc.includes(state) ? acc : [...acc, state];
+      }, [] as string[]).length,
+      species: speciesSelected,
+      years_horizon: horizonYears,
       goal,
-      species_count: speciesSelected.length,
+    });
+
+    // Re-run the solver against the same dataset for timing — useMemo
+    // ran during render and we want a clean wall-clock figure for the
+    // results_returned event, plus an error path if the solver throws.
+    const t0 = (typeof performance !== "undefined" ? performance : Date).now();
+    try {
+      const fresh = runOptimizer(huntingData, {
+        points,
+        residency,
+        budget,
+        horizonYears,
+        speciesFilter: speciesSelected.length > 0 ? speciesSelected : undefined,
+        goal,
+      });
+      const runtime_ms =
+        Math.round(((typeof performance !== "undefined" ? performance : Date).now() - t0) * 100) /
+        100;
+
+      if (fresh.picks.length === 0) {
+        track("optimizer_error", {
+          error_type: "no_results",
+          error_message: "Solver returned zero candidate picks",
+        });
+        return;
+      }
+
+      track("optimizer_results_returned", {
+        runtime_ms,
+        result_count: fresh.picks.length,
+        apply_count: fresh.applyNow.length,
+        build_count: fresh.buildPoints.length,
+        total_ev: Math.round(fresh.totalExpectedValue),
+        annual_spend: fresh.annualSpend,
+      });
+    } catch (err) {
+      track("optimizer_error", {
+        error_type: "exception",
+        error_message: err instanceof Error ? err.message : String(err),
+      });
+    }
+  };
+
+  const onResultClick = (pick: OptimizerPick, rank: number, bucket: "apply" | "build" | "skip") => {
+    track("optimizer_result_clicked", {
+      rank,
+      bucket,
+      state: pick.stateId,
+      species: pick.species,
+      year_one_odds: Math.round(pick.yearOneOdds * 1000) / 1000,
+      ev_value: Math.round(pick.expectedValue),
     });
   };
 
@@ -147,7 +222,7 @@ export default function OptimizerPage() {
             <FieldBlock label="Residency">
               <select
                 value={residency}
-                onChange={e => setResidency(e.target.value)}
+                onChange={e => { noteInputChange("residency"); setResidency(e.target.value); }}
                 style={selectStyle}
               >
                 {ALL_STATES.map(s => (
@@ -162,14 +237,14 @@ export default function OptimizerPage() {
                 max={20000}
                 step={100}
                 value={budget}
-                onChange={e => setBudget(Math.max(0, Number(e.target.value) || 0))}
+                onChange={e => { noteInputChange("budget"); setBudget(Math.max(0, Number(e.target.value) || 0)); }}
                 style={inputStyle}
               />
             </FieldBlock>
             <FieldBlock label="Planning horizon">
               <select
                 value={horizonYears}
-                onChange={e => setHorizonYears(Number(e.target.value))}
+                onChange={e => { noteInputChange("horizon_years"); setHorizonYears(Number(e.target.value)); }}
                 style={selectStyle}
               >
                 <option value={5}>5 years</option>
@@ -181,7 +256,7 @@ export default function OptimizerPage() {
             <FieldBlock label="Goal">
               <select
                 value={goal}
-                onChange={e => setGoal(e.target.value as typeof goal)}
+                onChange={e => { noteInputChange("goal"); setGoal(e.target.value as typeof goal); }}
                 style={selectStyle}
               >
                 <option value="hunt_often">Hunt often</option>
@@ -288,7 +363,7 @@ export default function OptimizerPage() {
                 Nothing pencils out at this year&apos;s odds within your $${budget.toLocaleString()} budget. Move to <strong>Build points</strong> below — the long game is where the EV is.
               </EmptyHint>
             ) : (
-              <ResultGrid picks={result.applyNow} accent={SUCCESS} />
+              <ResultGrid picks={result.applyNow} accent={SUCCESS} bucket="apply" onClick={onResultClick} />
             )}
 
             <div style={{ height: 32 }} />
@@ -299,7 +374,7 @@ export default function OptimizerPage() {
                 No long-term picks surfaced. Try broadening species selection or extending the horizon to 15+ years.
               </EmptyHint>
             ) : (
-              <ResultGrid picks={result.buildPoints.slice(0, 8)} accent={WARNING} />
+              <ResultGrid picks={result.buildPoints.slice(0, 8)} accent={WARNING} bucket="build" onClick={onResultClick} />
             )}
 
             <div style={{ height: 32 }} />
@@ -311,7 +386,7 @@ export default function OptimizerPage() {
                   Show {result.skip.length} skipped pick(s)
                 </summary>
                 <div style={{ marginTop: 16 }}>
-                  <ResultGrid picks={result.skip.slice(0, 12)} accent={DUST} compact />
+                  <ResultGrid picks={result.skip.slice(0, 12)} accent={DUST} compact bucket="skip" onClick={onResultClick} />
                 </div>
               </details>
             )}
@@ -381,18 +456,38 @@ function EmptyHint({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ResultGrid({ picks, accent, compact }: { picks: OptimizerPick[]; accent: string; compact?: boolean }) {
+function ResultGrid({
+  picks,
+  accent,
+  compact,
+  bucket,
+  onClick,
+}: {
+  picks: OptimizerPick[];
+  accent: string;
+  compact?: boolean;
+  bucket: "apply" | "build" | "skip";
+  onClick: (pick: OptimizerPick, rank: number, bucket: "apply" | "build" | "skip") => void;
+}) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr 1fr" : "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
-      {picks.map(p => (
-        <div
+      {picks.map((p, i) => (
+        <Link
           key={p.key}
+          href={`/states/${p.stateId.toLowerCase()}`}
+          onClick={() => onClick(p, i, bucket)}
           style={{
             background: BARK,
             border: `1px solid ${FENCE}`,
             borderLeft: `3px solid ${accent}`,
             padding: 18,
+            textDecoration: "none",
+            color: "inherit",
+            display: "block",
+            transition: "border-color 0.15s",
           }}
+          onMouseEnter={e => (e.currentTarget.style.borderColor = AMBER)}
+          onMouseLeave={e => (e.currentTarget.style.borderColor = FENCE)}
         >
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 6 }}>
             <span style={{ ...display, fontSize: 18, fontWeight: 700, color: BONE }}>
@@ -413,7 +508,7 @@ function ResultGrid({ picks, accent, compact }: { picks: OptimizerPick[]; accent
           <p style={{ ...mono, fontSize: 12, color: DUST, lineHeight: 1.5, marginBottom: 0 }}>
             {p.rationale} <span style={{ color: BONE }}>· {p.currentPoints} pts held</span>
           </p>
-        </div>
+        </Link>
       ))}
     </div>
   );

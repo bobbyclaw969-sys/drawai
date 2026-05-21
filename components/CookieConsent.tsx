@@ -4,10 +4,11 @@
  * Cookie consent banner — gates PostHog analytics for EU/EEA traffic.
  *
  * Strategy: opt-in for likely EU/EEA visitors (detected via Intl timezone),
- * opt-out for the rest of the world. PostHog is initialized lazily by
- * AnalyticsProvider only after `getAnalyticsConsent()` returns true. The
- * banner sets one of `th_consent_analytics=1|0` cookies and dispatches a
- * window event so the provider can wire PostHog without a full reload.
+ * opt-out for the rest of the world. PostHog is initialized opt-out-by-
+ * default in PostHogProvider; `opt_in_capturing()` only fires once
+ * `getAnalyticsConsent()` resolves true. The banner sets a
+ * `th_consent_analytics=1|0` cookie and dispatches a `th-consent-changed`
+ * window event so the provider can flip opt-state without a full reload.
  *
  * No third-party geo-IP call — the timezone heuristic is good enough for
  * a Phase-1 cookie banner. False positives (US visitor with EU timezone
@@ -49,7 +50,7 @@ function isLikelyEU(): boolean {
   }
 }
 
-/** Module-level read for AnalyticsProvider. */
+/** Module-level read for PostHogProvider. */
 export function getAnalyticsConsent(): boolean {
   // Anywhere outside EU/EEA gets analytics by default (CCPA opt-out applies
   // separately via /data-delete). EU/EEA visitors require explicit opt-in.
@@ -65,6 +66,9 @@ export default function CookieConsent() {
   useEffect(() => {
     const stored = readCookie(CONSENT_COOKIE);
     if (stored === "1" || stored === "0") return; // already decided
+    // Banner visibility derives from cookie + browser timezone — must run
+    // client-side after mount to stay SSR-safe (cookie reads vary per request).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isLikelyEU()) setShow(true);
   }, []);
 

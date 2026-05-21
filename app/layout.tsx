@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, DM_Mono } from "next/font/google";
-import AnalyticsProvider from "@/components/AnalyticsProvider";
+import { PostHogProvider } from "@/app/providers/PostHogProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -127,9 +127,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="skip-link">Skip to content</a>
-        <AnalyticsProvider>
+        <PostHogProvider>
           {children}
-        </AnalyticsProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
