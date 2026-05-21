@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import AppNav from "@/components/AppNav";
@@ -11,23 +12,23 @@ const DUST = "#7A6E5F";
 const HERO_ALT =
   "Bowhunter's shadow on a dirt trail in western pine forest, compound bow on shoulder";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "About — Taghunter",
   description:
     "Taghunter is an independent draw strategy tool built by a bowhunter and software engineer. No magazine upsell. No content paywall. Just the math.",
   openGraph: {
     title: "About — Taghunter",
     description:
-      "Independent draw strategy tool built by a bowhunter and software engineer. No magazine upsell. No content paywall. Just the math.",
+      "Taghunter is an independent draw strategy tool built by a bowhunter and software engineer. No magazine upsell. No content paywall. Just the math.",
     url: "https://taghunter.us/about",
     siteName: "Taghunter",
-    type: "article",
+    type: "website",
     images: [
       {
-        url: "/about/founder-shadow.jpg",
+        url: "https://taghunter.us/about/founder-shadow-og.jpg",
         width: 1200,
-        height: 1600,
-        alt: HERO_ALT,
+        height: 630,
+        alt: "Bowhunter's shadow on a dirt trail in western pine forest",
       },
     ],
   },
@@ -35,8 +36,8 @@ export const metadata = {
     card: "summary_large_image",
     title: "About — Taghunter",
     description:
-      "Independent draw strategy tool built by a bowhunter and software engineer. No magazine upsell. No content paywall. Just the math.",
-    images: ["/about/founder-shadow.jpg"],
+      "Taghunter is an independent draw strategy tool built by a bowhunter and software engineer.",
+    images: ["https://taghunter.us/about/founder-shadow-og.jpg"],
   },
 };
 
@@ -173,7 +174,7 @@ export default function AboutPage() {
           <div style={{ marginTop: 48 }}>
             <Link
               href="/optimizer"
-              className="hover:bg-[#F0A040]"
+              className="hover:bg-[#F0A040] focus-visible:bg-[#F0A040] transition-colors duration-150"
               style={{
                 background: AMBER,
                 color: SOIL,
@@ -186,7 +187,6 @@ export default function AboutPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 textDecoration: "none",
-                transition: "background 0.15s",
               }}
             >
               Run the Optimizer →
