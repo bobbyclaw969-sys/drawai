@@ -1,94 +1,217 @@
-import AppNav from "@/components/AppNav";
+import Image from "next/image";
 import Link from "next/link";
+import AppNav from "@/components/AppNav";
+
+const SOIL = "#0F0D0A";
+const FENCE = "#2E2A24";
+const AMBER = "#D4852A";
+const BONE = "#E8DFC8";
+const DUST = "#7A6E5F";
+
+const HERO_ALT =
+  "Bowhunter's shadow on a dirt trail in western pine forest, compound bow on shoulder";
 
 export const metadata = {
-  title: "About — Tag Hunter",
-  description: "Tag Hunter is a free AI-powered hunting strategy platform built by Factor21.",
+  title: "About — Taghunter",
+  description:
+    "Taghunter is an independent draw strategy tool built by a bowhunter and software engineer. No magazine upsell. No content paywall. Just the math.",
+  openGraph: {
+    title: "About — Taghunter",
+    description:
+      "Independent draw strategy tool built by a bowhunter and software engineer. No magazine upsell. No content paywall. Just the math.",
+    url: "https://taghunter.us/about",
+    siteName: "Taghunter",
+    type: "article",
+    images: [
+      {
+        url: "/about/founder-shadow.jpg",
+        width: 1200,
+        height: 1600,
+        alt: HERO_ALT,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About — Taghunter",
+    description:
+      "Independent draw strategy tool built by a bowhunter and software engineer. No magazine upsell. No content paywall. Just the math.",
+    images: ["/about/founder-shadow.jpg"],
+  },
 };
+
+const display: React.CSSProperties = { fontFamily: "var(--font-display), Georgia, serif" };
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono), monospace" };
 
 export default function AboutPage() {
   return (
-    <div className="page">
+    <div style={{ background: SOIL, color: BONE, minHeight: "100vh", ...mono }}>
       <AppNav />
-      <div className="page-inner" style={{ maxWidth: 720 }}>
-        <div style={{ marginBottom: 32 }}>
-          <h1 style={{ fontSize: "1.6rem", fontWeight: 900, letterSpacing: "-0.03em", marginBottom: 8 }}>
-            About Tag Hunter
+
+      <article>
+        {/* ── Hero photo — full-width container, vertical aspect preserved ── */}
+        <header style={{ padding: "0 24px", marginTop: 24, marginBottom: 40 }}>
+          <div
+            style={{
+              maxWidth: 720,
+              margin: "0 auto",
+              position: "relative",
+              aspectRatio: "3 / 4",
+              background: "#000",
+              overflow: "hidden",
+            }}
+          >
+            <Image
+              src="/about/founder-shadow.jpg"
+              alt={HERO_ALT}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 720px"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+            />
+          </div>
+          <p
+            style={{
+              ...mono,
+              maxWidth: 720,
+              margin: "12px auto 0",
+              fontSize: 11,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: DUST,
+              textAlign: "center",
+            }}
+          >
+            End of a glassing day. Western U.S., 2025.
+          </p>
+        </header>
+
+        {/* ── Body — magazine reading column ────────────────────────────── */}
+        <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px 96px" }}>
+          <h1
+            style={{
+              ...display,
+              fontWeight: 900,
+              fontSize: "clamp(40px, 5.5vw, 64px)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.025em",
+              color: BONE,
+              marginTop: 24,
+              marginBottom: 36,
+            }}
+          >
+            Why Taghunter exists
           </h1>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 24,
+              fontSize: 17,
+              lineHeight: 1.7,
+              color: BONE,
+            }}
+          >
+            <p>
+              I picked up a bow five years ago and spent my first elk seasons in Idaho when nonresident OTC was still easy — show up, buy a tag, go hunt. That window closed fast. By the time I wanted to hunt elk every year, I was deep in the draw game across half a dozen western states, and I quickly realized the system was designed to keep casual hunters confused. Different deadlines, different point structures, different odds tables buried in PDFs the state agencies seem to update at random. I&apos;d spend the off-season with a spreadsheet, a stack of regulation packets, and too much coffee, trying to figure out where my points actually went the furthest. The existing tools either cost more than my tag budget or buried the math behind a content paywall — articles about strategy when what I needed was the numbers.
+            </p>
+            <p>
+              So I built Taghunter. First for me, then for a couple of hunting buddies, then for anyone who&apos;s sat at the kitchen table in February staring at a deadline and wondering whether this is the year to burn points or save them. I&apos;m a software engineer who hunts elk across the West — not a celebrity, not a YouTuber, not selling hats. The site stays anonymous on purpose. Partly because I want the product to be the thing you trust, not the personality behind it. Partly because the western draw game is competitive enough without putting my hunting spots one Google search away. If you&apos;ve ever wanted a draw strategy tool built by someone who&apos;s actually drawing tags every year — and has to live with their own bad point strategy when it goes sideways — you&apos;re in the right place.
+            </p>
+          </div>
+
+          {/* Subtle section break — matches sitewide editorial style */}
+          <div style={{ marginTop: 56, marginBottom: 40, borderTop: `1px solid ${FENCE}` }} />
+
+          <h2
+            style={{
+              ...display,
+              fontWeight: 900,
+              fontSize: "clamp(28px, 3.5vw, 36px)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+              color: BONE,
+              marginBottom: 24,
+            }}
+          >
+            What you&apos;ll find here
+          </h2>
+
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+              fontSize: 16,
+              lineHeight: 1.6,
+              color: BONE,
+            }}
+          >
+            {[
+              "Draw odds and point projections for every western state",
+              "The Optimizer: budget-aware tag strategy across multi-year point arcs",
+              "No magazine upsell, no content paywall — just the math",
+            ].map(item => (
+              <li
+                key={item}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 14,
+                }}
+              >
+                <span style={{ color: AMBER, ...mono, fontSize: 13, flexShrink: 0 }}>—</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div style={{ marginTop: 48 }}>
+            <Link
+              href="/optimizer"
+              className="hover:bg-[#F0A040]"
+              style={{
+                background: AMBER,
+                color: SOIL,
+                ...mono,
+                fontWeight: 500,
+                fontSize: 14,
+                letterSpacing: "0.04em",
+                padding: "0 28px",
+                height: 48,
+                display: "inline-flex",
+                alignItems: "center",
+                textDecoration: "none",
+                transition: "background 0.15s",
+              }}
+            >
+              Run the Optimizer →
+            </Link>
+          </div>
+
+          <div
+            style={{
+              marginTop: 64,
+              paddingTop: 24,
+              borderTop: `1px solid ${FENCE}`,
+              display: "flex",
+              gap: 24,
+              flexWrap: "wrap",
+              fontSize: 13,
+              color: DUST,
+            }}
+          >
+            <Link href="/faq" style={{ color: DUST }}>FAQ</Link>
+            <Link href="/terms" style={{ color: DUST }}>Terms</Link>
+            <Link href="/privacy" style={{ color: DUST }}>Privacy</Link>
+            <Link href="/" style={{ color: DUST }}>← Back to Taghunter</Link>
+          </div>
         </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 28, fontSize: 14, color: "var(--text-2)", lineHeight: 1.8 }}>
-
-          <section>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>The Problem</h2>
-            <p>
-              Western big game hunting is one of the most rewarding outdoor experiences in North America. It&apos;s also one of the most confusing to navigate.
-            </p>
-            <p style={{ marginTop: 12 }}>
-              Every state runs its own draw system — preference points, bonus points, weighted lotteries, OTC tags, non-resident quotas. Fees vary by hundreds of dollars. Deadlines are scattered across the calendar. A single missed application or misunderstood point system can cost you a decade of progress.
-            </p>
-            <p style={{ marginTop: 12 }}>
-              Hunters who can afford $300-500/year consultants get personalized strategies. Everyone else is left piecing it together from forum posts, YouTube videos, and state agency PDFs.
-            </p>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>Our Solution</h2>
-            <p>
-              Tag Hunter uses AI to give every hunter the same quality of personalized, multi-state draw strategy that used to be reserved for those who could afford a professional consultant.
-            </p>
-            <p style={{ marginTop: 12 }}>
-              Tell us your target species, budget, point balances, and goals. We&apos;ll build you a year-by-year strategy with specific units, realistic draw odds, application deadlines, and fee breakdowns — all for free.
-            </p>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>What We Believe</h2>
-            <ul style={{ paddingLeft: 20, display: "flex", flexDirection: "column", gap: 8 }}>
-              <li><strong style={{ color: "var(--text)" }}>Honesty over hype.</strong> If your draw odds are 2%, we say 2%. We don&apos;t sugarcoat to keep you engaged.</li>
-              <li><strong style={{ color: "var(--text)" }}>Specificity over vagueness.</strong> &quot;Wyoming Unit 7 held 350-class bulls last fall&quot; beats &quot;Wyoming has good elk.&quot;</li>
-              <li><strong style={{ color: "var(--text)" }}>Free access to information.</strong> Draw strategy shouldn&apos;t cost $500/year. The data is public — the strategy layer should be too.</li>
-              <li><strong style={{ color: "var(--text)" }}>Privacy by default.</strong> Your hunter profile stays on your device. We don&apos;t track, sell, or share your data.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>Built by Factor21</h2>
-            <p>
-              Tag Hunter is built and maintained by <a href="https://f21.ai" style={{ color: "var(--amber)" }}>Factor21</a> (f21.ai), an AI technology company based in Santa Cruz, California. We build tools that close information gaps — Tag Hunter is our answer to the $500/year consultant problem in western big game hunting.
-            </p>
-            <p style={{ marginTop: 12 }}>
-              Tag Hunter is actively maintained. Deadline data is manually verified each season against official state agency sources. If you find an error, use the <a href="/feedback" style={{ color: "var(--amber)" }}>Feedback</a> link — we fix data issues within 24 hours.
-            </p>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>Important Disclaimers</h2>
-            <p>
-              Tag Hunter is a planning tool, not an official state resource. All draw odds, fees, and deadlines are estimates sourced from public data. Always verify information at your state&apos;s official wildlife agency before submitting applications or paying fees.
-            </p>
-            <p style={{ marginTop: 12 }}>
-              AI-generated recommendations may contain errors. Use Tag Hunter as a starting point for your own research — not as the final word.
-            </p>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", marginBottom: 10 }}>Contact</h2>
-            <p>
-              Questions, feedback, or partnership inquiries:{" "}
-              <a href="mailto:team@f21.ai" style={{ color: "var(--amber)" }}>team@f21.ai</a>
-            </p>
-          </section>
-
-        </div>
-
-        <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid var(--border)", display: "flex", gap: 24, flexWrap: "wrap" }}>
-          <Link href="/faq" style={{ fontSize: 13, color: "var(--text-3)" }}>FAQ</Link>
-          <Link href="/terms" style={{ fontSize: 13, color: "var(--text-3)" }}>Terms</Link>
-          <Link href="/privacy" style={{ fontSize: 13, color: "var(--text-3)" }}>Privacy</Link>
-          <Link href="/" style={{ fontSize: 13, color: "var(--text-3)" }}>&larr; Back to Tag Hunter</Link>
-        </div>
-      </div>
+      </article>
     </div>
   );
 }
